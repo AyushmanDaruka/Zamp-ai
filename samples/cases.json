@@ -1,0 +1,257 @@
+[
+  {
+    "id": "D1_happy_path",
+    "kind": "demo",
+    "title": "Happy path \u2014 clean steel invoice, 3-way match",
+    "file": "D1_happy_path.pdf",
+    "invoice_number": "SGS/26-27/0112",
+    "vendor_gstin": "29ABCFS7712K1ZS",
+    "date": "2026-11-10",
+    "taxable": 266500.0,
+    "total": 314470.0,
+    "scanned": false,
+    "expected": {
+      "decision": "APPROVED",
+      "po": "PO-2026-0101",
+      "total": 314470.0
+    }
+  },
+  {
+    "id": "D2_split_po_overbilling",
+    "kind": "demo",
+    "title": "Edge: 3rd split invoice overbills the PO",
+    "file": "D2_split_po_overbilling.pdf",
+    "invoice_number": "VPS/2026/402",
+    "vendor_gstin": "33AAECV3391P1ZT",
+    "date": "2026-11-12",
+    "taxable": 157000.0,
+    "total": 185260.0,
+    "scanned": false,
+    "expected": {
+      "decision": "PARTIALLY_APPROVED",
+      "po": "PO-2026-0142",
+      "total": 185260.0
+    }
+  },
+  {
+    "id": "D3_bank_details_changed",
+    "kind": "demo",
+    "title": "Edge: perfect invoice, but bank account changed (BEC fraud pattern)",
+    "file": "D3_bank_details_changed.pdf",
+    "invoice_number": "NIT/26-27/0458",
+    "vendor_gstin": "27AAPFN6620D1Z8",
+    "date": "2026-11-16",
+    "taxable": 215000.0,
+    "total": 253700.0,
+    "scanned": false,
+    "expected": {
+      "decision": "ON_HOLD",
+      "po": "PO-2026-0157",
+      "total": 253700.0
+    }
+  },
+  {
+    "id": "D4_scanned_no_po",
+    "kind": "demo",
+    "title": "Edge: scanned invoice, no PO number \u2014 PO must be inferred",
+    "file": "D4_scanned_no_po.pdf",
+    "invoice_number": "DE/1147",
+    "vendor_gstin": "29AFZPD1185M1ZO",
+    "date": "2026-11-13",
+    "taxable": 155800.0,
+    "total": 183844.0,
+    "scanned": true,
+    "expected": {
+      "decision": "APPROVED",
+      "po": "PO-2026-0163",
+      "total": 183844.0
+    }
+  },
+  {
+    "id": "D5_disguised_duplicate",
+    "kind": "demo",
+    "title": "Edge: re-sent duplicate \u2014 new number format, new date, scanned",
+    "file": "D5_disguised_duplicate.pdf",
+    "invoice_number": "SGS-2627-87",
+    "vendor_gstin": "29ABCFS7712K1ZS",
+    "date": "2026-11-14",
+    "taxable": 192000.0,
+    "total": 226560.0,
+    "scanned": true,
+    "expected": {
+      "decision": "REJECTED",
+      "po": "PO-2026-0088",
+      "total": 226560.0
+    }
+  },
+  {
+    "id": "E01_price_within_tolerance",
+    "kind": "eval",
+    "title": "Unit price +1.7% vs PO (within 2% tolerance)",
+    "file": "E01_price_within_tolerance.pdf",
+    "invoice_number": "PTW/2627/0219",
+    "vendor_gstin": "24AAHFP2207C1ZV",
+    "date": "2026-11-05",
+    "taxable": 71700.0,
+    "total": 84606.0,
+    "scanned": false,
+    "expected": {
+      "decision": "APPROVED",
+      "po": "PO-2026-0171",
+      "total": 84606.0
+    }
+  },
+  {
+    "id": "E02_price_over_tolerance",
+    "kind": "eval",
+    "title": "Unit price +11.2% vs PO",
+    "file": "E02_price_over_tolerance.pdf",
+    "invoice_number": "PTW/2627/0236",
+    "vendor_gstin": "24AAHFP2207C1ZV",
+    "date": "2026-11-11",
+    "taxable": 46300.0,
+    "total": 54634.0,
+    "scanned": false,
+    "expected": {
+      "decision": "ON_HOLD",
+      "po": "PO-2026-0175",
+      "total": 54634.0
+    }
+  },
+  {
+    "id": "E03_grn_short_receipt",
+    "kind": "eval",
+    "title": "Billed 200 inserts, only 150 received (3-way mismatch)",
+    "file": "E03_grn_short_receipt.pdf",
+    "invoice_number": "PTW/2627/0241",
+    "vendor_gstin": "24AAHFP2207C1ZV",
+    "date": "2026-11-14",
+    "taxable": 82000.0,
+    "total": 96760.0,
+    "scanned": false,
+    "expected": {
+      "decision": "PARTIALLY_APPROVED",
+      "po": "PO-2026-0171",
+      "total": 96760.0
+    }
+  },
+  {
+    "id": "E04_wrong_gst_type",
+    "kind": "eval",
+    "title": "Inter-state vendor charged CGST+SGST instead of IGST",
+    "file": "E04_wrong_gst_type.pdf",
+    "invoice_number": "VPS/2026/415",
+    "vendor_gstin": "33AAECV3391P1ZT",
+    "date": "2026-11-15",
+    "taxable": 7000.0,
+    "total": 8260.0,
+    "scanned": false,
+    "expected": {
+      "decision": "REJECTED",
+      "po": "PO-2026-0142",
+      "total": 8260.0
+    }
+  },
+  {
+    "id": "E05_invalid_gstin",
+    "kind": "eval",
+    "title": "Vendor GSTIN on invoice fails checksum",
+    "file": "E05_invalid_gstin.pdf",
+    "invoice_number": "DE/1152",
+    "vendor_gstin": "29AFZPD1185M1ZX",
+    "date": "2026-11-17",
+    "taxable": 58800.0,
+    "total": 69384.0,
+    "scanned": false,
+    "expected": {
+      "decision": "REJECTED",
+      "po": "PO-2026-0163",
+      "total": 69384.0
+    }
+  },
+  {
+    "id": "E06_unknown_vendor",
+    "kind": "eval",
+    "title": "Vendor not in vendor master, no PO",
+    "file": "E06_unknown_vendor.pdf",
+    "invoice_number": "SHP/112/26-27",
+    "vendor_gstin": "29BQRPS4471J1ZW",
+    "date": "2026-11-09",
+    "taxable": 32200.0,
+    "total": 37996.0,
+    "scanned": false,
+    "expected": {
+      "decision": "ON_HOLD",
+      "po": null,
+      "total": 37996.0
+    }
+  },
+  {
+    "id": "E07_blocked_vendor",
+    "kind": "eval",
+    "title": "Vendor blocked in master (KYC lapsed)",
+    "file": "E07_blocked_vendor.pdf",
+    "invoice_number": "CLPL/26/0712",
+    "vendor_gstin": "32AAFCC5540H1ZZ",
+    "date": "2026-11-06",
+    "taxable": 76000.0,
+    "total": 89680.0,
+    "scanned": false,
+    "expected": {
+      "decision": "ON_HOLD",
+      "po": "PO-2026-0180",
+      "total": 89680.0
+    }
+  },
+  {
+    "id": "E08_tax_inclusive_rates",
+    "kind": "eval",
+    "title": "Rates quoted inclusive of GST (must back-calculate)",
+    "file": "E08_tax_inclusive_rates.pdf",
+    "invoice_number": "DE/1139",
+    "vendor_gstin": "29AFZPD1185M1ZO",
+    "date": "2026-11-08",
+    "taxable": 29000.0,
+    "total": 34220.0,
+    "scanned": false,
+    "expected": {
+      "decision": "APPROVED",
+      "po": "PO-2026-0119",
+      "total": 34220.0
+    }
+  },
+  {
+    "id": "E09_arithmetic_error",
+    "kind": "eval",
+    "title": "Line amount \u2260 qty \u00d7 rate (vendor typo)",
+    "file": "E09_arithmetic_error.pdf",
+    "invoice_number": "SGS/26-27/0109",
+    "vendor_gstin": "29ABCFS7712K1ZS",
+    "date": "2026-11-07",
+    "taxable": 142000.0,
+    "total": 167560.0,
+    "scanned": false,
+    "expected": {
+      "decision": "REJECTED",
+      "po": "PO-2026-0101",
+      "total": 167560.0
+    }
+  },
+  {
+    "id": "E10_missing_invoice_number",
+    "kind": "eval",
+    "title": "No invoice number on document",
+    "file": "E10_missing_invoice_number.pdf",
+    "invoice_number": null,
+    "vendor_gstin": "24AAHFP2207C1ZV",
+    "date": "2026-11-12",
+    "taxable": 18500.0,
+    "total": 21830.0,
+    "scanned": false,
+    "expected": {
+      "decision": "REJECTED",
+      "po": "PO-2026-0175",
+      "total": 21830.0
+    }
+  }
+]
