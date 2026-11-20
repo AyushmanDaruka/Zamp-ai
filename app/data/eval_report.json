@@ -1,0 +1,303 @@
+{
+  "generated_at": "2026-11-20T16:34:37.262798+00:00",
+  "mode": "end-to-end",
+  "n": 15,
+  "decision_accuracy": 0.9333333333333333,
+  "field_accuracy": {
+    "invoice_number": 0.9333333333333333,
+    "vendor_gstin": 0.9333333333333333,
+    "invoice_date": 0.9333333333333333,
+    "grand_total": 0.9333333333333333,
+    "po": 0.9333333333333333
+  },
+  "avg_ms": 14608,
+  "rows": [
+    {
+      "id": "D1_happy_path",
+      "title": "Happy path \u2014 clean steel invoice, 3-way match",
+      "kind": "demo",
+      "scanned": false,
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+      "ms": 5065,
+      "model": "gemini-3.5-flash-lite"
+    },
+    {
+      "id": "D2_split_po_overbilling",
+      "title": "Edge: 3rd split invoice overbills the PO",
+      "kind": "demo",
+      "scanned": false,
+      "expected": "PARTIALLY_APPROVED",
+      "got": "PARTIALLY_APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Only \u20b91,14,000 of \u20b91,57,000 (taxable) is supported by goods received / open PO quantity. \u20b943,000 + GST held. Cumulative billing across split invoices exceeds the PO.",
+      "ms": 4520,
+      "model": "gemini-flash-lite-latest"
+    },
+    {
+      "id": "D3_bank_details_changed",
+      "title": "Edge: perfect invoice, but bank account changed (BEC fraud pattern)",
+      "kind": "demo",
+      "scanned": false,
+      "expected": "ON_HOLD",
+      "got": "ON_HOLD",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Bank account on the invoice differs from the verified account in the vendor master. The invoice itself announces the change.",
+      "ms": 5551,
+      "model": "gemini-3.1-flash-lite"
+    },
+    {
+      "id": "D4_scanned_no_po",
+      "title": "Edge: scanned invoice, no PO number \u2014 PO must be inferred",
+      "kind": "demo",
+      "scanned": true,
+      "expected": "APPROVED",
+      "got": "ERROR",
+      "correct": false,
+      "fields": {
+        "invoice_number": false,
+        "vendor_gstin": false,
+        "invoice_date": false,
+        "grand_total": false,
+        "po": false
+      },
+      "reason": null,
+      "ms": 34810,
+      "model": null
+    },
+    {
+      "id": "D5_disguised_duplicate",
+      "title": "Edge: re-sent duplicate \u2014 new number format, new date, scanned",
+      "kind": "demo",
+      "scanned": true,
+      "expected": "REJECTED",
+      "got": "REJECTED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Probable duplicate of invoice SGS/26-27/0087 dated 2026-10-03 (paid) \u2014 same invoice number (after normalising separators/zeros), same amount \u20b92,26,560, 42 days apart, same PO.",
+      "ms": 14350,
+      "model": "gemini-flash-lite-latest"
+    },
+    {
+      "id": "E01_price_within_tolerance",
+      "title": "Unit price +1.7% vs PO (within 2% tolerance)",
+      "kind": "eval",
+      "scanned": false,
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+      "ms": 38442,
+      "model": "gemini-flash-lite-latest"
+    },
+    {
+      "id": "E02_price_over_tolerance",
+      "title": "Unit price +11.2% vs PO",
+      "kind": "eval",
+      "scanned": false,
+      "expected": "ON_HOLD",
+      "got": "ON_HOLD",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Unit price exceeds PO by more than 2% \u2014 Tap Set M10 (3 pc) billed at \u20b91,390 vs PO \u20b91,250 (+11.2%). Over-billing: \u20b92,800 + GST.",
+      "ms": 29699,
+      "model": "gemini-3.5-flash-lite"
+    },
+    {
+      "id": "E03_grn_short_receipt",
+      "title": "Billed 200 inserts, only 150 received (3-way mismatch)",
+      "kind": "eval",
+      "scanned": false,
+      "expected": "PARTIALLY_APPROVED",
+      "got": "PARTIALLY_APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Only \u20b961,500 of \u20b982,000 (taxable) is supported by goods received / open PO quantity. \u20b920,500 + GST held.",
+      "ms": 33857,
+      "model": "gemini-3.1-flash-lite"
+    },
+    {
+      "id": "E04_wrong_gst_type",
+      "title": "Inter-state vendor charged CGST+SGST instead of IGST",
+      "kind": "eval",
+      "scanned": false,
+      "expected": "REJECTED",
+      "got": "REJECTED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Wrong GST type: supply from Tamil Nadu to Karnataka requires IGST, but invoice charges CGST+SGST. ITC on wrongly charged tax is not available to us.",
+      "ms": 3236,
+      "model": "gemini-3.1-flash-lite"
+    },
+    {
+      "id": "E05_invalid_gstin",
+      "title": "Vendor GSTIN on invoice fails checksum",
+      "kind": "eval",
+      "scanned": false,
+      "expected": "REJECTED",
+      "got": "REJECTED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "GSTIN on invoice (29AFZPD1185M1ZX) is invalid and does not match the registered GSTIN 29AFZPD1185M1ZO. Input tax credit would be lost.",
+      "ms": 33066,
+      "model": "gemini-flash-lite-latest"
+    },
+    {
+      "id": "E06_unknown_vendor",
+      "title": "Vendor not in vendor master, no PO",
+      "kind": "eval",
+      "scanned": false,
+      "expected": "ON_HOLD",
+      "got": "ON_HOLD",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "SAI HYDRAULICS & PNEUMATICS is not in the vendor master. No payment can be made to an un-onboarded vendor.",
+      "ms": 9544,
+      "model": "gemini-flash-lite-latest"
+    },
+    {
+      "id": "E07_blocked_vendor",
+      "title": "Vendor blocked in master (KYC lapsed)",
+      "kind": "eval",
+      "scanned": false,
+      "expected": "ON_HOLD",
+      "got": "ON_HOLD",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Coastal Logistics Pvt Ltd is blocked in the vendor master \u2014 KYC lapsed \u2014 PAN-Aadhaar link and bank re-verification pending since Aug 2026.",
+      "ms": 3856,
+      "model": "gemini-flash-lite-latest"
+    },
+    {
+      "id": "E08_tax_inclusive_rates",
+      "title": "Rates quoted inclusive of GST (must back-calculate)",
+      "kind": "eval",
+      "scanned": false,
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+      "ms": 9545,
+      "model": "gemini-flash-lite-latest"
+    },
+    {
+      "id": "E09_arithmetic_error",
+      "title": "Line amount \u2260 qty \u00d7 rate (vendor typo)",
+      "kind": "eval",
+      "scanned": false,
+      "expected": "REJECTED",
+      "got": "REJECTED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Line 1 amount does not equal quantity \u00d7 rate (invoice overstated by \u20b918,000).",
+      "ms": 4024,
+      "model": "gemini-3.1-flash-lite"
+    },
+    {
+      "id": "E10_missing_invoice_number",
+      "title": "No invoice number on document",
+      "kind": "eval",
+      "scanned": false,
+      "expected": "REJECTED",
+      "got": "REJECTED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Invoice has no invoice number \u2014 it is not a valid GST tax invoice and cannot be booked or de-duplicated.",
+      "ms": 9761,
+      "model": "gemini-3.5-flash-lite"
+    }
+  ],
+  "availability": 0.9333333333333333,
+  "accuracy_when_answered": 1.0
+}

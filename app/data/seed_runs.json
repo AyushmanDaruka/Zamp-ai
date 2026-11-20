@@ -1,0 +1,2167 @@
+[
+ {
+  "id": "seed-E01_price_within_tolerance",
+  "created_at": "2026-11-16T20:00:00+00:00",
+  "source": "seed",
+  "filename": "E01_price_within_tolerance.pdf",
+  "file_hash": "ca608374a6a6ad5d254c37ef18810278c42efae6434865a2d65ae8961d68795d",
+  "status": "done",
+  "decision": "APPROVED",
+  "vendor_name": "Precision Tooling Works",
+  "invoice_number": "PTW/2627/0219",
+  "total": 84606.0,
+  "approved_amount": 84606.0,
+  "risk_caught": 0,
+  "duration_ms": 38442,
+  "doc_kind": "digital",
+  "summary": {
+   "vendor_id": "V005",
+   "invoice_number": "PTW/2627/0219",
+   "invoice_date": "2026-11-05",
+   "total": 84606.0,
+   "po_number": "PO-2026-0171",
+   "primary_code": null,
+   "owner": null,
+   "inferred_po": false,
+   "consumed_lines": [
+    {
+     "line": 1,
+     "qty": 30.0
+    }
+   ]
+  },
+  "result": {
+   "fields": {
+    "line_items": [
+     {
+      "description": "Carbide End Mill 10mm 4-Flute (HSN 8207)",
+      "hsn_sac": "8207",
+      "quantity": 30.0,
+      "unit": "nos",
+      "unit_price": 2390.0,
+      "amount": 71700.0
+     }
+    ],
+    "amount_in_words": null,
+    "bank_account_name": "Precision Tooling Works",
+    "bank_account_number": "917020045678123",
+    "bank_ifsc": "UTIB0000123",
+    "bank_name": "Axis Bank, Rajkot",
+    "boxes": {
+     "bank_account_number": [
+      448,
+      117,
+      458,
+      242
+     ],
+     "grand_total": [
+      362,
+      826,
+      373,
+      928
+     ],
+     "invoice_date": [
+      178,
+      855,
+      188,
+      928
+     ],
+     "invoice_number": [
+      163,
+      823,
+      174,
+      928
+     ],
+     "po_reference": [
+      193,
+      834,
+      202,
+      929
+     ],
+     "vendor_gstin": [
+      84,
+      113,
+      93,
+      237
+     ]
+    },
+    "buyer_gstin": "29AAKCK4821L1Z2",
+    "buyer_name": "Kaveri Precision Components Pvt Ltd",
+    "cgst": null,
+    "currency": "INR",
+    "grand_total": 84606.0,
+    "gst_rate_percent": 18.0,
+    "igst": 12906.0,
+    "invoice_date": "2026-11-05",
+    "invoice_number": "PTW/2627/0219",
+    "notes": "This is a computer generated invoice. Thank you for your business.",
+    "order_reference_text": null,
+    "place_of_supply": null,
+    "po_reference": "PO-2026-0171",
+    "rates_include_tax": null,
+    "sgst": null,
+    "subtotal": 71700.0,
+    "vendor_address": "Plot 221, GIDC Lodhika, Metoda, Rajkot 360021, Gujarat",
+    "vendor_gstin": "24AAHFP2207C1ZV",
+    "vendor_name": "Precision Tooling Works",
+    "_repairs": []
+   },
+   "decision": {
+    "decision": "APPROVED",
+    "headline": "Approved for payment",
+    "primary_reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+    "reasons": [
+     "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+     "Minor price variance within policy tolerance: L1 Carbide End Mill 10mm 4-Flute +1.7%"
+    ],
+    "owner": null,
+    "primary_code": null,
+    "issues": [
+     {
+      "code": "PRICE_WITHIN_TOLERANCE",
+      "outcome": "WARN",
+      "owner": "AP team",
+      "message": "Minor price variance within policy tolerance: L1 Carbide End Mill 10mm 4-Flute +1.7%",
+      "vendor_ask": null,
+      "internal_ask": null,
+      "exposure_inr": 0
+     }
+    ],
+    "payment": {
+     "approved_taxable": 71700.0,
+     "gst": 12906.0,
+     "gross": 84606.0,
+     "tds_section": "194Q",
+     "tds_rate_pct": 0.1,
+     "tds": 71.7,
+     "net_payable": 84534.3,
+     "held_amount": 0.0,
+     "due_date": "2027-01-04",
+     "terms_days": 60,
+     "msme": null,
+     "pay_to": "Axis Bank, Rajkot \u2022\u2022\u2022\u20228123 (verified, from vendor master)",
+     "gl_code": "5110 \u00b7 Consumable Tools",
+     "cost_center": "CC-PROD-02",
+     "journal": [
+      {
+       "account": "5110 \u00b7 Consumable Tools",
+       "dr": 71700.0,
+       "cr": 0,
+       "cost_center": "CC-PROD-02"
+      },
+      {
+       "account": "1412 \u00b7 Input IGST",
+       "dr": 12906.0,
+       "cr": 0
+      },
+      {
+       "account": "2210 \u00b7 TDS payable u/s 194Q",
+       "dr": 0,
+       "cr": 71.7
+      },
+      {
+       "account": "2100 \u00b7 Sundry creditors \u2014 Precision Tooling Works",
+       "dr": 0,
+       "cr": 84534.3
+      }
+     ]
+    },
+    "vendor_email": null,
+    "internal_tasks": [],
+    "risk_caught_inr": 0
+   },
+   "po": {
+    "po": {
+     "po_number": "PO-2026-0171",
+     "vendor_id": "V005",
+     "date": "2026-10-12",
+     "status": "open",
+     "gl_code": "5110 \u00b7 Consumable Tools",
+     "cost_center": "CC-PROD-02",
+     "lines": [
+      {
+       "line": 1,
+       "description": "Carbide End Mill 10mm 4-Flute",
+       "hsn": "8207",
+       "qty": 30,
+       "unit": "nos",
+       "unit_price": 2350.0,
+       "gst_rate": 18,
+       "amount": 70500.0
+      },
+      {
+       "line": 2,
+       "description": "Turning Insert CNMG 120408",
+       "hsn": "8209",
+       "qty": 200,
+       "unit": "nos",
+       "unit_price": 410.0,
+       "gst_rate": 18,
+       "amount": 82000.0
+      }
+     ],
+     "total": 152500.0
+    },
+    "inferred": false,
+    "candidates": [],
+    "lines": [
+     {
+      "invoice_line": "Carbide End Mill 10mm 4-Flute (HSN 8207)",
+      "po_line": "L1 Carbide End Mill 10mm 4-Flute",
+      "score": 0.997,
+      "inv_qty": 30.0,
+      "po_qty": 30,
+      "prev_billed": 0,
+      "received": 30,
+      "billable_qty": 30.0,
+      "inv_price": 2390.0,
+      "po_price": 2350.0,
+      "price_var_pct": 1.7,
+      "status": "warn",
+      "note": "price +1.7% (within 2%)"
+     }
+    ],
+    "approvable_taxable": 71700.0,
+    "consumed_lines": [
+     {
+      "line": 1,
+      "qty": 30.0
+     }
+    ]
+   },
+   "meta": {
+    "model": "gemini-flash-lite-latest",
+    "latency_ms": 38431,
+    "raced": 3,
+    "fallbacks": [
+     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-flash-lite-latest: HTTP 503 UNAVAILABLE",
+     "gemini-3.5-flash-lite: HTTP 503 UNAVAILABLE",
+     "gemini-3.1-flash-lite: HTTP 503 UNAVAILABLE",
+     "gemini-3.8-flash: ReadTimeout",
+     "gemini-flash-latest: ReadTimeout",
+     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
+    ]
+   },
+   "doc_kind": "digital"
+  },
+  "events": []
+ },
+ {
+  "id": "seed-E02_price_over_tolerance",
+  "created_at": "2026-11-17T03:00:00+00:00",
+  "source": "seed",
+  "filename": "E02_price_over_tolerance.pdf",
+  "file_hash": "275ab36ddd20f519c574fcf950c0e8052d2966ed92310e60d7daec1f4c61b6c4",
+  "status": "done",
+  "decision": "ON_HOLD",
+  "vendor_name": "Precision Tooling Works",
+  "invoice_number": "PTW/2627/0236",
+  "total": 54634.0,
+  "approved_amount": 0.0,
+  "risk_caught": 3304.0,
+  "duration_ms": 29699,
+  "doc_kind": "digital",
+  "summary": {
+   "vendor_id": "V005",
+   "invoice_number": "PTW/2627/0236",
+   "invoice_date": "2026-11-11",
+   "total": 54634.0,
+   "po_number": "PO-2026-0175",
+   "primary_code": "PRICE_VARIANCE",
+   "owner": "Procurement (buyer)",
+   "inferred_po": false,
+   "consumed_lines": []
+  },
+  "result": {
+   "fields": {
+    "line_items": [
+     {
+      "description": "HSS Drill Bit 8mm (HSN 8207)",
+      "hsn_sac": "8207",
+      "quantity": 100.0,
+      "unit": "nos",
+      "unit_price": 185.0,
+      "amount": 18500.0
+     },
+     {
+      "description": "Tap Set M10 (3 pc) (HSN 8207)",
+      "hsn_sac": "8207",
+      "quantity": 20.0,
+      "unit": "set",
+      "unit_price": 1390.0,
+      "amount": 27800.0
+     }
+    ],
+    "amount_in_words": null,
+    "bank_account_name": "Precision Tooling Works",
+    "bank_account_number": "917020045678123",
+    "bank_ifsc": "UTIB0000123",
+    "bank_name": "Axis Bank, Rajkot",
+    "boxes": {
+     "bank_account_number": [
+      468,
+      112,
+      477,
+      244
+     ],
+     "grand_total": [
+      380,
+      826,
+      389,
+      928
+     ],
+     "invoice_date": [
+      173,
+      850,
+      181,
+      928
+     ],
+     "invoice_number": [
+      158,
+      823,
+      167,
+      928
+     ],
+     "po_reference": [
+      187,
+      834,
+      196,
+      928
+     ],
+     "vendor_gstin": [
+      88,
+      126,
+      96,
+      239
+     ]
+    },
+    "buyer_gstin": "29AAKCK4821L1Z2",
+    "buyer_name": "Kaveri Precision Components Pvt Ltd",
+    "cgst": null,
+    "currency": "INR",
+    "grand_total": 54634.0,
+    "gst_rate_percent": 18.0,
+    "igst": 8334.0,
+    "invoice_date": "2026-11-11",
+    "invoice_number": "PTW/2627/0236",
+    "notes": "This is a computer generated invoice. Thank you for your business.",
+    "order_reference_text": null,
+    "place_of_supply": null,
+    "po_reference": "PO-2026-0175",
+    "rates_include_tax": null,
+    "sgst": null,
+    "subtotal": 46300.0,
+    "vendor_address": "Plot 221, GIDC Lodhika, Metoda, Rajkot 360021, Gujarat",
+    "vendor_gstin": "24AAHFP2207C1ZV",
+    "vendor_name": "Precision Tooling Works",
+    "_repairs": []
+   },
+   "decision": {
+    "decision": "ON_HOLD",
+    "headline": "On hold \u2014 Procurement (buyer)",
+    "primary_reason": "Unit price exceeds PO by more than 2% \u2014 Tap Set M10 (3 pc) billed at \u20b91,390 vs PO \u20b91,250 (+11.2%). Over-billing: \u20b92,800 + GST.",
+    "reasons": [
+     "Unit price exceeds PO by more than 2% \u2014 Tap Set M10 (3 pc) billed at \u20b91,390 vs PO \u20b91,250 (+11.2%). Over-billing: \u20b92,800 + GST."
+    ],
+    "owner": "Procurement (buyer)",
+    "primary_code": "PRICE_VARIANCE",
+    "issues": [
+     {
+      "code": "PRICE_VARIANCE",
+      "outcome": "HOLD",
+      "owner": "Procurement (buyer)",
+      "message": "Unit price exceeds PO by more than 2% \u2014 Tap Set M10 (3 pc) billed at \u20b91,390 vs PO \u20b91,250 (+11.2%). Over-billing: \u20b92,800 + GST.",
+      "vendor_ask": null,
+      "internal_ask": "Was a price revision agreed with the vendor? If yes, amend PO-2026-0175; if not, we'll request a credit note for \u20b92,800 + GST.",
+      "exposure_inr": 3304.0
+     }
+    ],
+    "payment": null,
+    "vendor_email": null,
+    "internal_tasks": [
+     {
+      "owner": "Procurement (buyer)",
+      "ask": "Was a price revision agreed with the vendor? If yes, amend PO-2026-0175; if not, we'll request a credit note for \u20b92,800 + GST."
+     }
+    ],
+    "risk_caught_inr": 3304.0
+   },
+   "po": {
+    "po": {
+     "po_number": "PO-2026-0175",
+     "vendor_id": "V005",
+     "date": "2026-10-22",
+     "status": "open",
+     "gl_code": "5110 \u00b7 Consumable Tools",
+     "cost_center": "CC-PROD-02",
+     "lines": [
+      {
+       "line": 1,
+       "description": "HSS Drill Bit 8mm",
+       "hsn": "8207",
+       "qty": 100,
+       "unit": "nos",
+       "unit_price": 185.0,
+       "gst_rate": 18,
+       "amount": 18500.0
+      },
+      {
+       "line": 2,
+       "description": "Tap Set M10 (3 pc)",
+       "hsn": "8207",
+       "qty": 20,
+       "unit": "set",
+       "unit_price": 1250.0,
+       "gst_rate": 18,
+       "amount": 25000.0
+      }
+     ],
+     "total": 43500.0
+    },
+    "inferred": false,
+    "candidates": [],
+    "lines": [
+     {
+      "invoice_line": "HSS Drill Bit 8mm (HSN 8207)",
+      "po_line": "L1 HSS Drill Bit 8mm",
+      "score": 1.0,
+      "inv_qty": 100.0,
+      "po_qty": 100,
+      "prev_billed": 0,
+      "received": 100,
+      "billable_qty": 100.0,
+      "inv_price": 185.0,
+      "po_price": 185.0,
+      "price_var_pct": 0.0,
+      "status": "pass",
+      "note": "matches PO & GRN"
+     },
+     {
+      "invoice_line": "Tap Set M10 (3 pc) (HSN 8207)",
+      "po_line": "L2 Tap Set M10 (3 pc)",
+      "score": 0.983,
+      "inv_qty": 20.0,
+      "po_qty": 20,
+      "prev_billed": 0,
+      "received": 20,
+      "billable_qty": 20.0,
+      "inv_price": 1390.0,
+      "po_price": 1250.0,
+      "price_var_pct": 11.2,
+      "status": "fail",
+      "note": "price +11.2%"
+     }
+    ],
+    "approvable_taxable": 44000.0,
+    "consumed_lines": [
+     {
+      "line": 1,
+      "qty": 100.0
+     },
+     {
+      "line": 2,
+      "qty": 20.0
+     }
+    ]
+   },
+   "meta": {
+    "model": "gemini-3.5-flash-lite",
+    "latency_ms": 29687,
+    "raced": 3,
+    "fallbacks": [
+     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-flash-lite-latest: HTTP 503 UNAVAILABLE",
+     "gemini-3.8-flash: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-flash-latest: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-3.5-flash-lite: HTTP 503 UNAVAILABLE",
+     "gemini-3.1-flash-lite: ReadTimeout",
+     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
+    ]
+   },
+   "doc_kind": "digital"
+  },
+  "events": []
+ },
+ {
+  "id": "seed-E03_grn_short_receipt",
+  "created_at": "2026-11-17T10:00:00+00:00",
+  "source": "seed",
+  "filename": "E03_grn_short_receipt.pdf",
+  "file_hash": "3815aac0c86d49f6d99ee65020e8d504ce0148a2ae86da3601013d64ea242833",
+  "status": "done",
+  "decision": "PARTIALLY_APPROVED",
+  "vendor_name": "Precision Tooling Works",
+  "invoice_number": "PTW/2627/0241",
+  "total": 96760.0,
+  "approved_amount": 72570.0,
+  "risk_caught": 24190.0,
+  "duration_ms": 33857,
+  "doc_kind": "digital",
+  "summary": {
+   "vendor_id": "V005",
+   "invoice_number": "PTW/2627/0241",
+   "invoice_date": "2026-11-14",
+   "total": 96760.0,
+   "po_number": "PO-2026-0171",
+   "primary_code": "QTY_EXCEEDS_RECEIPT",
+   "owner": "Vendor",
+   "inferred_po": false,
+   "consumed_lines": [
+    {
+     "line": 2,
+     "qty": 150
+    }
+   ]
+  },
+  "result": {
+   "fields": {
+    "line_items": [
+     {
+      "description": "Turning Insert CNMG 120408",
+      "hsn_sac": "8209",
+      "quantity": 200.0,
+      "unit": "nos",
+      "unit_price": 410.0,
+      "amount": 82000.0
+     }
+    ],
+    "bank_account_name": "Precision Tooling Works",
+    "bank_account_number": "917020045678123",
+    "bank_ifsc": "UTIB0000123",
+    "bank_name": "Axis Bank, Rajkot",
+    "boxes": {
+     "bank_account_number": [
+      447,
+      235,
+      456,
+      355
+     ],
+     "grand_total": [
+      357,
+      845,
+      367,
+      929
+     ],
+     "invoice_date": [
+      177,
+      845,
+      187,
+      929
+     ],
+     "invoice_number": [
+      163,
+      845,
+      173,
+      929
+     ],
+     "po_reference": [
+      191,
+      845,
+      201,
+      929
+     ],
+     "vendor_gstin": [
+      79,
+      135,
+      89,
+      265
+     ]
+    },
+    "buyer_gstin": "29AAKCK4821L1Z2",
+    "buyer_name": "Kaveri Precision Components Pvt Ltd",
+    "currency": "INR",
+    "grand_total": 96760.0,
+    "gst_rate_percent": 18.0,
+    "igst": 14760.0,
+    "invoice_date": "2026-11-14",
+    "invoice_number": "PTW/2627/0241",
+    "notes": "This is a computer generated invoice. Thank you for your business.",
+    "po_reference": "PO-2026-0171",
+    "subtotal": 82000.0,
+    "vendor_address": "Plot 221, GIDC Lodhika, Metoda, Rajkot 360021, Gujarat",
+    "vendor_gstin": "24AAHFP2207C1ZV",
+    "vendor_name": "Precision Tooling Works",
+    "cgst": null,
+    "sgst": null,
+    "_repairs": []
+   },
+   "decision": {
+    "decision": "PARTIALLY_APPROVED",
+    "headline": "Partially approved \u2014 balance held",
+    "primary_reason": "Only \u20b961,500 of \u20b982,000 (taxable) is supported by goods received / open PO quantity. \u20b920,500 + GST held.",
+    "reasons": [
+     "Only \u20b961,500 of \u20b982,000 (taxable) is supported by goods received / open PO quantity. \u20b920,500 + GST held."
+    ],
+    "owner": "Vendor",
+    "primary_code": "QTY_EXCEEDS_RECEIPT",
+    "issues": [
+     {
+      "code": "QTY_EXCEEDS_RECEIPT",
+      "outcome": "PARTIAL",
+      "owner": "Vendor",
+      "message": "Only \u20b961,500 of \u20b982,000 (taxable) is supported by goods received / open PO quantity. \u20b920,500 + GST held.",
+      "vendor_ask": "Turning Insert CNMG 120408: billed 200, GRN shows 150 received (0 already invoiced) \u2192 150 billable. We are processing \u20b961,500 + GST now. Please issue a credit note for the balance of \u20b920,500 + GST, or share proof of additional delivery.",
+      "internal_ask": null,
+      "exposure_inr": 24190.0
+     }
+    ],
+    "payment": {
+     "approved_taxable": 61500.0,
+     "gst": 11070.0,
+     "gross": 72570.0,
+     "tds_section": "194Q",
+     "tds_rate_pct": 0.1,
+     "tds": 61.5,
+     "net_payable": 72508.5,
+     "held_amount": 24190.0,
+     "due_date": "2027-01-13",
+     "terms_days": 60,
+     "msme": null,
+     "pay_to": "Axis Bank, Rajkot \u2022\u2022\u2022\u20228123 (verified, from vendor master)",
+     "gl_code": "5110 \u00b7 Consumable Tools",
+     "cost_center": "CC-PROD-02",
+     "journal": [
+      {
+       "account": "5110 \u00b7 Consumable Tools",
+       "dr": 61500.0,
+       "cr": 0,
+       "cost_center": "CC-PROD-02"
+      },
+      {
+       "account": "1412 \u00b7 Input IGST",
+       "dr": 11070.0,
+       "cr": 0
+      },
+      {
+       "account": "2210 \u00b7 TDS payable u/s 194Q",
+       "dr": 0,
+       "cr": 61.5
+      },
+      {
+       "account": "2100 \u00b7 Sundry creditors \u2014 Precision Tooling Works",
+       "dr": 0,
+       "cr": 72508.5
+      }
+     ]
+    },
+    "vendor_email": {
+     "to": "accounts@precisiontooling.in",
+     "subject": "Invoice PTW/2627/0241 \u2014 partially processed",
+     "body": "Dear Hitesh Patel,\n\nThank you for invoice PTW/2627/0241 dated 2026-11-14 for \u20b996,760.\n\nWe have reviewed it against our purchase order and goods receipts:\n  \u2022 Turning Insert CNMG 120408: billed 200, GRN shows 150 received (0 already invoiced) \u2192 150 billable. We are processing \u20b961,500 + GST now. Please issue a credit note for the balance of \u20b920,500 + GST, or share proof of additional delivery.\n\nThe approved portion (\u20b972,570 incl. GST, less TDS) is scheduled for payment on 2027-01-13.\n\nRegards,\nAccounts Payable\nKaveri Precision Components Pvt Ltd"
+    },
+    "internal_tasks": [],
+    "risk_caught_inr": 24190.0
+   },
+   "po": {
+    "po": {
+     "po_number": "PO-2026-0171",
+     "vendor_id": "V005",
+     "date": "2026-10-12",
+     "status": "open",
+     "gl_code": "5110 \u00b7 Consumable Tools",
+     "cost_center": "CC-PROD-02",
+     "lines": [
+      {
+       "line": 1,
+       "description": "Carbide End Mill 10mm 4-Flute",
+       "hsn": "8207",
+       "qty": 30,
+       "unit": "nos",
+       "unit_price": 2350.0,
+       "gst_rate": 18,
+       "amount": 70500.0
+      },
+      {
+       "line": 2,
+       "description": "Turning Insert CNMG 120408",
+       "hsn": "8209",
+       "qty": 200,
+       "unit": "nos",
+       "unit_price": 410.0,
+       "gst_rate": 18,
+       "amount": 82000.0
+      }
+     ],
+     "total": 152500.0
+    },
+    "inferred": false,
+    "candidates": [],
+    "lines": [
+     {
+      "invoice_line": "Turning Insert CNMG 120408",
+      "po_line": "L2 Turning Insert CNMG 120408",
+      "score": 1.0,
+      "inv_qty": 200.0,
+      "po_qty": 200,
+      "prev_billed": 0,
+      "received": 150,
+      "billable_qty": 150,
+      "inv_price": 410.0,
+      "po_price": 410.0,
+      "price_var_pct": 0.0,
+      "status": "fail",
+      "note": "billable 150 of 200"
+     }
+    ],
+    "approvable_taxable": 61500.0,
+    "consumed_lines": [
+     {
+      "line": 2,
+      "qty": 150
+     }
+    ]
+   },
+   "meta": {
+    "model": "gemini-3.1-flash-lite",
+    "latency_ms": 33846,
+    "raced": 3,
+    "fallbacks": [
+     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-3.5-flash-lite: HTTP 503 UNAVAILABLE",
+     "gemini-3.1-flash-lite: HTTP 503 UNAVAILABLE",
+     "gemini-flash-latest: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-flash-lite-latest: HTTP 503 UNAVAILABLE",
+     "gemini-3.8-flash: HTTP 503 UNAVAILABLE",
+     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-3.5-flash-lite: HTTP 503 UNAVAILABLE",
+     "gemini-3.8-flash: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-flash-lite-latest: HTTP 503 UNAVAILABLE",
+     "gemini-flash-latest: HTTP 503 UNAVAILABLE"
+    ]
+   },
+   "doc_kind": "digital"
+  },
+  "events": []
+ },
+ {
+  "id": "seed-E04_wrong_gst_type",
+  "created_at": "2026-11-17T17:00:00+00:00",
+  "source": "seed",
+  "filename": "E04_wrong_gst_type.pdf",
+  "file_hash": "bfa7412b141519d37c52d7abbd9747573132ab09bf2286e096b43a1c64cb2196",
+  "status": "done",
+  "decision": "REJECTED",
+  "vendor_name": "Vertex Packaging Solutions Pvt Ltd",
+  "invoice_number": "VPS/2026/415",
+  "total": 8260.0,
+  "approved_amount": 0.0,
+  "risk_caught": 0,
+  "duration_ms": 3236,
+  "doc_kind": "digital",
+  "summary": {
+   "vendor_id": "V002",
+   "invoice_number": "VPS/2026/415",
+   "invoice_date": "2026-11-15",
+   "total": 8260.0,
+   "po_number": "PO-2026-0142",
+   "primary_code": "WRONG_TAX_TYPE",
+   "owner": "Vendor",
+   "inferred_po": false,
+   "consumed_lines": []
+  },
+  "result": {
+   "fields": {
+    "line_items": [
+     {
+      "description": "EPE Foam Insert 380x280 (HSN 3921)",
+      "hsn_sac": "3921",
+      "quantity": 1000.0,
+      "unit": "nos",
+      "unit_price": 7.0,
+      "amount": 7000.0
+     }
+    ],
+    "bank_account_name": "Vertex Packaging Solutions Pvt Ltd",
+    "bank_account_number": "1234567890123",
+    "bank_ifsc": "IOBA0000321",
+    "bank_name": "Indian Overseas Bank, Hosur",
+    "boxes": {
+     "bank_account_number": [
+      463,
+      233,
+      473,
+      333
+     ],
+     "grand_total": [
+      375,
+      865,
+      385,
+      915
+     ],
+     "invoice_date": [
+      177,
+      855,
+      187,
+      915
+     ],
+     "invoice_number": [
+      163,
+      855,
+      173,
+      915
+     ],
+     "po_reference": [
+      191,
+      855,
+      201,
+      915
+     ],
+     "vendor_gstin": [
+      78,
+      57,
+      88,
+      237
+     ]
+    },
+    "buyer_gstin": "29AAKCK4821L1Z2",
+    "buyer_name": "Kaveri Precision Components Pvt Ltd",
+    "cgst": 630.0,
+    "currency": "INR",
+    "grand_total": 8260.0,
+    "gst_rate_percent": 18.0,
+    "igst": null,
+    "invoice_date": "2026-11-15",
+    "invoice_number": "VPS/2026/415",
+    "notes": "This is a computer generated invoice. Thank you for your business.",
+    "place_of_supply": null,
+    "po_reference": "PO-2026-0142",
+    "rates_include_tax": false,
+    "sgst": 630.0,
+    "subtotal": 7000.0,
+    "vendor_address": "SIPCOT Industrial Complex, Phase II, Hosur 635109, Tamil Nadu",
+    "vendor_gstin": "33AAECV3391P1ZT",
+    "vendor_name": "Vertex Packaging Solutions Pvt Ltd",
+    "_repairs": []
+   },
+   "decision": {
+    "decision": "REJECTED",
+    "headline": "Rejected \u2014 returned to vendor",
+    "primary_reason": "Wrong GST type: supply from Tamil Nadu to Karnataka requires IGST, but invoice charges CGST+SGST. ITC on wrongly charged tax is not available to us.",
+    "reasons": [
+     "Wrong GST type: supply from Tamil Nadu to Karnataka requires IGST, but invoice charges CGST+SGST. ITC on wrongly charged tax is not available to us."
+    ],
+    "owner": "Vendor",
+    "primary_code": "WRONG_TAX_TYPE",
+    "issues": [
+     {
+      "code": "WRONG_TAX_TYPE",
+      "outcome": "REJECT",
+      "owner": "Vendor",
+      "message": "Wrong GST type: supply from Tamil Nadu to Karnataka requires IGST, but invoice charges CGST+SGST. ITC on wrongly charged tax is not available to us.",
+      "vendor_ask": "Supply from Tamil Nadu to Karnataka is an inter-state supply, so IGST applies, not CGST+SGST. Please cancel this invoice and issue a fresh one with IGST.",
+      "internal_ask": null,
+      "exposure_inr": 0
+     }
+    ],
+    "payment": null,
+    "vendor_email": {
+     "to": "billing@vertexpack.co.in",
+     "subject": "Invoice VPS/2026/415 \u2014 action needed",
+     "body": "Dear Priya Raman,\n\nThank you for invoice VPS/2026/415 dated 2026-11-15 for \u20b98,260.\n\nWe are unable to process it in its current form:\n  \u2022 Supply from Tamil Nadu to Karnataka is an inter-state supply, so IGST applies, not CGST+SGST. Please cancel this invoice and issue a fresh one with IGST.\n\nRegards,\nAccounts Payable\nKaveri Precision Components Pvt Ltd"
+    },
+    "internal_tasks": [],
+    "risk_caught_inr": 0
+   },
+   "po": {
+    "po": {
+     "po_number": "PO-2026-0142",
+     "vendor_id": "V002",
+     "date": "2026-09-01",
+     "status": "open",
+     "gl_code": "5040 \u00b7 Packing Material",
+     "cost_center": "CC-DISP-02",
+     "lines": [
+      {
+       "line": 1,
+       "description": "Corrugated Box 5-ply 400x300x250",
+       "hsn": "4819",
+       "qty": 20000,
+       "unit": "nos",
+       "unit_price": 21.5,
+       "gst_rate": 18,
+       "amount": 430000.0
+      },
+      {
+       "line": 2,
+       "description": "EPE Foam Insert 380x280",
+       "hsn": "3921",
+       "qty": 10000,
+       "unit": "nos",
+       "unit_price": 7.0,
+       "gst_rate": 18,
+       "amount": 70000.0
+      }
+     ],
+     "total": 500000.0
+    },
+    "inferred": false,
+    "candidates": [],
+    "lines": [
+     {
+      "invoice_line": "EPE Foam Insert 380x280 (HSN 3921)",
+      "po_line": "L2 EPE Foam Insert 380x280",
+      "score": 1.0,
+      "inv_qty": 1000.0,
+      "po_qty": 10000,
+      "prev_billed": 5000,
+      "received": 10000,
+      "billable_qty": 1000.0,
+      "inv_price": 7.0,
+      "po_price": 7.0,
+      "price_var_pct": 0.0,
+      "status": "pass",
+      "note": "matches PO & GRN"
+     }
+    ],
+    "approvable_taxable": 7000.0,
+    "consumed_lines": [
+     {
+      "line": 2,
+      "qty": 1000.0
+     }
+    ]
+   },
+   "meta": {
+    "model": "gemini-3.1-flash-lite",
+    "latency_ms": 3225,
+    "raced": 3,
+    "fallbacks": [
+     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
+    ]
+   },
+   "doc_kind": "digital"
+  },
+  "events": []
+ },
+ {
+  "id": "seed-E05_invalid_gstin",
+  "created_at": "2026-11-18T00:00:00+00:00",
+  "source": "seed",
+  "filename": "E05_invalid_gstin.pdf",
+  "file_hash": "f10b92617e1682744ffb8a2c7d981317c4a4b789e98add40074fb3b6923f5389",
+  "status": "done",
+  "decision": "REJECTED",
+  "vendor_name": "Deccan Electricals",
+  "invoice_number": "DE/1152",
+  "total": 69384.0,
+  "approved_amount": 0.0,
+  "risk_caught": 0,
+  "duration_ms": 33066,
+  "doc_kind": "digital",
+  "summary": {
+   "vendor_id": "V004",
+   "invoice_number": "DE/1152",
+   "invoice_date": "2026-11-17",
+   "total": 69384.0,
+   "po_number": "PO-2026-0163",
+   "primary_code": "GSTIN_MISMATCH",
+   "owner": "Vendor",
+   "inferred_po": false,
+   "consumed_lines": []
+  },
+  "result": {
+   "fields": {
+    "line_items": [
+     {
+      "description": "LED panel 40W 2x2",
+      "hsn_sac": "9405",
+      "quantity": 60.0,
+      "unit": null,
+      "unit_price": 980.0,
+      "amount": 58800.0
+     }
+    ],
+    "amount_in_words": "Rupees Sixty Nine Thousand Three Hundred Eighty Four Only",
+    "bank_account_name": null,
+    "bank_account_number": "33410100009876",
+    "bank_ifsc": "BARB0PEENYA",
+    "bank_name": "Bank of Baroda",
+    "boxes": {
+     "bank_account_number": [
+      372,
+      352,
+      381,
+      484
+     ],
+     "grand_total": [
+      317,
+      833,
+      328,
+      928
+     ],
+     "invoice_date": [
+      149,
+      579,
+      159,
+      682
+     ],
+     "invoice_number": [
+      148,
+      161,
+      160,
+      237
+     ],
+     "po_reference": [
+      198,
+      209,
+      208,
+      304
+     ],
+     "vendor_gstin": [
+      98,
+      138,
+      107,
+      277
+     ]
+    },
+    "buyer_gstin": "29AAKCK4821L1Z2",
+    "buyer_name": "M/s Kaveri Precision Components Pvt Ltd",
+    "cgst": 5292.0,
+    "currency": "INR",
+    "grand_total": 69384.0,
+    "gst_rate_percent": 18.0,
+    "igst": null,
+    "invoice_date": "2026-11-17",
+    "invoice_number": "DE/1152",
+    "notes": null,
+    "order_reference_text": "PO-2026-0163",
+    "place_of_supply": null,
+    "po_reference": "PO-2026-0163",
+    "rates_include_tax": null,
+    "sgst": 5292.0,
+    "subtotal": 58800.0,
+    "vendor_address": "Shop 14, Peenya Industrial Area 1st Stage, Bengaluru 560058",
+    "vendor_gstin": "29AFZPD1185M1ZX",
+    "vendor_name": "DECCAN ELECTRICALS",
+    "_repairs": []
+   },
+   "decision": {
+    "decision": "REJECTED",
+    "headline": "Rejected \u2014 returned to vendor",
+    "primary_reason": "GSTIN on invoice (29AFZPD1185M1ZX) is invalid and does not match the registered GSTIN 29AFZPD1185M1ZO. Input tax credit would be lost.",
+    "reasons": [
+     "GSTIN on invoice (29AFZPD1185M1ZX) is invalid and does not match the registered GSTIN 29AFZPD1185M1ZO. Input tax credit would be lost."
+    ],
+    "owner": "Vendor",
+    "primary_code": "GSTIN_MISMATCH",
+    "issues": [
+     {
+      "code": "GSTIN_MISMATCH",
+      "outcome": "REJECT",
+      "owner": "Vendor",
+      "message": "GSTIN on invoice (29AFZPD1185M1ZX) is invalid and does not match the registered GSTIN 29AFZPD1185M1ZO. Input tax credit would be lost.",
+      "vendor_ask": "The GSTIN printed on the invoice (29AFZPD1185M1ZX) does not match your registered GSTIN (29AFZPD1185M1ZO). Please re-issue with the correct GSTIN so we can claim input tax credit.",
+      "internal_ask": null,
+      "exposure_inr": 0
+     }
+    ],
+    "payment": null,
+    "vendor_email": {
+     "to": "deccanelectricals@gmail.com",
+     "subject": "Invoice DE/1152 \u2014 action needed",
+     "body": "Dear Manjunath Gowda,\n\nThank you for invoice DE/1152 dated 2026-11-17 for \u20b969,384.\n\nWe are unable to process it in its current form:\n  \u2022 The GSTIN printed on the invoice (29AFZPD1185M1ZX) does not match your registered GSTIN (29AFZPD1185M1ZO). Please re-issue with the correct GSTIN so we can claim input tax credit.\n\nRegards,\nAccounts Payable\nKaveri Precision Components Pvt Ltd"
+    },
+    "internal_tasks": [],
+    "risk_caught_inr": 0
+   },
+   "po": {
+    "po": {
+     "po_number": "PO-2026-0163",
+     "vendor_id": "V004",
+     "date": "2026-10-30",
+     "status": "open",
+     "gl_code": "5220 \u00b7 Electrical Maintenance",
+     "cost_center": "CC-MAINT-01",
+     "lines": [
+      {
+       "line": 1,
+       "description": "MCB 32A 4-Pole C-Curve",
+       "hsn": "8536",
+       "qty": 40,
+       "unit": "nos",
+       "unit_price": 1450.0,
+       "gst_rate": 18,
+       "amount": 58000.0
+      },
+      {
+       "line": 2,
+       "description": "Copper Cable 4 sq mm FRLS (90m coil)",
+       "hsn": "8544",
+       "qty": 10,
+       "unit": "coil",
+       "unit_price": 3900.0,
+       "gst_rate": 18,
+       "amount": 39000.0
+      },
+      {
+       "line": 3,
+       "description": "LED Panel Light 40W 2x2",
+       "hsn": "9405",
+       "qty": 60,
+       "unit": "nos",
+       "unit_price": 980.0,
+       "gst_rate": 18,
+       "amount": 58800.0
+      }
+     ],
+     "total": 155800.0
+    },
+    "inferred": false,
+    "candidates": [],
+    "lines": [
+     {
+      "invoice_line": "LED panel 40W 2x2",
+      "po_line": "L3 LED Panel Light 40W 2x2",
+      "score": 1.0,
+      "inv_qty": 60.0,
+      "po_qty": 60,
+      "prev_billed": 0,
+      "received": 60,
+      "billable_qty": 60.0,
+      "inv_price": 980.0,
+      "po_price": 980.0,
+      "price_var_pct": 0.0,
+      "status": "pass",
+      "note": "matches PO & GRN"
+     }
+    ],
+    "approvable_taxable": 58800.0,
+    "consumed_lines": [
+     {
+      "line": 3,
+      "qty": 60.0
+     }
+    ]
+   },
+   "meta": {
+    "model": "gemini-flash-lite-latest",
+    "latency_ms": 33054,
+    "raced": 3,
+    "fallbacks": [
+     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-3.5-flash-lite: HTTP 503 UNAVAILABLE",
+     "gemini-flash-lite-latest: HTTP 503 UNAVAILABLE",
+     "gemini-3.8-flash: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-flash-latest: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-3.1-flash-lite: HTTP 503 UNAVAILABLE",
+     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-3.1-flash-lite: HTTP 503 UNAVAILABLE",
+     "gemini-3.8-flash: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-flash-lite-latest: HTTP 503 UNAVAILABLE",
+     "gemini-flash-latest: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-3.5-flash-lite: HTTP 503 UNAVAILABLE",
+     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-3.5-flash-lite: HTTP 503 UNAVAILABLE",
+     "gemini-3.8-flash: HTTP 429 RESOURCE_EXHAUSTED"
+    ]
+   },
+   "doc_kind": "digital"
+  },
+  "events": []
+ },
+ {
+  "id": "seed-E06_unknown_vendor",
+  "created_at": "2026-11-18T07:00:00+00:00",
+  "source": "seed",
+  "filename": "E06_unknown_vendor.pdf",
+  "file_hash": "5e4ed57cbd4c355e63505c8280e364c2b391c5458b1a8888b9ee3684df4d4316",
+  "status": "done",
+  "decision": "ON_HOLD",
+  "vendor_name": "SAI HYDRAULICS & PNEUMATICS",
+  "invoice_number": "SHP/112/26-27",
+  "total": 37996.0,
+  "approved_amount": 0.0,
+  "risk_caught": 37996.0,
+  "duration_ms": 9544,
+  "doc_kind": "digital",
+  "summary": {
+   "vendor_id": null,
+   "invoice_number": "SHP/112/26-27",
+   "invoice_date": "2026-11-09",
+   "total": 37996.0,
+   "po_number": null,
+   "primary_code": "UNKNOWN_VENDOR",
+   "owner": "Procurement",
+   "inferred_po": false,
+   "consumed_lines": []
+  },
+  "result": {
+   "fields": {
+    "line_items": [
+     {
+      "description": "Hydraulic Hose Assembly 1/2in x 1m",
+      "hsn_sac": "4009",
+      "quantity": 12.0,
+      "unit": "nos",
+      "unit_price": 1650.0,
+      "amount": 19800.0
+     },
+     {
+      "description": "Pneumatic Cylinder 50x100",
+      "hsn_sac": "8412",
+      "quantity": 2.0,
+      "unit": "nos",
+      "unit_price": 6200.0,
+      "amount": 12400.0
+     }
+    ],
+    "amount_in_words": "Rupees Thirty Seven Thousand Nine Hundred Ninety Six Only",
+    "bank_account_name": "Sai Hydraulics & Pneumatics",
+    "bank_account_number": "1023456789",
+    "bank_ifsc": "CNRB0001023",
+    "bank_name": "Canara Bank, Yeshwanthpur",
+    "boxes": {
+     "bank_account_number": [
+      465,
+      121,
+      477,
+      206
+     ],
+     "grand_total": [
+      382,
+      852,
+      396,
+      928
+     ],
+     "invoice_date": [
+      188,
+      165,
+      198,
+      237
+     ],
+     "invoice_number": [
+      169,
+      171,
+      180,
+      259
+     ],
+     "po_reference": null,
+     "vendor_gstin": [
+      107,
+      266,
+      117,
+      386
+     ]
+    },
+    "buyer_gstin": "29AAKCK4821L1Z2",
+    "buyer_name": "Kaveri Precision Components Pvt Ltd",
+    "cgst": 2898.0,
+    "currency": "Rs.",
+    "grand_total": 37996.0,
+    "gst_rate_percent": 18.0,
+    "igst": null,
+    "invoice_date": "2026-11-09",
+    "invoice_number": "SHP/112/26-27",
+    "notes": "Goods once sold will not be taken back. Interest @18% p.a. on overdue bills. Subject to Bengaluru jurisdiction.",
+    "order_reference_text": null,
+    "place_of_supply": "Karnataka (29)",
+    "po_reference": null,
+    "rates_include_tax": null,
+    "sgst": 2898.0,
+    "subtotal": 32200.0,
+    "vendor_address": "No. 18, 3rd Cross, Yeshwanthpur Industrial Suburb, Bengaluru 560022",
+    "vendor_gstin": "29BQRPS4471J1ZW",
+    "vendor_name": "SAI HYDRAULICS & PNEUMATICS",
+    "_repairs": []
+   },
+   "decision": {
+    "decision": "ON_HOLD",
+    "headline": "On hold \u2014 Procurement",
+    "primary_reason": "SAI HYDRAULICS & PNEUMATICS is not in the vendor master. No payment can be made to an un-onboarded vendor.",
+    "reasons": [
+     "SAI HYDRAULICS & PNEUMATICS is not in the vendor master. No payment can be made to an un-onboarded vendor.",
+     "No purchase order referenced (and vendor not onboarded)."
+    ],
+    "owner": "Procurement",
+    "primary_code": "UNKNOWN_VENDOR",
+    "issues": [
+     {
+      "code": "UNKNOWN_VENDOR",
+      "outcome": "HOLD",
+      "owner": "Procurement",
+      "message": "SAI HYDRAULICS & PNEUMATICS is not in the vendor master. No payment can be made to an un-onboarded vendor.",
+      "vendor_ask": null,
+      "internal_ask": "Was this purchase authorised? If yes, onboard the vendor (KYC, bank verification) and raise a PO; if not, escalate as maverick spend.",
+      "exposure_inr": 37996.0
+     },
+     {
+      "code": "NO_PO",
+      "outcome": "HOLD",
+      "owner": "Procurement",
+      "message": "No purchase order referenced (and vendor not onboarded).",
+      "vendor_ask": null,
+      "internal_ask": "Identify the requester and raise a retrospective PO if the purchase is legitimate.",
+      "exposure_inr": 0
+     }
+    ],
+    "payment": null,
+    "vendor_email": null,
+    "internal_tasks": [
+     {
+      "owner": "Procurement",
+      "ask": "Was this purchase authorised? If yes, onboard the vendor (KYC, bank verification) and raise a PO; if not, escalate as maverick spend."
+     },
+     {
+      "owner": "Procurement",
+      "ask": "Identify the requester and raise a retrospective PO if the purchase is legitimate."
+     }
+    ],
+    "risk_caught_inr": 37996.0
+   },
+   "po": {
+    "po": null,
+    "inferred": false,
+    "candidates": [],
+    "lines": [],
+    "approvable_taxable": null,
+    "consumed_lines": []
+   },
+   "meta": {
+    "model": "gemini-flash-lite-latest",
+    "latency_ms": 9531,
+    "raced": 3,
+    "fallbacks": [
+     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-3.1-flash-lite: HTTP 503 UNAVAILABLE",
+     "gemini-3.8-flash: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-flash-latest: HTTP 429 RESOURCE_EXHAUSTED"
+    ]
+   },
+   "doc_kind": "digital"
+  },
+  "events": []
+ },
+ {
+  "id": "seed-E07_blocked_vendor",
+  "created_at": "2026-11-18T14:00:00+00:00",
+  "source": "seed",
+  "filename": "E07_blocked_vendor.pdf",
+  "file_hash": "3b063a0ba02512ec381046f67ca43ced09a43438f6856df50e70ec4ee172b4ca",
+  "status": "done",
+  "decision": "ON_HOLD",
+  "vendor_name": "Coastal Logistics Pvt Ltd",
+  "invoice_number": "CLPL/26/0712",
+  "total": 89680.0,
+  "approved_amount": 0.0,
+  "risk_caught": 0,
+  "duration_ms": 3856,
+  "doc_kind": "digital",
+  "summary": {
+   "vendor_id": "V006",
+   "invoice_number": "CLPL/26/0712",
+   "invoice_date": "2026-11-06",
+   "total": 89680.0,
+   "po_number": "PO-2026-0180",
+   "primary_code": "VENDOR_BLOCKED",
+   "owner": "Vendor management",
+   "inferred_po": false,
+   "consumed_lines": []
+  },
+  "result": {
+   "fields": {
+    "line_items": [
+     {
+      "description": "Full Truck Load Freight Kochi-Bengaluru",
+      "hsn_sac": "996511",
+      "quantity": 2.0,
+      "unit": "trip",
+      "unit_price": 38000.0,
+      "amount": 76000.0
+     }
+    ],
+    "amount_in_words": "Rupees Eighty Nine Thousand Six Hundred Eighty Only",
+    "bank_account_name": "Coastal Logistics Pvt Ltd",
+    "bank_account_number": "67543210987",
+    "bank_ifsc": "SBIN0070123",
+    "bank_name": "SBI, Kochi",
+    "boxes": {
+     "bank_account_number": [
+      415,
+      107,
+      426,
+      192
+     ],
+     "grand_total": [
+      323,
+      852,
+      334,
+      928
+     ],
+     "invoice_date": [
+      162,
+      861,
+      172,
+      930
+     ],
+     "invoice_number": [
+      141,
+      851,
+      151,
+      928
+     ],
+     "po_reference": [
+      183,
+      857,
+      194,
+      930
+     ],
+     "vendor_gstin": [
+      98,
+      133,
+      109,
+      278
+     ]
+    },
+    "buyer_gstin": "29AAKCK4821L1Z2",
+    "buyer_name": "Kaveri Precision Components Pvt Ltd",
+    "cgst": null,
+    "currency": "INR",
+    "grand_total": 89680.0,
+    "gst_rate_percent": 18.0,
+    "igst": 13680.0,
+    "invoice_date": "2026-11-06",
+    "invoice_number": "CLPL/26/0712",
+    "notes": "Payment due within 30 days. TDS, if any, to be deducted under the applicable section and certificate shared.",
+    "order_reference_text": null,
+    "place_of_supply": "29 - Karnataka",
+    "po_reference": "PO-2026-0180",
+    "rates_include_tax": null,
+    "sgst": null,
+    "subtotal": 76000.0,
+    "vendor_address": "Door 31/1120, Willingdon Island, Kochi 682003, Kerala",
+    "vendor_gstin": "32AAFCC5540H1ZZ",
+    "vendor_name": "Coastal Logistics Pvt Ltd",
+    "_repairs": []
+   },
+   "decision": {
+    "decision": "ON_HOLD",
+    "headline": "On hold \u2014 Vendor management",
+    "primary_reason": "Coastal Logistics Pvt Ltd is blocked in the vendor master \u2014 KYC lapsed \u2014 PAN-Aadhaar link and bank re-verification pending since Aug 2026.",
+    "reasons": [
+     "Coastal Logistics Pvt Ltd is blocked in the vendor master \u2014 KYC lapsed \u2014 PAN-Aadhaar link and bank re-verification pending since Aug 2026."
+    ],
+    "owner": "Vendor management",
+    "primary_code": "VENDOR_BLOCKED",
+    "issues": [
+     {
+      "code": "VENDOR_BLOCKED",
+      "outcome": "HOLD",
+      "owner": "Vendor management",
+      "message": "Coastal Logistics Pvt Ltd is blocked in the vendor master \u2014 KYC lapsed \u2014 PAN-Aadhaar link and bank re-verification pending since Aug 2026.",
+      "vendor_ask": null,
+      "internal_ask": "Complete the pending KYC re-verification before this invoice can be released. Liability is recorded; payment is blocked.",
+      "exposure_inr": 0
+     }
+    ],
+    "payment": null,
+    "vendor_email": null,
+    "internal_tasks": [
+     {
+      "owner": "Vendor management",
+      "ask": "Complete the pending KYC re-verification before this invoice can be released. Liability is recorded; payment is blocked."
+     }
+    ],
+    "risk_caught_inr": 0
+   },
+   "po": {
+    "po": {
+     "po_number": "PO-2026-0180",
+     "vendor_id": "V006",
+     "date": "2026-08-02",
+     "status": "open",
+     "gl_code": "6310 \u00b7 Freight Inward",
+     "cost_center": "CC-LOG-01",
+     "lines": [
+      {
+       "line": 1,
+       "description": "Full Truck Load Freight Kochi-Bengaluru",
+       "hsn": "996511",
+       "qty": 2,
+       "unit": "trip",
+       "unit_price": 38000.0,
+       "gst_rate": 18,
+       "amount": 76000.0
+      }
+     ],
+     "total": 76000.0
+    },
+    "inferred": false,
+    "candidates": [],
+    "lines": [
+     {
+      "invoice_line": "Full Truck Load Freight Kochi-Bengaluru",
+      "po_line": "L1 Full Truck Load Freight Kochi-Bengaluru",
+      "score": 1.0,
+      "inv_qty": 2.0,
+      "po_qty": 2,
+      "prev_billed": 0,
+      "received": 2,
+      "billable_qty": 2.0,
+      "inv_price": 38000.0,
+      "po_price": 38000.0,
+      "price_var_pct": 0.0,
+      "status": "pass",
+      "note": "matches PO & GRN"
+     }
+    ],
+    "approvable_taxable": 76000.0,
+    "consumed_lines": [
+     {
+      "line": 1,
+      "qty": 2.0
+     }
+    ]
+   },
+   "meta": {
+    "model": "gemini-flash-lite-latest",
+    "latency_ms": 3842,
+    "raced": 3,
+    "fallbacks": [
+     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-3.1-flash-lite: HTTP 503 UNAVAILABLE"
+    ]
+   },
+   "doc_kind": "digital"
+  },
+  "events": []
+ },
+ {
+  "id": "seed-E08_tax_inclusive_rates",
+  "created_at": "2026-11-18T21:00:00+00:00",
+  "source": "seed",
+  "filename": "E08_tax_inclusive_rates.pdf",
+  "file_hash": "c8881f3f1819b9dbf4f51377a255b42b58da625bab0b83ab42c04e99e8f5119f",
+  "status": "done",
+  "decision": "APPROVED",
+  "vendor_name": "Deccan Electricals",
+  "invoice_number": "DE/1139",
+  "total": 34220.0,
+  "approved_amount": 34220.0,
+  "risk_caught": 0,
+  "duration_ms": 9545,
+  "doc_kind": "digital",
+  "summary": {
+   "vendor_id": "V004",
+   "invoice_number": "DE/1139",
+   "invoice_date": "2026-11-08",
+   "total": 34220.0,
+   "po_number": "PO-2026-0119",
+   "primary_code": null,
+   "owner": null,
+   "inferred_po": false,
+   "consumed_lines": [
+    {
+     "line": 2,
+     "qty": 200.0
+    }
+   ]
+  },
+  "result": {
+   "fields": {
+    "line_items": [
+     {
+      "description": "Modular Switch 16A",
+      "hsn_sac": "8536",
+      "quantity": 200.0,
+      "unit": null,
+      "unit_price": 171.1,
+      "amount": 34220.0
+     }
+    ],
+    "amount_in_words": "Rupees Thirty Four Thousand Two Hundred Twenty Only",
+    "bank_account_name": null,
+    "bank_account_number": "33410100009876",
+    "bank_ifsc": "BARB0PEENYA",
+    "bank_name": "Bank of Baroda, Peenya",
+    "boxes": {
+     "bank_account_number": [
+      400,
+      360,
+      412,
+      484
+     ],
+     "grand_total": [
+      355,
+      834,
+      367,
+      928
+     ],
+     "invoice_date": [
+      145,
+      586,
+      158,
+      680
+     ],
+     "invoice_number": [
+      145,
+      167,
+      157,
+      236
+     ],
+     "po_reference": [
+      198,
+      209,
+      211,
+      314
+     ],
+     "vendor_gstin": [
+      84,
+      138,
+      94,
+      274
+     ]
+    },
+    "buyer_gstin": "29AAKCK4821L1Z2",
+    "buyer_name": "M/s Kaveri Precision Components Pvt Ltd, Peenya, Bengaluru",
+    "cgst": 2610.0,
+    "currency": "Rs.",
+    "grand_total": 34220.0,
+    "gst_rate_percent": 18.0,
+    "igst": null,
+    "invoice_date": "2026-11-08",
+    "invoice_number": "DE/1139",
+    "notes": "** Rates are inclusive of GST **",
+    "order_reference_text": "PO-2026-0119",
+    "place_of_supply": null,
+    "po_reference": "PO-2026-0119",
+    "rates_include_tax": true,
+    "sgst": 2610.0,
+    "subtotal": 29000.0,
+    "vendor_address": "Shop 14, Peenya Industrial Area 1st Stage, Bengaluru 560058",
+    "vendor_gstin": "29AFZPD1185M1ZO",
+    "vendor_name": "DECCAN ELECTRICALS",
+    "_repairs": []
+   },
+   "decision": {
+    "decision": "APPROVED",
+    "headline": "Approved for payment",
+    "primary_reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+    "reasons": [
+     "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles."
+    ],
+    "owner": null,
+    "primary_code": null,
+    "issues": [],
+    "payment": {
+     "approved_taxable": 29000.0,
+     "gst": 5220.0,
+     "gross": 34220.0,
+     "tds_section": "194Q",
+     "tds_rate_pct": 0.1,
+     "tds": 29.0,
+     "net_payable": 34191.0,
+     "held_amount": 0.0,
+     "due_date": "2026-12-08",
+     "terms_days": 30,
+     "msme": "Micro",
+     "pay_to": "Bank of Baroda, Peenya \u2022\u2022\u2022\u20229876 (verified, from vendor master)",
+     "gl_code": "5220 \u00b7 Electrical Maintenance",
+     "cost_center": "CC-MAINT-01",
+     "journal": [
+      {
+       "account": "5220 \u00b7 Electrical Maintenance",
+       "dr": 29000.0,
+       "cr": 0,
+       "cost_center": "CC-MAINT-01"
+      },
+      {
+       "account": "1410 \u00b7 Input CGST",
+       "dr": 2610.0,
+       "cr": 0
+      },
+      {
+       "account": "1411 \u00b7 Input SGST",
+       "dr": 2610.0,
+       "cr": 0
+      },
+      {
+       "account": "2210 \u00b7 TDS payable u/s 194Q",
+       "dr": 0,
+       "cr": 29.0
+      },
+      {
+       "account": "2100 \u00b7 Sundry creditors \u2014 Deccan Electricals",
+       "dr": 0,
+       "cr": 34191.0
+      }
+     ]
+    },
+    "vendor_email": null,
+    "internal_tasks": [],
+    "risk_caught_inr": 0
+   },
+   "po": {
+    "po": {
+     "po_number": "PO-2026-0119",
+     "vendor_id": "V004",
+     "date": "2026-10-05",
+     "status": "open",
+     "gl_code": "5220 \u00b7 Electrical Maintenance",
+     "cost_center": "CC-MAINT-01",
+     "lines": [
+      {
+       "line": 1,
+       "description": "Copper Cable 2.5 sq mm FRLS (90m coil)",
+       "hsn": "8544",
+       "qty": 8,
+       "unit": "coil",
+       "unit_price": 2450.0,
+       "gst_rate": 18,
+       "amount": 19600.0
+      },
+      {
+       "line": 2,
+       "description": "Modular Switch 16A",
+       "hsn": "8536",
+       "qty": 200,
+       "unit": "nos",
+       "unit_price": 145.0,
+       "gst_rate": 18,
+       "amount": 29000.0
+      }
+     ],
+     "total": 48600.0
+    },
+    "inferred": false,
+    "candidates": [],
+    "lines": [
+     {
+      "invoice_line": "Modular Switch 16A",
+      "po_line": "L2 Modular Switch 16A",
+      "score": 1.0,
+      "inv_qty": 200.0,
+      "po_qty": 200,
+      "prev_billed": 0,
+      "received": 200,
+      "billable_qty": 200.0,
+      "inv_price": 145.0,
+      "po_price": 145.0,
+      "price_var_pct": 0.0,
+      "status": "pass",
+      "note": "matches PO & GRN"
+     }
+    ],
+    "approvable_taxable": 29000.0,
+    "consumed_lines": [
+     {
+      "line": 2,
+      "qty": 200.0
+     }
+    ]
+   },
+   "meta": {
+    "model": "gemini-flash-lite-latest",
+    "latency_ms": 9535,
+    "raced": 3,
+    "fallbacks": [
+     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-3.1-flash-lite: HTTP 503 UNAVAILABLE",
+     "gemini-3.5-flash-lite: HTTP 503 UNAVAILABLE",
+     "gemini-3.8-flash: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-flash-latest: HTTP 429 RESOURCE_EXHAUSTED"
+    ]
+   },
+   "doc_kind": "digital"
+  },
+  "events": []
+ },
+ {
+  "id": "seed-E09_arithmetic_error",
+  "created_at": "2026-11-19T04:00:00+00:00",
+  "source": "seed",
+  "filename": "E09_arithmetic_error.pdf",
+  "file_hash": "d3b673d49ae52df32643f767f142240ecd022ec36766562d62fbcab9e05012cc",
+  "status": "done",
+  "decision": "REJECTED",
+  "vendor_name": "Shree Ganesh Steel Traders",
+  "invoice_number": "SGS/26-27/0109",
+  "total": 167560.0,
+  "approved_amount": 0.0,
+  "risk_caught": 21240.0,
+  "duration_ms": 4024,
+  "doc_kind": "digital",
+  "summary": {
+   "vendor_id": "V001",
+   "invoice_number": "SGS/26-27/0109",
+   "invoice_date": "2026-11-07",
+   "total": 167560.0,
+   "po_number": "PO-2026-0101",
+   "primary_code": "LINE_ARITHMETIC",
+   "owner": "Vendor",
+   "inferred_po": false,
+   "consumed_lines": []
+  },
+  "result": {
+   "fields": {
+    "line_items": [
+     {
+      "description": "MS Round Bar 12mm (IS 2062)",
+      "hsn_sac": "7214",
+      "quantity": 2000.0,
+      "unit": "kg",
+      "unit_price": 62.0,
+      "amount": 142000.0
+     }
+    ],
+    "amount_in_words": "Rupees One Lakh Sixty Seven Thousand Five Hundred Sixty Only",
+    "bank_account_name": "Shree Ganesh Steel Traders",
+    "bank_account_number": "50200012345678",
+    "bank_ifsc": "HDFC0001234",
+    "bank_name": "HDFC Bank, Peenya",
+    "boxes": {
+     "bank_account_number": [
+      451,
+      215,
+      461,
+      325
+     ],
+     "grand_total": [
+      348,
+      845,
+      360,
+      929
+     ],
+     "invoice_date": [
+      146,
+      165,
+      156,
+      245
+     ],
+     "invoice_number": [
+      146,
+      165,
+      156,
+      270
+     ],
+     "po_reference": [
+      163,
+      165,
+      173,
+      255
+     ],
+     "vendor_gstin": [
+      91,
+      265,
+      101,
+      395
+     ]
+    },
+    "buyer_gstin": "29AAKCK4821L1Z2",
+    "buyer_name": "Kaveri Precision Components Pvt Ltd",
+    "cgst": 12780.0,
+    "currency": "Rs.",
+    "grand_total": 167560.0,
+    "gst_rate_percent": 18.0,
+    "invoice_date": "2026-11-07",
+    "invoice_number": "SGS/26-27/0109",
+    "notes": "Terms: Goods once sold will not be taken back. Interest @18% p.a. on overdue bills. Subject to Bengaluru jurisdiction.",
+    "order_reference_text": "PO-2026-0101",
+    "place_of_supply": "Karnataka (29)",
+    "po_reference": "PO-2026-0101",
+    "sgst": 12780.0,
+    "subtotal": 142000.0,
+    "vendor_address": "No. 7, 2nd Main, Peenya 2nd Stage, Bengaluru 560058, Karnataka",
+    "vendor_gstin": "29ABCFS7712K1ZS",
+    "vendor_name": "SHREE GANESH STEEL TRADERS",
+    "igst": null,
+    "_repairs": []
+   },
+   "decision": {
+    "decision": "REJECTED",
+    "headline": "Rejected \u2014 returned to vendor",
+    "primary_reason": "Line 1 amount does not equal quantity \u00d7 rate (invoice overstated by \u20b918,000).",
+    "reasons": [
+     "Line 1 amount does not equal quantity \u00d7 rate (invoice overstated by \u20b918,000)."
+    ],
+    "owner": "Vendor",
+    "primary_code": "LINE_ARITHMETIC",
+    "issues": [
+     {
+      "code": "LINE_ARITHMETIC",
+      "outcome": "REJECT",
+      "owner": "Vendor",
+      "message": "Line 1 amount does not equal quantity \u00d7 rate (invoice overstated by \u20b918,000).",
+      "vendor_ask": "Line 1 (MS Round Bar 12mm (IS 2062)): 2000 \u00d7 \u20b962 = \u20b91,24,000, but the invoice shows \u20b91,42,000. Please issue a corrected invoice.",
+      "internal_ask": null,
+      "exposure_inr": 21240.0
+     }
+    ],
+    "payment": null,
+    "vendor_email": {
+     "to": "accounts@shreeganeshsteel.in",
+     "subject": "Invoice SGS/26-27/0109 \u2014 action needed",
+     "body": "Dear Ramesh Agarwal,\n\nThank you for invoice SGS/26-27/0109 dated 2026-11-07 for \u20b91,67,560.\n\nWe are unable to process it in its current form:\n  \u2022 Line 1 (MS Round Bar 12mm (IS 2062)): 2000 \u00d7 \u20b962 = \u20b91,24,000, but the invoice shows \u20b91,42,000. Please issue a corrected invoice.\n\nRegards,\nAccounts Payable\nKaveri Precision Components Pvt Ltd"
+    },
+    "internal_tasks": [],
+    "risk_caught_inr": 21240.0
+   },
+   "po": {
+    "po": {
+     "po_number": "PO-2026-0101",
+     "vendor_id": "V001",
+     "date": "2026-10-20",
+     "status": "open",
+     "gl_code": "5010 \u00b7 Raw Material - Steel",
+     "cost_center": "CC-PROD-01",
+     "lines": [
+      {
+       "line": 1,
+       "description": "MS Round Bar 12mm (IS 2062)",
+       "hsn": "7214",
+       "qty": 2000,
+       "unit": "kg",
+       "unit_price": 62.0,
+       "gst_rate": 18,
+       "amount": 124000.0
+      },
+      {
+       "line": 2,
+       "description": "MS Sheet 2mm 1250x2500",
+       "hsn": "7208",
+       "qty": 50,
+       "unit": "nos",
+       "unit_price": 2850.0,
+       "gst_rate": 18,
+       "amount": 142500.0
+      }
+     ],
+     "total": 266500.0
+    },
+    "inferred": false,
+    "candidates": [],
+    "lines": [
+     {
+      "invoice_line": "MS Round Bar 12mm (IS 2062)",
+      "po_line": "L1 MS Round Bar 12mm (IS 2062)",
+      "score": 1.0,
+      "inv_qty": 2000.0,
+      "po_qty": 2000,
+      "prev_billed": 0,
+      "received": 2000,
+      "billable_qty": 2000.0,
+      "inv_price": 62.0,
+      "po_price": 62.0,
+      "price_var_pct": 0.0,
+      "status": "pass",
+      "note": "matches PO & GRN"
+     }
+    ],
+    "approvable_taxable": 124000.0,
+    "consumed_lines": [
+     {
+      "line": 1,
+      "qty": 2000.0
+     }
+    ]
+   },
+   "meta": {
+    "model": "gemini-3.1-flash-lite",
+    "latency_ms": 4010,
+    "raced": 3,
+    "fallbacks": [
+     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
+    ]
+   },
+   "doc_kind": "digital"
+  },
+  "events": []
+ },
+ {
+  "id": "seed-E10_missing_invoice_number",
+  "created_at": "2026-11-19T11:00:00+00:00",
+  "source": "seed",
+  "filename": "E10_missing_invoice_number.pdf",
+  "file_hash": "abdf06cd8e5ee3be7cc87d6e0642335d3f1cfd4433e142ff98cfdb770d05c92a",
+  "status": "done",
+  "decision": "REJECTED",
+  "vendor_name": "Precision Tooling Works",
+  "invoice_number": null,
+  "total": 21830.0,
+  "approved_amount": 0.0,
+  "risk_caught": 0,
+  "duration_ms": 9761,
+  "doc_kind": "digital",
+  "summary": {
+   "vendor_id": "V005",
+   "invoice_number": null,
+   "invoice_date": "2026-11-12",
+   "total": 21830.0,
+   "po_number": "PO-2026-0175",
+   "primary_code": "MISSING_INVOICE_NUMBER",
+   "owner": "Vendor",
+   "inferred_po": false,
+   "consumed_lines": []
+  },
+  "result": {
+   "fields": {
+    "line_items": [
+     {
+      "description": "HSS Drill Bit 8mm (HSN 8207)",
+      "hsn_sac": "8207",
+      "quantity": 100.0,
+      "unit": "nos",
+      "unit_price": 185.0,
+      "amount": 18500.0
+     }
+    ],
+    "amount_in_words": null,
+    "bank_account_name": "Precision Tooling Works",
+    "bank_account_number": "917020045678123",
+    "bank_ifsc": "UTIB0000123",
+    "bank_name": "Axis Bank, Rajkot",
+    "boxes": {
+     "bank_account_number": [
+      448,
+      119,
+      458,
+      241
+     ],
+     "grand_total": [
+      361,
+      827,
+      372,
+      915
+     ],
+     "invoice_date": [
+      181,
+      848,
+      191,
+      928
+     ],
+     "invoice_number": null,
+     "po_reference": [
+      198,
+      834,
+      208,
+      928
+     ],
+     "vendor_gstin": [
+      88,
+      111,
+      96,
+      237
+     ]
+    },
+    "buyer_gstin": "29AAKCK4821L1Z2",
+    "buyer_name": "Kaveri Precision Components Pvt Ltd",
+    "cgst": null,
+    "currency": "INR",
+    "grand_total": 21830.0,
+    "gst_rate_percent": 18.0,
+    "igst": 3330.0,
+    "invoice_date": "2026-11-12",
+    "invoice_number": null,
+    "notes": null,
+    "order_reference_text": null,
+    "place_of_supply": null,
+    "po_reference": "PO-2026-0175",
+    "rates_include_tax": null,
+    "sgst": null,
+    "subtotal": 18500.0,
+    "vendor_address": "Plot 221, GIDC Lodhika, Metoda, Rajkot 360021, Gujarat",
+    "vendor_gstin": "24AAHFP2207C1ZV",
+    "vendor_name": "Precision Tooling Works",
+    "_repairs": []
+   },
+   "decision": {
+    "decision": "REJECTED",
+    "headline": "Rejected \u2014 returned to vendor",
+    "primary_reason": "Invoice has no invoice number \u2014 it is not a valid GST tax invoice and cannot be booked or de-duplicated.",
+    "reasons": [
+     "Invoice has no invoice number \u2014 it is not a valid GST tax invoice and cannot be booked or de-duplicated."
+    ],
+    "owner": "Vendor",
+    "primary_code": "MISSING_INVOICE_NUMBER",
+    "issues": [
+     {
+      "code": "MISSING_INVOICE_NUMBER",
+      "outcome": "REJECT",
+      "owner": "Vendor",
+      "message": "Invoice has no invoice number \u2014 it is not a valid GST tax invoice and cannot be booked or de-duplicated.",
+      "vendor_ask": "Please re-issue the invoice with a unique invoice number (CGST Rule 46).",
+      "internal_ask": null,
+      "exposure_inr": 0
+     }
+    ],
+    "payment": null,
+    "vendor_email": {
+     "to": "accounts@precisiontooling.in",
+     "subject": "Invoice (no number) \u2014 action needed",
+     "body": "Dear Hitesh Patel,\n\nThank you for invoice (no number) dated 2026-11-12 for \u20b921,830.\n\nWe are unable to process it in its current form:\n  \u2022 Please re-issue the invoice with a unique invoice number (CGST Rule 46).\n\nRegards,\nAccounts Payable\nKaveri Precision Components Pvt Ltd"
+    },
+    "internal_tasks": [],
+    "risk_caught_inr": 0
+   },
+   "po": {
+    "po": {
+     "po_number": "PO-2026-0175",
+     "vendor_id": "V005",
+     "date": "2026-10-22",
+     "status": "open",
+     "gl_code": "5110 \u00b7 Consumable Tools",
+     "cost_center": "CC-PROD-02",
+     "lines": [
+      {
+       "line": 1,
+       "description": "HSS Drill Bit 8mm",
+       "hsn": "8207",
+       "qty": 100,
+       "unit": "nos",
+       "unit_price": 185.0,
+       "gst_rate": 18,
+       "amount": 18500.0
+      },
+      {
+       "line": 2,
+       "description": "Tap Set M10 (3 pc)",
+       "hsn": "8207",
+       "qty": 20,
+       "unit": "set",
+       "unit_price": 1250.0,
+       "gst_rate": 18,
+       "amount": 25000.0
+      }
+     ],
+     "total": 43500.0
+    },
+    "inferred": false,
+    "candidates": [],
+    "lines": [
+     {
+      "invoice_line": "HSS Drill Bit 8mm (HSN 8207)",
+      "po_line": "L1 HSS Drill Bit 8mm",
+      "score": 1.0,
+      "inv_qty": 100.0,
+      "po_qty": 100,
+      "prev_billed": 0,
+      "received": 100,
+      "billable_qty": 100.0,
+      "inv_price": 185.0,
+      "po_price": 185.0,
+      "price_var_pct": 0.0,
+      "status": "pass",
+      "note": "matches PO & GRN"
+     }
+    ],
+    "approvable_taxable": 18500.0,
+    "consumed_lines": [
+     {
+      "line": 1,
+      "qty": 100.0
+     }
+    ]
+   },
+   "meta": {
+    "model": "gemini-3.5-flash-lite",
+    "latency_ms": 9749,
+    "raced": 3,
+    "fallbacks": [
+     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
+    ]
+   },
+   "doc_kind": "digital"
+  },
+  "events": []
+ }
+]
