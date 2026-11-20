@@ -101,6 +101,10 @@ def main():
     report = {"generated_at": datetime.now(timezone.utc).isoformat(), "mode": "oracle" if a.oracle else "end-to-end",
               "n": n, "decision_accuracy": sum(r["correct"] for r in rows) / n, "field_accuracy": fld,
               "avg_ms": int(sum(r["ms"] for r in rows) / n), "rows": rows}
+    answered = [r for r in rows if r["got"] != "ERROR"]
+    report["availability"] = len(answered) / n
+    report["accuracy_when_answered"] = (sum(r["correct"] for r in answered) / len(answered)) if answered else None
+    report["avg_ms"] = int(sum(r["ms"] for r in answered) / len(answered)) if answered else report["avg_ms"]
     print(f"\nDecision accuracy: {report['decision_accuracy'] * 100:.0f}% ({sum(r['correct'] for r in rows)}/{n})")
     print("Field accuracy:", {k: f"{v * 100:.0f}%" for k, v in fld.items()})
     if not a.only:

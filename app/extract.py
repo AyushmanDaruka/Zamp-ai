@@ -18,9 +18,17 @@ import pymupdf
 GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
 
 
+DEFAULT_MODELS = "gemini-3.1-flash-lite,gemini-3-flash-preview,gemini-3.5-flash-lite,gemini-flash-lite-latest,gemini-3.8-flash,gemini-flash-latest"
+_last_good = {"model": None}  # warm instances try the last model that answered first
+
+
 def _models():
-    raw = os.environ.get("GEMINI_MODELS") or "gemini-2.5-flash,gemini-2.5-flash-lite,gemini-2.0-flash"
-    return [m.strip() for m in raw.split(",") if m.strip()]
+    raw = os.environ.get("GEMINI_MODELS") or DEFAULT_MODELS
+    ms = [m.strip() for m in raw.split(",") if m.strip()]
+    if _last_good["model"] in ms:
+        ms.remove(_last_good["model"])
+        ms.insert(0, _last_good["model"])
+    return ms
 
 
 # ───────────────────────── text layer ─────────────────────────
@@ -120,7 +128,38 @@ class LLMError(Exception):
     pass
 
 
-def call_gemini(pdf_bytes, prompt, schema, mime="application/pdf"):
+def _one_call(model, body, key, timeout_s):
+    t0 = time.time()
+    try:
+        r = httpx.post(GEMINI_URL.format(model=model), json=body, headers={"x-goog-api-key": key},
+                       timeout=httpx.Timeout(timeout_s, connect=5.0))
+    except httpx.HTTPError as e:
+        return model, None, f"{model}: {type(e).__name__}", 0
+    if r.status_code == 200:
+        try:
+            data = r.json()
+            parts = data["candidates"][0]["content"]["parts"]
+            text = [p["text"] for p in parts if "text" in p and not p.get("thought")][-1]
+            return model, json.loads(text), None, int((time.time() - t0) * 1000)
+        except (KeyError, IndexError, ValueError) as e:
+            return model, None, f"{model}: unparseable ({type(e).__name__})", 0
+    status = ""
+    try:
+        status = r.json().get("error", {}).get("status", "")
+    except ValueError:
+        pass
+    return model, None, f"{model}: HTTP {r.status_code} {status}".strip(), r.status_code
+
+
+def call_gemini(pdf_bytes, prompt, schema, mime="application/pdf", budget_s=32.0, hedge=3):
+    """Structured-output call, hedged across models.
+
+    The free tier is shared and frequently overloaded (503) or slow, and which model is healthy changes minute
+    to minute. So the same request goes to `hedge` models in parallel and the first valid answer wins
+    ("hedged requests", The Tail at Scale). Remaining models are tried in further waves until the time budget
+    runs out. Output is identical in shape whichever model answers, and everything is verified downstream anyway."""
+    from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
+
     key = os.environ.get("GEMINI_API_KEY")
     if not key:
         raise LLMError("GEMINI_API_KEY is not set")
@@ -129,36 +168,42 @@ def call_gemini(pdf_bytes, prompt, schema, mime="application/pdf"):
                                 {"text": prompt}]}],
         "generationConfig": {"responseMimeType": "application/json", "responseSchema": schema, "temperature": 0},
     }
-    errors = []
-    for model in _models():
-        for attempt in range(3):
-            b = json.loads(json.dumps(body))
-            if "2.5" in model:
-                b["generationConfig"]["thinkingConfig"] = {"thinkingBudget": 0 if "lite" in model else 512}
-            t0 = time.time()
-            try:
-                r = httpx.post(GEMINI_URL.format(model=model), json=b, headers={"x-goog-api-key": key}, timeout=60)
-            except httpx.HTTPError as e:
-                errors.append(f"{model}: {type(e).__name__}")
-                continue
-            if r.status_code == 200:
-                data = r.json()
-                try:
-                    text = data["candidates"][0]["content"]["parts"][0]["text"]
-                    usage = data.get("usageMetadata", {})
-                    return json.loads(text), {"model": model, "latency_ms": int((time.time() - t0) * 1000),
-                                              "tokens_in": usage.get("promptTokenCount"), "tokens_out": usage.get("candidatesTokenCount"),
-                                              "attempts": attempt + 1, "fallbacks": errors}
-                except (KeyError, IndexError, json.JSONDecodeError) as e:
-                    errors.append(f"{model}: unparseable response ({e})")
-                    continue
-            if r.status_code in (429, 500, 503):
-                errors.append(f"{model}: HTTP {r.status_code}")
-                time.sleep(1.5 * (attempt + 1))
-                continue
-            errors.append(f"{model}: HTTP {r.status_code} {r.text[:160]}")
-            break  # 400/404 → this model is unusable, try the next one
-    raise LLMError("All models failed: " + " | ".join(errors[-4:]))
+    t_start = time.time()
+    deadline = t_start + budget_s
+    errors, dead = [], set()
+    pool = ThreadPoolExecutor(max_workers=len(_models()) + 2)
+    try:
+        while time.time() < deadline - 3:
+            queue = [m for m in _models() if m not in dead]
+            if not queue:
+                break
+            pending = {}
+            for m in queue[:hedge]:
+                pending[pool.submit(_one_call, m, body, key, min(25.0, deadline - time.time()))] = m
+            queue = queue[hedge:]
+            while pending:
+                done, _ = wait(list(pending), timeout=max(0.1, deadline - time.time()), return_when=FIRST_COMPLETED)
+                if not done:
+                    break
+                for fut in done:
+                    pending.pop(fut)
+                    model, result, err, code = fut.result()
+                    if result is not None:
+                        _last_good["model"] = model
+                        return result, {"model": model, "latency_ms": int((time.time() - t_start) * 1000),
+                                        "raced": hedge, "fallbacks": errors}
+                    errors.append(err)
+                    if code in (400, 403, 404):
+                        dead.add(model)
+                    if queue and time.time() < deadline - 3:  # keep `hedge` requests in flight
+                        m = queue.pop(0)
+                        pending[pool.submit(_one_call, m, body, key, min(25.0, deadline - time.time()))] = m
+                if time.time() > deadline:
+                    break
+            time.sleep(0.8)
+    finally:
+        pool.shutdown(wait=False, cancel_futures=True)
+    raise LLMError("No model available within the time budget (" + "; ".join(errors[-5:]) + ")")
 
 
 # ───────────────────────── normalisation ─────────────────────────
@@ -178,6 +223,47 @@ def norm_id(s):
     return re.sub(r"[^0-9A-Z]", "", str(s).upper()) if s else ""
 
 
+_TO_DIGIT = {"O": "0", "Q": "0", "D": "0", "I": "1", "L": "1", "S": "5", "B": "8", "Z": "2", "G": "6"}
+_TO_ALPHA = {"0": "O", "1": "I", "5": "S", "8": "B", "2": "Z", "6": "G"}
+_CONFUSABLE = {"0": "O", "O": "0", "1": "I", "I": "1", "5": "S", "S": "5", "8": "B", "B": "8", "2": "Z", "Z": "2"}
+
+
+def repair_ifsc(v):
+    """IFSC = 4 letters (bank) + '0' + 6 alphanumerics (branch). The 5th char is ALWAYS zero (RBI format)."""
+    if not v or len(v) != 11:
+        return v, None
+    fixed = "".join(_TO_ALPHA.get(c, c) for c in v[:4]) + ("0" if v[4] in "OQD" else v[4]) + v[5:]
+    return fixed, (f"IFSC '{v}' → '{fixed}' (5th character of an IFSC is always 0)" if fixed != v else None)
+
+
+def repair_gstin(v):
+    """GSTIN positions have fixed types and the last char is a mod-36 checksum. If the checksum fails, try only
+    OCR-confusable swaps (0/O, 1/I, 5/S, 8/B, 2/Z) and accept a repair ONLY if the checksum then validates."""
+    from app.gst import validate_gstin
+    if not v or len(v) != 15 or validate_gstin(v)[0]:
+        return v, None
+    digit_pos, alpha_pos = {0, 1, 7, 8, 9, 10}, {2, 3, 4, 5, 6, 11}
+    cand = "".join(_TO_DIGIT.get(c, c) if i in digit_pos else _TO_ALPHA.get(c, c) if i in alpha_pos else ("Z" if i == 13 and c == "2" else c)
+                   for i, c in enumerate(v))
+    if validate_gstin(cand)[0]:
+        return cand, f"GSTIN '{v}' → '{cand}' (position types fixed; checksum now validates)"
+    for i in (12, 14):
+        if cand[i] in _CONFUSABLE:
+            alt = cand[:i] + _CONFUSABLE[cand[i]] + cand[i + 1:]
+            if validate_gstin(alt)[0]:
+                return alt, f"GSTIN '{v}' → '{alt}' (look-alike character at position {i + 1}; checksum now validates)"
+    return v, None
+
+
+def repair_account(v):
+    if not v:
+        return v, None
+    if re.fullmatch(r"[0-9OQDILSB]+", v) and re.search(r"[OQDILSB]", v) and sum(c.isdigit() for c in v) >= len(v) // 2:
+        fixed = "".join(_TO_DIGIT.get(c, c) for c in v)
+        return fixed, f"Account no. '{v}' → '{fixed}' (bank account numbers are numeric)"
+    return v, None
+
+
 def normalise(raw):
     out = dict(raw)
     for k in ["subtotal", "cgst", "sgst", "igst", "grand_total", "gst_rate_percent"]:
@@ -193,6 +279,13 @@ def normalise(raw):
     out["bank_account_number"] = re.sub(r"\s", "", raw.get("bank_account_number") or "") or None
     inv = (raw.get("invoice_number") or "").strip()
     out["invoice_number"] = inv or None
+    repairs = []
+    for k, fn in (("vendor_gstin", repair_gstin), ("buyer_gstin", repair_gstin), ("bank_ifsc", repair_ifsc), ("bank_account_number", repair_account)):
+        fixed, note = fn(out.get(k))
+        if note:
+            out[k] = fixed
+            repairs.append(note)
+    out["_repairs"] = repairs
     return out
 
 
@@ -248,6 +341,10 @@ def ground_in_text(fields, layer):
 def compare_reads(primary, second):
     """For scans: compare the main extraction with an independent second read."""
     res = {}
+    second = dict(second)
+    for k, fn in (("vendor_gstin", repair_gstin), ("bank_ifsc", repair_ifsc), ("bank_account_number", repair_account)):
+        if second.get(k):
+            second[k] = fn(norm_id(second[k]) if k != "bank_account_number" else re.sub(r"\s", "", second[k]))[0]
     for f in ["invoice_number", "invoice_date", "vendor_gstin", "grand_total", "bank_account_number", "bank_ifsc"]:
         a, b = primary.get(f), second.get(f)
         if f == "grand_total":
@@ -257,6 +354,8 @@ def compare_reads(primary, second):
             agree = norm_id(a) == norm_id(b)
         if a in (None, "") and b in (None, ""):
             res[f] = {"status": "absent"}
+        elif a in (None, "") or b in (None, ""):
+            res[f] = {"status": "single", "read_1": a, "read_2": b}  # only one read saw it — unconfirmed, not contradicted
         else:
             res[f] = {"status": "consensus" if agree else "conflict", "read_1": a, "read_2": b}
     return res

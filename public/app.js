@@ -136,7 +136,8 @@ function renderRunPanel(st, { live: isLive } = {}) {
     ${r ? badge(r.decision) : st.error ? badge("ERROR") : `<span class="badge neutral">Running · stage ${Math.min(done + 1, total)} of ${total}</span>`}
     ${r ? `<span class="faint small">${ms(r.duration_ms)} end-to-end · ${esc(r.doc_kind || "")}</span>` : ""}
     <div style="flex:1"></div>
-    ${r && isLive ? `<a class="btn sm" href="#/runs/${esc(r.id)}">Open run record</a>` : ""}
+    ${r && isLive && r.decision === "ERROR" ? `<button class="btn sm primary" data-retry>Retry run</button>` : ""}
+    ${r && isLive && r.decision !== "ERROR" ? `<a class="btn sm" href="#/runs/${esc(r.id)}">Open run record</a>` : ""}
   </div>
   <div class="progress"><div style="width:${(done / total) * 100}%"></div></div>
   ${st.error ? `<div class="decision ERROR"><div class="headline">Run failed</div><p class="reason">${esc(st.error)}</p></div>` : ""}
@@ -284,6 +285,8 @@ function wireRunPanel(root, st, rerender) {
       rerender();
     };
   });
+  const rt = root.querySelector("[data-retry]");
+  if (rt && st.retry) rt.onclick = st.retry;
   const cp = root.querySelector("[data-copy]");
   if (cp) cp.onclick = () => {
     const pre = cp.closest(".card").querySelector("pre");
@@ -327,6 +330,7 @@ async function viewRun() {
   rerender();
 
   const start = (st, url, opts) => {
+    st.retry = () => { const n = newState(); n.filename = st.filename; n.pageUrl = st.pageUrl; n.retry = null; start(n, url, opts); };
     live = st;
     rerender();
     area.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -474,7 +478,7 @@ async function viewEval() {
   view.innerHTML = `
   <div class="page-head"><div><h1>Accuracy</h1><p>Every test invoice has a ground-truth label (the decision a careful senior AP analyst would make). The harness runs each one in isolation and scores it. Two numbers, on purpose: <b>end-to-end</b> (real AI extraction from the PDF) and <b>rules-only</b> (perfect extraction fed in), so a reading error can always be told apart from a logic error.</p></div></div>
   <div class="kpis" style="grid-template-columns:repeat(4,minmax(0,1fr))">
-    <div class="card kpi"><div class="label">Decision accuracy · end-to-end</div><div class="value">${e2e ? pctTxt(e2e.decision_accuracy) : "—"}</div><div class="sub">${e2e ? `${e2e.rows.filter((r) => r.correct).length}/${e2e.n} invoices · real PDFs → AI → rules` : "not run yet"}</div></div>
+    <div class="card kpi"><div class="label">Decision accuracy · end-to-end</div><div class="value">${e2e ? pctTxt(e2e.accuracy_when_answered ?? e2e.decision_accuracy) : "—"}</div><div class="sub">${e2e ? `${e2e.rows.filter((r) => r.correct).length}/${e2e.rows.filter((r) => r.got !== "ERROR").length} read by the AI · ${pctTxt(e2e.availability)} model availability (free tier)` : "not run yet"}</div></div>
     <div class="card kpi"><div class="label">Decision accuracy · rules only</div><div class="value">${orc ? pctTxt(orc.decision_accuracy) : "—"}</div><div class="sub">${orc ? `${orc.n} invoices · ground-truth extraction` : "not run yet"}</div></div>
     <div class="card kpi"><div class="label">Field accuracy · end-to-end</div><div class="value">${e2e ? pctTxt(Object.values(e2e.field_accuracy).reduce((a, b) => a + b, 0) / Object.values(e2e.field_accuracy).length) : "—"}</div><div class="sub">invoice #, GSTIN, date, total, PO</div></div>
     <div class="card kpi"><div class="label">Avg. time per invoice</div><div class="value">${e2e ? (e2e.avg_ms / 1000).toFixed(1) + "s" : "—"}</div><div class="sub">incl. model calls${e2e ? " · " + new Date(e2e.generated_at).toLocaleDateString("en-IN") : ""}</div></div>

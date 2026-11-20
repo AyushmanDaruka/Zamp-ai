@@ -74,11 +74,13 @@ def run_invoice(pdf_bytes, filename, source="upload", persist=True, extraction_o
         if extraction_override is not None:
             raw, meta = extraction_override, {"model": "oracle (ground truth)", "latency_ms": 0}
         else:
-            raw, meta = X.call_gemini(pdf_bytes, X.EXTRACT_PROMPT, X.EXTRACT_SCHEMA)
+            # Stay inside Vercel's 60 s limit: digital PDFs need one call; scans also need the second read.
+            budget = 46.0 if ctx["layer"]["kind"] == "digital" else 34.0
+            raw, meta = X.call_gemini(pdf_bytes, X.EXTRACT_PROMPT, X.EXTRACT_SCHEMA, budget_s=budget)
         f = X.normalise(raw)
         ctx["f"], ctx["meta"] = f, meta
         n = len(f["line_items"])
-        checks = [R.chk("model", "Model", "info", f"{meta['model']} · {meta['latency_ms']} ms" + (f" · fell back after: {', '.join(meta['fallbacks'])}" if meta.get("fallbacks") else "")),
+        checks = [R.chk("model", "Model", "info", f"{meta['model']} · {meta['latency_ms']} ms" + (f" · raced {meta['raced']} models in parallel, first valid answer wins" if meta.get("raced") else "") + (f" · {len(meta['fallbacks'])} busy/failed: {', '.join(meta['fallbacks'][:3])}" if meta.get("fallbacks") else "")),
                   R.chk("fields", "Fields extracted", "pass" if n else "fail", f"{n} line items · vendor '{f.get('vendor_name')}' · invoice {f.get('invoice_number') or '—'} · total {R.inr(f.get('grand_total'))}")]
         return checks, f"{f.get('vendor_name') or 'Unknown vendor'} · {f.get('invoice_number') or 'no invoice no.'} · {R.inr(f.get('grand_total'))}", {"fields": f, "meta": meta}
     yield from stage("extract", s_extract)
@@ -102,20 +104,33 @@ def run_invoice(pdf_bytes, filename, source="upload", persist=True, extraction_o
                 issues.append(R.issue("EXTRACTION_UNVERIFIED", "HOLD", "AP team", f"Could not verify extracted {', '.join(bad)} against the document text.",
                                       internal_ask=f"Confirm {', '.join(bad)} by eye on the original PDF."))
         else:
+            second = None
             if extraction_override is not None:
                 second = {k: f.get(k) for k in ["invoice_number", "invoice_date", "vendor_gstin", "grand_total", "bank_account_number", "bank_ifsc"]}
             else:
-                second, _ = X.call_gemini(pdf_bytes, X.VERIFY_PROMPT, X.VERIFY_SCHEMA)
-            cmp = X.compare_reads(f, second)
+                try:
+                    second, _ = X.call_gemini(pdf_bytes, X.VERIFY_PROMPT, X.VERIFY_SCHEMA, budget_s=max(6.0, 52.0 - (time.time() - t_start)))
+                except X.LLMError:
+                    second = None
+            if second is None:
+                # Second read unavailable (model overloaded). Fall back to cross-checks against master data,
+                # which run in later stages anyway: GSTIN, bank account and PO quantities must all match records.
+                checks.append(R.chk("dual_read", "Independent second read", "warn",
+                                    "Second read unavailable (model busy) — relying on checksum, arithmetic and master-data cross-checks"))
+                second = {}
+            cmp = X.compare_reads(f, second) if second else {}
             prov = cmp
             conflicts = [k for k, v in cmp.items() if v["status"] == "conflict"]
             agree = sum(1 for v in cmp.values() if v["status"] == "consensus")
-            checks.append(R.chk("dual_read", "Independent second read agrees", "fail" if conflicts else "pass",
-                                f"{agree} critical values confirmed by a second, independent read" +
-                                ("; DISAGREE: " + ", ".join(f"{k} ({cmp[k]['read_1']} vs {cmp[k]['read_2']})" for k in conflicts) if conflicts else "")))
+            if cmp:
+                checks.append(R.chk("dual_read", "Independent second read agrees", "fail" if conflicts else "pass",
+                                    f"{agree} critical values confirmed by a second, independent read" +
+                                    ("; DISAGREE: " + ", ".join(f"{k} ({cmp[k]['read_1']} vs {cmp[k]['read_2']})" for k in conflicts) if conflicts else "")))
             if conflicts:
                 issues.append(R.issue("SCAN_UNCERTAIN", "HOLD", "AP team", "Two independent reads of the scan disagree on " + ", ".join(conflicts) + ".",
                                       internal_ask="Check these values on the scan: " + ", ".join(f"{k}: '{cmp[k]['read_1']}' or '{cmp[k]['read_2']}'?" for k in conflicts)))
+        for note in f.get("_repairs") or []:
+            checks.append(R.chk("ocr_repair", "Format-aware OCR repair", "info", note))
         boxes = (f.get("boxes") or {})
         for k, v in prov.items():
             if not v.get("bbox") and boxes.get(k):
@@ -201,7 +216,7 @@ def _finish_error(run_id, filename, source, file_hash, events, t_start, persist,
     run = {"id": run_id, "created_at": datetime.now(timezone.utc).isoformat(), "source": source, "filename": filename, "file_hash": file_hash,
            "status": "error", "decision": "ERROR", "vendor_name": None, "invoice_number": None, "total": None, "approved_amount": 0.0,
            "risk_caught": 0.0, "duration_ms": int((time.time() - t_start) * 1000), "doc_kind": (ctx.get("layer") or {}).get("kind"),
-           "summary": {}, "result": {"error": ctx.get("fatal"), "decision": {"decision": "ERROR", "headline": "Could not read the document — sent to manual queue",
+           "summary": {}, "result": {"error": ctx.get("fatal"), "retryable": True, "decision": {"decision": "ERROR", "headline": "AI reader busy — nothing was decided. Retry, or it goes to the manual queue",
                                                                               "reasons": [ctx.get("fatal")], "issues": [], "payment": None, "vendor_email": None,
                                                                               "internal_tasks": [{"owner": "AP team", "ask": "Process manually; extraction service failed."}]}}}
     ev = {"type": "result", "run": run, "t": round(time.time() - t_start, 3)}
