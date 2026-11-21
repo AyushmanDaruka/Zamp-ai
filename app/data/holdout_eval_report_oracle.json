@@ -1,0 +1,475 @@
+{
+  "generated_at": "2026-11-21T09:57:31.719525+00:00",
+  "set": "holdout",
+  "mode": "oracle",
+  "n": 24,
+  "decision_accuracy": 1.0,
+  "field_accuracy": {
+    "invoice_number": 1.0,
+    "vendor_gstin": 1.0,
+    "invoice_date": 1.0,
+    "grand_total": 1.0,
+    "po": 1.0
+  },
+  "avg_ms": 2,
+  "rows": [
+    {
+      "id": "H01_no_po",
+      "title": "no po",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+      "ms": 2,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H02_no_po",
+      "title": "no po",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+      "ms": 5,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H03_tax_inclusive",
+      "title": "tax inclusive",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+      "ms": 0,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H04_unknown_vendor",
+      "title": "unknown vendor",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "ON_HOLD",
+      "got": "ON_HOLD",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Anand Fasteners & Hardware is not in the vendor master. No payment can be made to an un-onboarded vendor.",
+      "ms": 5,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H05_no_po",
+      "title": "no po",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+      "ms": 0,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H06_clean",
+      "title": "clean",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+      "ms": 3,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H07_duplicate",
+      "title": "duplicate",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "REJECTED",
+      "got": "REJECTED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Probable duplicate of invoice DE/1021 dated 2026-10-11 (paid) \u2014 identical invoice number, same amount \u20b923,128, 6 days apart, same PO.",
+      "ms": 4,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H08_arithmetic",
+      "title": "arithmetic",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "REJECTED",
+      "got": "REJECTED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Line 1 amount does not equal quantity \u00d7 rate (invoice overstated by \u20b910,000).",
+      "ms": 3,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H09_clean",
+      "title": "clean",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+      "ms": 4,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H10_gstin_typo",
+      "title": "gstin typo",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "REJECTED",
+      "got": "REJECTED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "GSTIN on invoice (27AAPFN6620D1ZX) is invalid and does not match the registered GSTIN 27AAPFN6620D1Z8. Input tax credit would be lost.",
+      "ms": 4,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H11_arithmetic",
+      "title": "arithmetic",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "REJECTED",
+      "got": "REJECTED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Line 1 amount does not equal quantity \u00d7 rate (invoice overstated by -\u20b9900).",
+      "ms": 4,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H12_price_major",
+      "title": "price major",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "ON_HOLD",
+      "got": "ON_HOLD",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Unit price exceeds PO by more than 2% \u2014 LED Panel Light 40W 2x2 billed at \u20b91,074.30 vs PO \u20b9980 (+9.6%). Over-billing: \u20b92,263.20 + GST.",
+      "ms": 0,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H13_price_major",
+      "title": "price major",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "ON_HOLD",
+      "got": "ON_HOLD",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Unit price exceeds PO by more than 2% \u2014 MS Round Bar 12mm (IS 2062) billed at \u20b968.68 vs PO \u20b962 (+10.8%). Over-billing: \u20b911,663.28 + GST.",
+      "ms": 0,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H14_bank_change",
+      "title": "bank change",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "ON_HOLD",
+      "got": "ON_HOLD",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Bank account on the invoice differs from the verified account in the vendor master. The invoice itself announces the change.",
+      "ms": 0,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H15_duplicate",
+      "title": "duplicate",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "REJECTED",
+      "got": "REJECTED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Probable duplicate of invoice VPS/2026/311 dated 2026-09-12 (paid) \u2014 identical invoice number, same amount \u20b92,53,700, 2 days apart, same PO.",
+      "ms": 0,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H16_blocked",
+      "title": "blocked",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "ON_HOLD",
+      "got": "ON_HOLD",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Coastal Logistics Pvt Ltd is blocked in the vendor master \u2014 KYC lapsed \u2014 PAN-Aadhaar link and bank re-verification pending since Aug 2026.",
+      "ms": 0,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H17_unknown_vendor",
+      "title": "unknown vendor",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "ON_HOLD",
+      "got": "ON_HOLD",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Anand Fasteners & Hardware is not in the vendor master. No payment can be made to an un-onboarded vendor.",
+      "ms": 0,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H18_over_receipt",
+      "title": "over receipt",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "PARTIALLY_APPROVED",
+      "got": "PARTIALLY_APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Only \u20b961,500 of \u20b969,700 (taxable) is supported by goods received / open PO quantity. \u20b98,200 + GST held.",
+      "ms": 4,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H19_missing_inv_no",
+      "title": "missing inv no",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "REJECTED",
+      "got": "REJECTED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Invoice has no invoice number \u2014 it is not a valid GST tax invoice and cannot be booked or de-duplicated.",
+      "ms": 0,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H20_bank_change",
+      "title": "bank change",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "ON_HOLD",
+      "got": "ON_HOLD",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Bank account on the invoice differs from the verified account in the vendor master. The invoice itself announces the change.",
+      "ms": 6,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H21_clean",
+      "title": "clean",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+      "ms": 0,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H22_clean",
+      "title": "clean",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+      "ms": 4,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H23_wrong_tax_type",
+      "title": "wrong tax type",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "REJECTED",
+      "got": "REJECTED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Wrong GST type: supply from Gujarat to Karnataka requires IGST, but invoice charges CGST+SGST. ITC on wrongly charged tax is not available to us.",
+      "ms": 4,
+      "model": "oracle (ground truth)"
+    },
+    {
+      "id": "H24_price_minor",
+      "title": "price minor",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+      "ms": 1,
+      "model": "oracle (ground truth)"
+    }
+  ],
+  "availability": 1.0,
+  "accuracy_when_answered": 1.0
+}

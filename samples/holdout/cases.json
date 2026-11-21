@@ -1,0 +1,888 @@
+[
+ {
+  "id": "H01_no_po",
+  "kind": "holdout",
+  "scanned": true,
+  "vendor": "V003",
+  "po": null,
+  "date": "2026-11-18",
+  "invoice_number": "NIT/26-27/0691",
+  "lines": [
+   [
+    "IT Managed Services (Nov 2026)",
+    "998313",
+    1,
+    "month",
+    185000.0
+   ],
+   [
+    "Cloud backup licence - per user / month",
+    "998315",
+    10,
+    "users",
+    1200.0
+   ]
+  ],
+  "po_hint": "Ref: your verbal order",
+  "scenario": "no_po",
+  "title": "no po",
+  "expected": {
+   "decision": "APPROVED",
+   "po": "PO-2026-0157",
+   "total": 232460.0
+  },
+  "template": "ledger",
+  "file": "H01_no_po.pdf",
+  "vendor_gstin": "27AAPFN6620D1Z8",
+  "taxable": 197000.0,
+  "total": 232460.0,
+  "line_amount_override": null,
+  "unknown_vendor": null
+ },
+ {
+  "id": "H02_no_po",
+  "kind": "holdout",
+  "scanned": false,
+  "vendor": "V003",
+  "po": null,
+  "date": "2026-11-18",
+  "invoice_number": "NIT/26-27/0697",
+  "lines": [
+   [
+    "Cloud backup licence - per user / month",
+    "998315",
+    25,
+    "users",
+    1200.0
+   ]
+  ],
+  "po_hint": "Ref: your verbal order",
+  "scenario": "no_po",
+  "title": "no po",
+  "expected": {
+   "decision": "APPROVED",
+   "po": "PO-2026-0157",
+   "total": 35400.0
+  },
+  "template": "ledger",
+  "file": "H02_no_po.pdf",
+  "vendor_gstin": "27AAPFN6620D1Z8",
+  "taxable": 30000.0,
+  "total": 35400.0,
+  "line_amount_override": null,
+  "unknown_vendor": null
+ },
+ {
+  "id": "H03_tax_inclusive",
+  "kind": "holdout",
+  "scanned": true,
+  "vendor": "V004",
+  "po": "PO-2026-0119",
+  "date": "2026-11-07",
+  "invoice_number": "DE/1718",
+  "lines": [
+   [
+    "16 Amp modular switch",
+    "8536",
+    129,
+    "nos",
+    145.0
+   ]
+  ],
+  "tax_inclusive": true,
+  "scenario": "tax_inclusive",
+  "title": "tax inclusive",
+  "expected": {
+   "decision": "APPROVED",
+   "po": "PO-2026-0119",
+   "total": 22071.9
+  },
+  "template": "ledger",
+  "file": "H03_tax_inclusive.pdf",
+  "vendor_gstin": "29AFZPD1185M1ZO",
+  "taxable": 18705.0,
+  "total": 22071.9,
+  "line_amount_override": null,
+  "unknown_vendor": null
+ },
+ {
+  "id": "H04_unknown_vendor",
+  "kind": "holdout",
+  "scanned": false,
+  "vendor": "X_ANAND",
+  "po": null,
+  "date": "2026-11-02",
+  "invoice_number": "AN/699/26-27",
+  "lines": [
+   [
+    "Hex bolt M12x50 GR 8.8",
+    "7318",
+    500,
+    "nos",
+    14.5
+   ],
+   [
+    "Spring washer M12",
+    "7318",
+    500,
+    "nos",
+    1.2
+   ]
+  ],
+  "scenario": "unknown_vendor",
+  "title": "unknown vendor",
+  "expected": {
+   "decision": "ON_HOLD",
+   "po": null,
+   "total": 9263.0
+  },
+  "template": "shop",
+  "file": "H04_unknown_vendor.pdf",
+  "vendor_gstin": "29BXKPA5521Q1Z0",
+  "taxable": 7850.0,
+  "total": 9263.0,
+  "line_amount_override": null,
+  "unknown_vendor": {
+   "name": "Anand Fasteners & Hardware",
+   "state": "29",
+   "pan": "BXKPA5521Q",
+   "address": "No. 4, KSSIDC Estate, Rajajinagar, Bengaluru 560044",
+   "bank": {
+    "account_name": "Anand Fasteners",
+    "account_number": "917020044551",
+    "ifsc": "UTIB0000123",
+    "bank_name": "Axis Bank, Rajajinagar"
+   },
+   "email": "anandfasteners@gmail.com"
+  }
+ },
+ {
+  "id": "H05_no_po",
+  "kind": "holdout",
+  "scanned": true,
+  "vendor": "V004",
+  "po": null,
+  "date": "2026-11-17",
+  "invoice_number": "DE/2024",
+  "lines": [
+   [
+    "32A FP MCB C-type",
+    "8536",
+    13,
+    "nos",
+    1450.0
+   ]
+  ],
+  "po_hint": "Delivery challan enclosed",
+  "scenario": "no_po",
+  "title": "no po",
+  "expected": {
+   "decision": "APPROVED",
+   "po": "PO-2026-0163",
+   "total": 22243.0
+  },
+  "template": "ledger",
+  "file": "H05_no_po.pdf",
+  "vendor_gstin": "29AFZPD1185M1ZO",
+  "taxable": 18850.0,
+  "total": 22243.0,
+  "line_amount_override": null,
+  "unknown_vendor": null
+ },
+ {
+  "id": "H06_clean",
+  "kind": "holdout",
+  "scanned": false,
+  "vendor": "V004",
+  "po": "PO-2026-0163",
+  "date": "2026-11-16",
+  "invoice_number": "DE/1823",
+  "lines": [
+   [
+    "MCB 4P 32 Amp C curve",
+    "8536",
+    25,
+    "nos",
+    1450.0
+   ],
+   [
+    "FRLS copper cable 4.0 sq.mm coil 90m",
+    "8544",
+    9,
+    "coil",
+    3900.0
+   ]
+  ],
+  "scenario": "clean",
+  "title": "clean",
+  "expected": {
+   "decision": "APPROVED",
+   "po": "PO-2026-0163",
+   "total": 84193.0
+  },
+  "template": "modern",
+  "file": "H06_clean.pdf",
+  "vendor_gstin": "29AFZPD1185M1ZO",
+  "taxable": 71350.0,
+  "total": 84193.0,
+  "line_amount_override": null,
+  "unknown_vendor": null
+ },
+ {
+  "id": "H07_duplicate",
+  "kind": "holdout",
+  "scanned": false,
+  "vendor": "V004",
+  "po": "PO-2026-0119",
+  "invoice_number": "DE/1021",
+  "date": "2026-10-17",
+  "lines": [
+   [
+    "2.5 sqmm Cu FRLS wire 90 mtr",
+    "8544",
+    8,
+    "coil",
+    2450.0
+   ]
+  ],
+  "scenario": "duplicate",
+  "title": "duplicate",
+  "expected": {
+   "decision": "REJECTED",
+   "po": "PO-2026-0119",
+   "total": 23128.0
+  },
+  "template": "ledger",
+  "file": "H07_duplicate.pdf",
+  "vendor_gstin": "29AFZPD1185M1ZO",
+  "taxable": 19600.0,
+  "total": 23128.0,
+  "line_amount_override": null,
+  "unknown_vendor": null
+ },
+ {
+  "id": "H08_arithmetic",
+  "kind": "holdout",
+  "scanned": false,
+  "vendor": "V002",
+  "po": "PO-2026-0142",
+  "date": "2026-11-15",
+  "invoice_number": "VPS/2026/571",
+  "lines": [
+   [
+    "Corr. box 5ply 400*300*250",
+    "4819",
+    2074,
+    "nos",
+    21.5
+   ]
+  ],
+  "line_amount_override": {
+   "0": 54591.0
+  },
+  "scenario": "arithmetic",
+  "title": "arithmetic",
+  "expected": {
+   "decision": "REJECTED",
+   "po": "PO-2026-0142",
+   "total": 64417.38
+  },
+  "template": "modern",
+  "file": "H08_arithmetic.pdf",
+  "vendor_gstin": "33AAECV3391P1ZT",
+  "taxable": 54591.0,
+  "total": 64417.38,
+  "unknown_vendor": null
+ },
+ {
+  "id": "H09_clean",
+  "kind": "holdout",
+  "scanned": false,
+  "vendor": "V004",
+  "po": "PO-2026-0163",
+  "date": "2026-11-12",
+  "invoice_number": "DE/2080",
+  "lines": [
+   [
+    "MCB 4P 32 Amp C curve",
+    "8536",
+    38,
+    "nos",
+    1450.0
+   ],
+   [
+    "FRLS copper cable 4.0 sq.mm coil 90m",
+    "8544",
+    7,
+    "coil",
+    3900.0
+   ]
+  ],
+  "scenario": "clean",
+  "title": "clean",
+  "expected": {
+   "decision": "APPROVED",
+   "po": "PO-2026-0163",
+   "total": 97232.0
+  },
+  "template": "ledger",
+  "file": "H09_clean.pdf",
+  "vendor_gstin": "29AFZPD1185M1ZO",
+  "taxable": 82400.0,
+  "total": 97232.0,
+  "line_amount_override": null,
+  "unknown_vendor": null
+ },
+ {
+  "id": "H10_gstin_typo",
+  "kind": "holdout",
+  "scanned": false,
+  "vendor": "V003",
+  "po": "PO-2026-0157",
+  "date": "2026-11-17",
+  "invoice_number": "NIT/26-27/0605",
+  "lines": [
+   [
+    "IT Managed Services (Nov 2026)",
+    "998313",
+    1,
+    "month",
+    185000.0
+   ]
+  ],
+  "gstin_typo": true,
+  "scenario": "gstin_typo",
+  "title": "gstin typo",
+  "expected": {
+   "decision": "REJECTED",
+   "po": "PO-2026-0157",
+   "total": 218300.0
+  },
+  "template": "ledger",
+  "file": "H10_gstin_typo.pdf",
+  "vendor_gstin": "27AAPFN6620D1ZX",
+  "taxable": 185000.0,
+  "total": 218300.0,
+  "line_amount_override": null,
+  "unknown_vendor": null
+ },
+ {
+  "id": "H11_arithmetic",
+  "kind": "holdout",
+  "scanned": false,
+  "vendor": "V004",
+  "po": "PO-2026-0119",
+  "date": "2026-11-09",
+  "invoice_number": "DE/1798",
+  "lines": [
+   [
+    "16 Amp modular switch",
+    "8536",
+    156,
+    "nos",
+    145.0
+   ]
+  ],
+  "line_amount_override": {
+   "0": 21720.0
+  },
+  "scenario": "arithmetic",
+  "title": "arithmetic",
+  "expected": {
+   "decision": "REJECTED",
+   "po": "PO-2026-0119",
+   "total": 25629.6
+  },
+  "template": "ledger",
+  "file": "H11_arithmetic.pdf",
+  "vendor_gstin": "29AFZPD1185M1ZO",
+  "taxable": 21720.0,
+  "total": 25629.6,
+  "unknown_vendor": null
+ },
+ {
+  "id": "H12_price_major",
+  "kind": "holdout",
+  "scanned": true,
+  "vendor": "V004",
+  "po": "PO-2026-0163",
+  "date": "2026-11-15",
+  "invoice_number": "DE/1858",
+  "lines": [
+   [
+    "40W LED 2x2 panel light",
+    "9405",
+    24,
+    "nos",
+    1074.3
+   ]
+  ],
+  "scenario": "price_major",
+  "title": "price major",
+  "expected": {
+   "decision": "ON_HOLD",
+   "po": "PO-2026-0163",
+   "total": 30424.18
+  },
+  "template": "ledger",
+  "file": "H12_price_major.pdf",
+  "vendor_gstin": "29AFZPD1185M1ZO",
+  "taxable": 25783.2,
+  "total": 30424.18,
+  "line_amount_override": null,
+  "unknown_vendor": null
+ },
+ {
+  "id": "H13_price_major",
+  "kind": "holdout",
+  "scanned": true,
+  "vendor": "V001",
+  "po": "PO-2026-0101",
+  "date": "2026-11-13",
+  "invoice_number": "SGS/26-27/0833",
+  "lines": [
+   [
+    "M.S. Round Bar Dia 12 mm IS:2062",
+    "7214",
+    1746,
+    "kg",
+    68.68
+   ],
+   [
+    "M.S. Sheet 2.0mm thk 1250 x 2500",
+    "7208",
+    47,
+    "nos",
+    2850.0
+   ]
+  ],
+  "scenario": "price_major",
+  "title": "price major",
+  "expected": {
+   "decision": "ON_HOLD",
+   "po": "PO-2026-0101",
+   "total": 299561.04
+  },
+  "template": "ledger",
+  "file": "H13_price_major.pdf",
+  "vendor_gstin": "29ABCFS7712K1ZS",
+  "taxable": 253865.28,
+  "total": 299561.04,
+  "line_amount_override": null,
+  "unknown_vendor": null
+ },
+ {
+  "id": "H14_bank_change",
+  "kind": "holdout",
+  "scanned": true,
+  "vendor": "V004",
+  "po": "PO-2026-0163",
+  "date": "2026-11-19",
+  "invoice_number": "DE/2064",
+  "lines": [
+   [
+    "32A FP MCB C-type",
+    "8536",
+    32,
+    "nos",
+    1450.0
+   ],
+   [
+    "4 sqmm Cu FRLS wire 90 mtr",
+    "8544",
+    4,
+    "coil",
+    3900.0
+   ]
+  ],
+  "bank_override": {
+   "account_name": "Deccan Electricals",
+   "account_number": "39847120056",
+   "ifsc": "KKBK0008123",
+   "bank_name": "Kotak Mahindra Bank, Whitefield"
+  },
+  "note": "Please note: we have moved our banking to a new account. All future payments should be made to the account below only.",
+  "scenario": "bank_change",
+  "title": "bank change",
+  "expected": {
+   "decision": "ON_HOLD",
+   "po": "PO-2026-0163",
+   "total": 73160.0
+  },
+  "template": "ledger",
+  "file": "H14_bank_change.pdf",
+  "vendor_gstin": "29AFZPD1185M1ZO",
+  "taxable": 62000.0,
+  "total": 73160.0,
+  "line_amount_override": null,
+  "unknown_vendor": null
+ },
+ {
+  "id": "H15_duplicate",
+  "kind": "holdout",
+  "scanned": true,
+  "vendor": "V002",
+  "po": "PO-2026-0142",
+  "invoice_number": "VPS/2026/311",
+  "date": "2026-09-14",
+  "lines": [
+   [
+    "5 Ply Corrugated Carton 400x300x250mm",
+    "4819",
+    10000,
+    "nos",
+    21.5
+   ]
+  ],
+  "scenario": "duplicate",
+  "title": "duplicate",
+  "expected": {
+   "decision": "REJECTED",
+   "po": "PO-2026-0142",
+   "total": 253700.0
+  },
+  "template": "ledger",
+  "file": "H15_duplicate.pdf",
+  "vendor_gstin": "33AAECV3391P1ZT",
+  "taxable": 215000.0,
+  "total": 253700.0,
+  "line_amount_override": null,
+  "unknown_vendor": null
+ },
+ {
+  "id": "H16_blocked",
+  "kind": "holdout",
+  "scanned": true,
+  "vendor": "V006",
+  "po": "PO-2026-0180",
+  "date": "2026-11-17",
+  "invoice_number": "CLPL/26/0790",
+  "lines": [
+   [
+    "FTL freight Cochin to Bangalore",
+    "996511",
+    1,
+    "trip",
+    38000.0
+   ]
+  ],
+  "scenario": "blocked",
+  "title": "blocked",
+  "expected": {
+   "decision": "ON_HOLD",
+   "po": "PO-2026-0180",
+   "total": 44840.0
+  },
+  "template": "services",
+  "file": "H16_blocked.pdf",
+  "vendor_gstin": "32AAFCC5540H1ZZ",
+  "taxable": 38000.0,
+  "total": 44840.0,
+  "line_amount_override": null,
+  "unknown_vendor": null
+ },
+ {
+  "id": "H17_unknown_vendor",
+  "kind": "holdout",
+  "scanned": true,
+  "vendor": "X_ANAND",
+  "po": null,
+  "date": "2026-11-14",
+  "invoice_number": "AN/349/26-27",
+  "lines": [
+   [
+    "Hex bolt M12x50 GR 8.8",
+    "7318",
+    500,
+    "nos",
+    14.5
+   ],
+   [
+    "Spring washer M12",
+    "7318",
+    500,
+    "nos",
+    1.2
+   ]
+  ],
+  "scenario": "unknown_vendor",
+  "title": "unknown vendor",
+  "expected": {
+   "decision": "ON_HOLD",
+   "po": null,
+   "total": 9263.0
+  },
+  "template": "shop",
+  "file": "H17_unknown_vendor.pdf",
+  "vendor_gstin": "29BXKPA5521Q1Z0",
+  "taxable": 7850.0,
+  "total": 9263.0,
+  "line_amount_override": null,
+  "unknown_vendor": {
+   "name": "Anand Fasteners & Hardware",
+   "state": "29",
+   "pan": "BXKPA5521Q",
+   "address": "No. 4, KSSIDC Estate, Rajajinagar, Bengaluru 560044",
+   "bank": {
+    "account_name": "Anand Fasteners",
+    "account_number": "917020044551",
+    "ifsc": "UTIB0000123",
+    "bank_name": "Axis Bank, Rajajinagar"
+   },
+   "email": "anandfasteners@gmail.com"
+  }
+ },
+ {
+  "id": "H18_over_receipt",
+  "kind": "holdout",
+  "scanned": false,
+  "vendor": "V005",
+  "po": "PO-2026-0171",
+  "date": "2026-11-02",
+  "invoice_number": "PTW/2627/0732",
+  "lines": [
+   [
+    "Insert CNMG120408 (turning)",
+    "8209",
+    170,
+    "nos",
+    410.0
+   ]
+  ],
+  "scenario": "over_receipt",
+  "title": "over receipt",
+  "expected": {
+   "decision": "PARTIALLY_APPROVED",
+   "po": "PO-2026-0171",
+   "total": 82246.0
+  },
+  "template": "ledger",
+  "file": "H18_over_receipt.pdf",
+  "vendor_gstin": "24AAHFP2207C1ZV",
+  "taxable": 69700.0,
+  "total": 82246.0,
+  "line_amount_override": null,
+  "unknown_vendor": null
+ },
+ {
+  "id": "H19_missing_inv_no",
+  "kind": "holdout",
+  "scanned": true,
+  "vendor": "V001",
+  "po": "PO-2026-0101",
+  "date": "2026-11-09",
+  "invoice_number": null,
+  "lines": [
+   [
+    "M.S. Sheet 2.0mm thk 1250 x 2500",
+    "7208",
+    47,
+    "nos",
+    2850.0
+   ]
+  ],
+  "scenario": "missing_inv_no",
+  "title": "missing inv no",
+  "expected": {
+   "decision": "REJECTED",
+   "po": "PO-2026-0101",
+   "total": 158061.0
+  },
+  "template": "modern",
+  "file": "H19_missing_inv_no.pdf",
+  "vendor_gstin": "29ABCFS7712K1ZS",
+  "taxable": 133950.0,
+  "total": 158061.0,
+  "line_amount_override": null,
+  "unknown_vendor": null
+ },
+ {
+  "id": "H20_bank_change",
+  "kind": "holdout",
+  "scanned": false,
+  "vendor": "V002",
+  "po": "PO-2026-0142",
+  "date": "2026-11-12",
+  "invoice_number": "VPS/2026/698",
+  "lines": [
+   [
+    "5 Ply Corrugated Carton 400x300x250mm",
+    "4819",
+    3314,
+    "nos",
+    21.5
+   ],
+   [
+    "EPE foam insert 380 x 280 mm",
+    "3921",
+    4142,
+    "nos",
+    7.0
+   ]
+  ],
+  "bank_override": {
+   "account_name": "Vertex Packaging Solutions Pvt Ltd",
+   "account_number": "39847120056",
+   "ifsc": "KKBK0008123",
+   "bank_name": "Kotak Mahindra Bank, Whitefield"
+  },
+  "note": "Due to an internal audit our previous account is frozen. Kindly remit this invoice to our new bank account mentioned below.",
+  "scenario": "bank_change",
+  "title": "bank change",
+  "expected": {
+   "decision": "ON_HOLD",
+   "po": "PO-2026-0142",
+   "total": 118289.1
+  },
+  "template": "ledger",
+  "file": "H20_bank_change.pdf",
+  "vendor_gstin": "33AAECV3391P1ZT",
+  "taxable": 100245.0,
+  "total": 118289.1,
+  "line_amount_override": null,
+  "unknown_vendor": null
+ },
+ {
+  "id": "H21_clean",
+  "kind": "holdout",
+  "scanned": true,
+  "vendor": "V002",
+  "po": "PO-2026-0142",
+  "date": "2026-11-11",
+  "invoice_number": "VPS/2026/575",
+  "lines": [
+   [
+    "5 Ply Corrugated Carton 400x300x250mm",
+    "4819",
+    3023,
+    "nos",
+    21.5
+   ],
+   [
+    "EPE foam insert 380 x 280 mm",
+    "3921",
+    2531,
+    "nos",
+    7.0
+   ]
+  ],
+  "scenario": "clean",
+  "title": "clean",
+  "expected": {
+   "decision": "APPROVED",
+   "po": "PO-2026-0142",
+   "total": 97599.57
+  },
+  "template": "ledger",
+  "file": "H21_clean.pdf",
+  "vendor_gstin": "33AAECV3391P1ZT",
+  "taxable": 82711.5,
+  "total": 97599.57,
+  "line_amount_override": null,
+  "unknown_vendor": null
+ },
+ {
+  "id": "H22_clean",
+  "kind": "holdout",
+  "scanned": false,
+  "vendor": "V005",
+  "po": "PO-2026-0171",
+  "date": "2026-11-06",
+  "invoice_number": "PTW/2627/0828",
+  "lines": [
+   [
+    "End mill carbide 10 mm 4 flute",
+    "8207",
+    14,
+    "nos",
+    2350.0
+   ]
+  ],
+  "scenario": "clean",
+  "title": "clean",
+  "expected": {
+   "decision": "APPROVED",
+   "po": "PO-2026-0171",
+   "total": 38822.0
+  },
+  "template": "ledger",
+  "file": "H22_clean.pdf",
+  "vendor_gstin": "24AAHFP2207C1ZV",
+  "taxable": 32900.0,
+  "total": 38822.0,
+  "line_amount_override": null,
+  "unknown_vendor": null
+ },
+ {
+  "id": "H23_wrong_tax_type",
+  "kind": "holdout",
+  "scanned": false,
+  "vendor": "V005",
+  "po": "PO-2026-0171",
+  "date": "2026-11-15",
+  "invoice_number": "PTW/2627/0688",
+  "lines": [
+   [
+    "Insert CNMG120408 (turning)",
+    "8209",
+    126,
+    "nos",
+    410.0
+   ]
+  ],
+  "force_tax_type": "CGST+SGST",
+  "scenario": "wrong_tax_type",
+  "title": "wrong tax type",
+  "expected": {
+   "decision": "REJECTED",
+   "po": "PO-2026-0171",
+   "total": 60958.8
+  },
+  "template": "ledger",
+  "file": "H23_wrong_tax_type.pdf",
+  "vendor_gstin": "24AAHFP2207C1ZV",
+  "taxable": 51660.0,
+  "total": 60958.8,
+  "line_amount_override": null,
+  "unknown_vendor": null
+ },
+ {
+  "id": "H24_price_minor",
+  "kind": "holdout",
+  "scanned": true,
+  "vendor": "V004",
+  "po": "PO-2026-0163",
+  "date": "2026-11-15",
+  "invoice_number": "DE/2006",
+  "lines": [
+   [
+    "32A FP MCB C-type",
+    "8536",
+    37,
+    "nos",
+    1469.39
+   ],
+   [
+    "FRLS copper cable 4.0 sq.mm coil 90m",
+    "8544",
+    4,
+    "coil",
+    3900.0
+   ]
+  ],
+  "scenario": "price_minor",
+  "title": "price minor",
+  "expected": {
+   "decision": "APPROVED",
+   "po": "PO-2026-0163",
+   "total": 82561.57
+  },
+  "template": "ledger",
+  "file": "H24_price_minor.pdf",
+  "vendor_gstin": "29AFZPD1185M1ZO",
+  "taxable": 69967.43,
+  "total": 82561.57,
+  "line_amount_override": null,
+  "unknown_vendor": null
+ }
+]

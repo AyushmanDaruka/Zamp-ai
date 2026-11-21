@@ -47,19 +47,33 @@ def oracle_extraction(case):
     }
 
 
+def load_holdout(c):
+    """Turn a holdout cases.json row back into a case dict (JSON turned tuples into lists and int keys into strings)."""
+    from scripts import cases as C
+    c = dict(c)
+    c["lines"] = [tuple(x) for x in c["lines"]]
+    c["line_amount_override"] = {int(k): v for k, v in (c.get("line_amount_override") or {}).items()}
+    if c.get("unknown_vendor"):
+        C.UNKNOWN_VENDORS[c["vendor"]] = c["unknown_vendor"]
+    return c
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--oracle", action="store_true")
     ap.add_argument("--seed", action="store_true")
     ap.add_argument("--only", default=None)
     ap.add_argument("--pause", type=float, default=4.0, help="seconds between cases (free-tier rate limits)")
+    ap.add_argument("--set", default="dev", choices=["dev", "holdout"], help="dev = cases the rules were built on; holdout = unseen set")
     a = ap.parse_args()
 
-    truth = {c["id"]: c for c in json.loads((ROOT / "samples" / "cases.json").read_text())}
+    sdir = ROOT / "samples" / ("holdout" if a.set == "holdout" else "")
+    truth = {c["id"]: c for c in json.loads((sdir / "cases.json").read_text())}
+    all_cases = CASES if a.set == "dev" else [load_holdout(c) for c in truth.values()]
     rows, seed = [], []
-    cases = [c for c in CASES if not a.only or a.only in c["id"]]
+    cases = [c for c in all_cases if not a.only or a.only in c["id"]]
     for n, case in enumerate(cases):
-        pdf = (ROOT / "samples" / f"{case['id']}.pdf").read_bytes()
+        pdf = (sdir / f"{case['id']}.pdf").read_bytes()
         override = oracle_extraction(case) if a.oracle else None
         result = None
         for ev in run_invoice(pdf, f"{case['id']}.pdf", source="seed", persist=False, extraction_override=override):
@@ -98,17 +112,18 @@ def main():
 
     n = len(rows)
     fld = {k: sum(r["fields"][k] for r in rows) / n for k in rows[0]["fields"]}
-    report = {"generated_at": datetime.now(timezone.utc).isoformat(), "mode": "oracle" if a.oracle else "end-to-end",
+    report = {"generated_at": datetime.now(timezone.utc).isoformat(), "set": a.set, "mode": "oracle" if a.oracle else "end-to-end",
               "n": n, "decision_accuracy": sum(r["correct"] for r in rows) / n, "field_accuracy": fld,
               "avg_ms": int(sum(r["ms"] for r in rows) / n), "rows": rows}
     answered = [r for r in rows if r["got"] != "ERROR"]
     report["availability"] = len(answered) / n
     report["accuracy_when_answered"] = (sum(r["correct"] for r in answered) / len(answered)) if answered else None
     report["avg_ms"] = int(sum(r["ms"] for r in answered) / len(answered)) if answered else report["avg_ms"]
-    print(f"\nDecision accuracy: {report['decision_accuracy'] * 100:.0f}% ({sum(r['correct'] for r in rows)}/{n})")
+    print(f"\nAnswered by AI: {len(answered)}/{n}   accuracy when answered: {report['accuracy_when_answered']}")
+    print(f"Decision accuracy: {report['decision_accuracy'] * 100:.0f}% ({sum(r['correct'] for r in rows)}/{n})")
     print("Field accuracy:", {k: f"{v * 100:.0f}%" for k, v in fld.items()})
     if not a.only:
-        out = ROOT / "app" / "data" / ("eval_report_oracle.json" if a.oracle else "eval_report.json")
+        out = ROOT / "app" / "data" / (("holdout_" if a.set == "holdout" else "") + ("eval_report_oracle.json" if a.oracle else "eval_report.json"))
         out.parent.mkdir(exist_ok=True)
         out.write_text(json.dumps(report, indent=2))
     if a.seed:

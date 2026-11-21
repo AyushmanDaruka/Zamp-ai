@@ -1,0 +1,475 @@
+{
+  "generated_at": "2026-11-21T10:03:42.342851+00:00",
+  "set": "holdout",
+  "mode": "end-to-end",
+  "n": 24,
+  "decision_accuracy": 0.9166666666666666,
+  "field_accuracy": {
+    "invoice_number": 0.9583333333333334,
+    "vendor_gstin": 0.9166666666666666,
+    "invoice_date": 0.9166666666666666,
+    "grand_total": 0.9166666666666666,
+    "po": 0.9166666666666666
+  },
+  "avg_ms": 9766,
+  "rows": [
+    {
+      "id": "H01_no_po",
+      "title": "no po",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+      "ms": 16489,
+      "model": "gemini-3.5-flash-lite"
+    },
+    {
+      "id": "H02_no_po",
+      "title": "no po",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+      "ms": 4322,
+      "model": "gemini-flash-lite-latest"
+    },
+    {
+      "id": "H03_tax_inclusive",
+      "title": "tax inclusive",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+      "ms": 10294,
+      "model": "gemini-3.1-flash-lite"
+    },
+    {
+      "id": "H04_unknown_vendor",
+      "title": "unknown vendor",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "ON_HOLD",
+      "got": "ON_HOLD",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "ANAND FASTENERS & HARDWARE is not in the vendor master. No payment can be made to an un-onboarded vendor.",
+      "ms": 3368,
+      "model": "gemini-3.5-flash-lite"
+    },
+    {
+      "id": "H05_no_po",
+      "title": "no po",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+      "ms": 8658,
+      "model": "gemini-3.1-flash-lite"
+    },
+    {
+      "id": "H06_clean",
+      "title": "clean",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+      "ms": 6731,
+      "model": "gemini-3.1-flash-lite"
+    },
+    {
+      "id": "H07_duplicate",
+      "title": "duplicate",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "REJECTED",
+      "got": "REJECTED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Probable duplicate of invoice DE/1021 dated 2026-10-11 (paid) \u2014 identical invoice number, same amount \u20b923,128, 6 days apart, same PO.",
+      "ms": 3354,
+      "model": "gemini-3.5-flash-lite"
+    },
+    {
+      "id": "H08_arithmetic",
+      "title": "arithmetic",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "REJECTED",
+      "got": "REJECTED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Line 1 amount does not equal quantity \u00d7 rate (invoice overstated by \u20b910,000).",
+      "ms": 11918,
+      "model": "gemini-flash-lite-latest"
+    },
+    {
+      "id": "H09_clean",
+      "title": "clean",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+      "ms": 3816,
+      "model": "gemini-flash-lite-latest"
+    },
+    {
+      "id": "H10_gstin_typo",
+      "title": "gstin typo",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "REJECTED",
+      "got": "REJECTED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "GSTIN on invoice (27AAPFN6620D1ZX) is invalid and does not match the registered GSTIN 27AAPFN6620D1Z8. Input tax credit would be lost.",
+      "ms": 13486,
+      "model": "gemini-3.5-flash-lite"
+    },
+    {
+      "id": "H11_arithmetic",
+      "title": "arithmetic",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "REJECTED",
+      "got": "REJECTED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Line 1 amount does not equal quantity \u00d7 rate (invoice overstated by -\u20b9900).",
+      "ms": 4003,
+      "model": "gemini-3.1-flash-lite"
+    },
+    {
+      "id": "H12_price_major",
+      "title": "price major",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "ON_HOLD",
+      "got": "ON_HOLD",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Unit price exceeds PO by more than 2% \u2014 LED Panel Light 40W 2x2 billed at \u20b91,074.30 vs PO \u20b9980 (+9.6%). Over-billing: \u20b92,263.20 + GST.",
+      "ms": 17467,
+      "model": "gemini-3.5-flash-lite"
+    },
+    {
+      "id": "H13_price_major",
+      "title": "price major",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "ON_HOLD",
+      "got": "ON_HOLD",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Unit price exceeds PO by more than 2% \u2014 MS Round Bar 12mm (IS 2062) billed at \u20b968.68 vs PO \u20b962 (+10.8%). Over-billing: \u20b911,663.28 + GST.",
+      "ms": 13485,
+      "model": "gemini-3.5-flash-lite"
+    },
+    {
+      "id": "H14_bank_change",
+      "title": "bank change",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "ON_HOLD",
+      "got": "ON_HOLD",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Bank account on the invoice differs from the verified account in the vendor master. The invoice itself announces the change.",
+      "ms": 8158,
+      "model": "gemini-3.1-flash-lite"
+    },
+    {
+      "id": "H15_duplicate",
+      "title": "duplicate",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "REJECTED",
+      "got": "REJECTED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Probable duplicate of invoice VPS/2026/311 dated 2026-09-12 (paid) \u2014 identical invoice number, same amount \u20b92,53,700, 2 days apart, same PO.",
+      "ms": 29428,
+      "model": "gemini-3.1-flash-lite"
+    },
+    {
+      "id": "H16_blocked",
+      "title": "blocked",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "ON_HOLD",
+      "got": "ON_HOLD",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Coastal Logistics Pvt Ltd is blocked in the vendor master \u2014 KYC lapsed \u2014 PAN-Aadhaar link and bank re-verification pending since Aug 2026.",
+      "ms": 7608,
+      "model": "gemini-3.1-flash-lite"
+    },
+    {
+      "id": "H17_unknown_vendor",
+      "title": "unknown vendor",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "ON_HOLD",
+      "got": "ON_HOLD",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "ANAND FASTENERS & HARDWARE is not in the vendor master. No payment can be made to an un-onboarded vendor.",
+      "ms": 14824,
+      "model": "gemini-flash-lite-latest"
+    },
+    {
+      "id": "H18_over_receipt",
+      "title": "over receipt",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "PARTIALLY_APPROVED",
+      "got": "PARTIALLY_APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Only \u20b961,500 of \u20b969,700 (taxable) is supported by goods received / open PO quantity. \u20b98,200 + GST held.",
+      "ms": 5032,
+      "model": "gemini-3.1-flash-lite"
+    },
+    {
+      "id": "H19_missing_inv_no",
+      "title": "missing inv no",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "REJECTED",
+      "got": "ERROR",
+      "correct": false,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": false,
+        "invoice_date": false,
+        "grand_total": false,
+        "po": false
+      },
+      "reason": null,
+      "ms": 33004,
+      "model": null
+    },
+    {
+      "id": "H20_bank_change",
+      "title": "bank change",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "ON_HOLD",
+      "got": "ERROR",
+      "correct": false,
+      "fields": {
+        "invoice_number": false,
+        "vendor_gstin": false,
+        "invoice_date": false,
+        "grand_total": false,
+        "po": false
+      },
+      "reason": null,
+      "ms": 46824,
+      "model": null
+    },
+    {
+      "id": "H21_clean",
+      "title": "clean",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+      "ms": 15969,
+      "model": "gemini-3.5-flash-lite"
+    },
+    {
+      "id": "H22_clean",
+      "title": "clean",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+      "ms": 5993,
+      "model": "gemini-3.1-flash-lite"
+    },
+    {
+      "id": "H23_wrong_tax_type",
+      "title": "wrong tax type",
+      "kind": "holdout",
+      "scanned": false,
+      "expected": "REJECTED",
+      "got": "REJECTED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Wrong GST type: supply from Gujarat to Karnataka requires IGST, but invoice charges CGST+SGST. ITC on wrongly charged tax is not available to us.",
+      "ms": 3051,
+      "model": "gemini-3.5-flash-lite"
+    },
+    {
+      "id": "H24_price_minor",
+      "title": "price minor",
+      "kind": "holdout",
+      "scanned": true,
+      "expected": "APPROVED",
+      "got": "APPROVED",
+      "correct": true,
+      "fields": {
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
+      },
+      "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+      "ms": 7408,
+      "model": "gemini-3.1-flash-lite"
+    }
+  ],
+  "availability": 0.9166666666666666,
+  "accuracy_when_answered": 1.0
+}

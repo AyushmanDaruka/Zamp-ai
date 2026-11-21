@@ -114,7 +114,7 @@ def check_document(f):
         checks.append(chk("line_math", "Line maths (qty × rate = amount)", "fail",
                           f"Line {i + 1} '{li['description'][:40]}': {li['quantity']:g} × {inr(li['unit_price'])} = {inr(exp)}, but invoice says {inr(li['amount'])} ({'+' if over > 0 else ''}{inr(over)})"))
         issues.append(issue("LINE_ARITHMETIC", "REJECT", "Vendor",
-                            f"Line {i + 1} amount does not equal quantity × rate (invoice overstated by {inr(over)}).",
+                            f"Line {i + 1} amount does not equal quantity × rate (invoice {'overstated' if over > 0 else 'understated'} by {inr(abs(over))}).",
                             vendor_ask=f"Line {i + 1} ({li['description']}): {li['quantity']:g} × {inr(li['unit_price'])} = {inr(exp)}, but the invoice shows {inr(li['amount'])}. Please issue a corrected invoice.",
                             exposure=max(over, 0) * (1 + rate / 100)))
     elif items:
