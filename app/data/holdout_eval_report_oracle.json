@@ -15,7 +15,7 @@
   "rows": [
     {
       "id": "H01_no_po",
-      "title": "no po",
+      "title": "No PO number printed \u2014 must be inferred",
       "kind": "holdout",
       "scanned": true,
       "expected": "APPROVED",
@@ -34,7 +34,7 @@
     },
     {
       "id": "H02_no_po",
-      "title": "no po",
+      "title": "No PO number printed \u2014 must be inferred",
       "kind": "holdout",
       "scanned": false,
       "expected": "APPROVED",
@@ -53,7 +53,7 @@
     },
     {
       "id": "H03_tax_inclusive",
-      "title": "tax inclusive",
+      "title": "Rates quoted inclusive of GST",
       "kind": "holdout",
       "scanned": true,
       "expected": "APPROVED",
@@ -72,7 +72,7 @@
     },
     {
       "id": "H04_unknown_vendor",
-      "title": "unknown vendor",
+      "title": "Vendor not in master",
       "kind": "holdout",
       "scanned": false,
       "expected": "ON_HOLD",
@@ -91,7 +91,7 @@
     },
     {
       "id": "H05_no_po",
-      "title": "no po",
+      "title": "No PO number printed \u2014 must be inferred",
       "kind": "holdout",
       "scanned": true,
       "expected": "APPROVED",
@@ -110,7 +110,7 @@
     },
     {
       "id": "H06_clean",
-      "title": "clean",
+      "title": "Clean invoice, partial delivery, reworded items",
       "kind": "holdout",
       "scanned": false,
       "expected": "APPROVED",
@@ -129,7 +129,7 @@
     },
     {
       "id": "H07_duplicate",
-      "title": "duplicate",
+      "title": "Paid invoice re-sent with re-formatted number",
       "kind": "holdout",
       "scanned": false,
       "expected": "REJECTED",
@@ -148,7 +148,7 @@
     },
     {
       "id": "H08_arithmetic",
-      "title": "arithmetic",
+      "title": "Line amount \u2260 qty \u00d7 rate",
       "kind": "holdout",
       "scanned": false,
       "expected": "REJECTED",
@@ -167,7 +167,7 @@
     },
     {
       "id": "H09_clean",
-      "title": "clean",
+      "title": "Clean invoice, partial delivery, reworded items",
       "kind": "holdout",
       "scanned": false,
       "expected": "APPROVED",
@@ -186,7 +186,7 @@
     },
     {
       "id": "H10_gstin_typo",
-      "title": "gstin typo",
+      "title": "Vendor GSTIN fails checksum",
       "kind": "holdout",
       "scanned": false,
       "expected": "REJECTED",
@@ -205,7 +205,7 @@
     },
     {
       "id": "H11_arithmetic",
-      "title": "arithmetic",
+      "title": "Line amount \u2260 qty \u00d7 rate",
       "kind": "holdout",
       "scanned": false,
       "expected": "REJECTED",
@@ -224,7 +224,7 @@
     },
     {
       "id": "H12_price_major",
-      "title": "price major",
+      "title": "Unit price well above PO",
       "kind": "holdout",
       "scanned": true,
       "expected": "ON_HOLD",
@@ -243,7 +243,7 @@
     },
     {
       "id": "H13_price_major",
-      "title": "price major",
+      "title": "Unit price well above PO",
       "kind": "holdout",
       "scanned": true,
       "expected": "ON_HOLD",
@@ -262,7 +262,7 @@
     },
     {
       "id": "H14_bank_change",
-      "title": "bank change",
+      "title": "New bank account + 'please update your records'",
       "kind": "holdout",
       "scanned": true,
       "expected": "ON_HOLD",
@@ -281,7 +281,7 @@
     },
     {
       "id": "H15_duplicate",
-      "title": "duplicate",
+      "title": "Paid invoice re-sent with re-formatted number",
       "kind": "holdout",
       "scanned": true,
       "expected": "REJECTED",
@@ -300,7 +300,7 @@
     },
     {
       "id": "H16_blocked",
-      "title": "blocked",
+      "title": "Vendor blocked in master",
       "kind": "holdout",
       "scanned": true,
       "expected": "ON_HOLD",
@@ -319,7 +319,7 @@
     },
     {
       "id": "H17_unknown_vendor",
-      "title": "unknown vendor",
+      "title": "Vendor not in master",
       "kind": "holdout",
       "scanned": true,
       "expected": "ON_HOLD",
@@ -338,7 +338,7 @@
     },
     {
       "id": "H18_over_receipt",
-      "title": "over receipt",
+      "title": "Billed more than the warehouse received",
       "kind": "holdout",
       "scanned": false,
       "expected": "PARTIALLY_APPROVED",
@@ -357,7 +357,7 @@
     },
     {
       "id": "H19_missing_inv_no",
-      "title": "missing inv no",
+      "title": "No invoice number",
       "kind": "holdout",
       "scanned": true,
       "expected": "REJECTED",
@@ -376,7 +376,7 @@
     },
     {
       "id": "H20_bank_change",
-      "title": "bank change",
+      "title": "New bank account + 'please update your records'",
       "kind": "holdout",
       "scanned": false,
       "expected": "ON_HOLD",
@@ -395,7 +395,7 @@
     },
     {
       "id": "H21_clean",
-      "title": "clean",
+      "title": "Clean invoice, partial delivery, reworded items",
       "kind": "holdout",
       "scanned": true,
       "expected": "APPROVED",
@@ -414,7 +414,7 @@
     },
     {
       "id": "H22_clean",
-      "title": "clean",
+      "title": "Clean invoice, partial delivery, reworded items",
       "kind": "holdout",
       "scanned": false,
       "expected": "APPROVED",
@@ -433,7 +433,7 @@
     },
     {
       "id": "H23_wrong_tax_type",
-      "title": "wrong tax type",
+      "title": "Inter-state supply charged CGST+SGST",
       "kind": "holdout",
       "scanned": false,
       "expected": "REJECTED",
@@ -452,7 +452,7 @@
     },
     {
       "id": "H24_price_minor",
-      "title": "price minor",
+      "title": "Unit price slightly above PO (within 2%)",
       "kind": "holdout",
       "scanned": true,
       "expected": "APPROVED",

@@ -75,8 +75,9 @@ def main():
     for n, case in enumerate(cases):
         pdf = (sdir / f"{case['id']}.pdf").read_bytes()
         override = oracle_extraction(case) if a.oracle else None
-        result = None
+        result, evs = None, []
         for ev in run_invoice(pdf, f"{case['id']}.pdf", source="seed", persist=False, extraction_override=override):
+            evs.append(ev)
             if ev["type"] == "result":
                 result = ev["run"]
         exp = case["expected"]
@@ -105,7 +106,7 @@ def main():
             r["id"] = f"seed-{case['id']}"
             r["created_at"] = (datetime(2026, 11, 19, 18, 0, tzinfo=timezone.utc) - timedelta(hours=7 * (len(cases) - n))).isoformat()
             r["filename"] = f"{case['id']}.pdf"
-            r["events"] = []
+            r["events"] = [e for e in evs if e["type"] != "result"]  # keep the stage log so history runs are auditable
             seed.append(r)
         if not a.oracle and n < len(cases) - 1:
             time.sleep(a.pause)

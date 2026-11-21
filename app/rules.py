@@ -582,6 +582,34 @@ RANK = {"REJECT": 3, "HOLD": 2, "PARTIAL": 1, "WARN": 0}
 DECISION_OF = {"REJECT": "REJECTED", "HOLD": "ON_HOLD", "PARTIAL": "PARTIALLY_APPROVED"}
 
 
+def payment_proposal(f, vendor, po, taxable, partial=False):
+    """Payment proposal: TDS on taxable value, MSME-capped due date, paid only to the verified bank account, journal entry."""
+    total = f.get("grand_total") or 0
+    rate = (f.get("gst_rate_percent") or 18) / 100
+    taxable = round(taxable, 2)
+    gst = round(taxable * rate, 2)
+    tds = round(taxable * vendor["tds_rate_pct"] / 100, 2)
+    inv_d = parse_date(f.get("invoice_date")) or TODAY
+    terms = vendor["payment_terms_days"]
+    if vendor.get("msme"):
+        terms = min(terms, P["msme_max_payment_days"])
+    due = inv_d + timedelta(days=terms)
+    intra = expected_tax_type(vendor["gstin"], M.BUYER["gstin"]) == "CGST+SGST"
+    je = [{"account": po["gl_code"], "dr": taxable, "cr": 0, "cost_center": po["cost_center"]}]
+    if intra:
+        je += [{"account": "1410 · Input CGST", "dr": round(gst / 2, 2), "cr": 0}, {"account": "1411 · Input SGST", "dr": round(gst / 2, 2), "cr": 0}]
+    else:
+        je += [{"account": "1412 · Input IGST", "dr": gst, "cr": 0}]
+    je += [{"account": f"2210 · TDS payable u/s {vendor['tds_section']}", "dr": 0, "cr": tds},
+           {"account": f"2100 · Sundry creditors — {vendor['name']}", "dr": 0, "cr": round(taxable + gst - tds, 2)}]
+    return {"approved_taxable": taxable, "gst": gst, "gross": round(taxable + gst, 2), "tds_section": vendor["tds_section"],
+            "tds_rate_pct": vendor["tds_rate_pct"], "tds": tds, "net_payable": round(taxable + gst - tds, 2),
+            "held_amount": round(total - taxable - gst, 2) if partial else 0.0,
+            "due_date": due.isoformat(), "terms_days": terms, "msme": vendor.get("msme"),
+            "pay_to": f"{vendor['bank']['bank_name']} ••••{vendor['bank']['account_number'][-4:]} (verified, from vendor master)",
+            "gl_code": po["gl_code"], "cost_center": po["cost_center"], "journal": je}
+
+
 def decide(f, vendor, po_out, issues):
     blocking = [i for i in issues if i["outcome"] != "WARN"]
     warns = [i for i in issues if i["outcome"] == "WARN"]
@@ -603,28 +631,7 @@ def decide(f, vendor, po_out, issues):
     payment = None
     if decision in ("APPROVED", "PARTIALLY_APPROVED") and vendor and po:
         taxable = po_out["approvable_taxable"] if decision == "PARTIALLY_APPROVED" else (f.get("subtotal") or 0)
-        taxable = round(taxable, 2)
-        gst = round(taxable * rate, 2)
-        tds = round(taxable * vendor["tds_rate_pct"] / 100, 2)
-        inv_d = parse_date(f.get("invoice_date")) or TODAY
-        terms = vendor["payment_terms_days"]
-        if vendor.get("msme"):
-            terms = min(terms, P["msme_max_payment_days"])
-        due = inv_d + timedelta(days=terms)
-        intra = expected_tax_type(vendor["gstin"], M.BUYER["gstin"]) == "CGST+SGST"
-        je = [{"account": po["gl_code"], "dr": taxable, "cr": 0, "cost_center": po["cost_center"]}]
-        if intra:
-            je += [{"account": "1410 · Input CGST", "dr": round(gst / 2, 2), "cr": 0}, {"account": "1411 · Input SGST", "dr": round(gst / 2, 2), "cr": 0}]
-        else:
-            je += [{"account": "1412 · Input IGST", "dr": gst, "cr": 0}]
-        je += [{"account": f"2210 · TDS payable u/s {vendor['tds_section']}", "dr": 0, "cr": tds},
-               {"account": f"2100 · Sundry creditors — {vendor['name']}", "dr": 0, "cr": round(taxable + gst - tds, 2)}]
-        payment = {"approved_taxable": taxable, "gst": gst, "gross": round(taxable + gst, 2), "tds_section": vendor["tds_section"],
-                   "tds_rate_pct": vendor["tds_rate_pct"], "tds": tds, "net_payable": round(taxable + gst - tds, 2),
-                   "held_amount": round(total - taxable - gst, 2) if decision == "PARTIALLY_APPROVED" else 0.0,
-                   "due_date": due.isoformat(), "terms_days": terms, "msme": vendor.get("msme"),
-                   "pay_to": f"{vendor['bank']['bank_name']} ••••{vendor['bank']['account_number'][-4:]} (verified, from vendor master)",
-                   "gl_code": po["gl_code"], "cost_center": po["cost_center"], "journal": je}
+        payment = payment_proposal(f, vendor, po, taxable, partial=decision == "PARTIALLY_APPROVED")
 
     headline = {
         "APPROVED": "Approved for payment",

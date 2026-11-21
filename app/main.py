@@ -1,16 +1,18 @@
 import json
 import os
 from collections import Counter
+from datetime import datetime, timezone
 from pathlib import Path
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi import Body, FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse, JSONResponse, Response, StreamingResponse
 
 load_dotenv()
 
 from app import db  # noqa: E402
 from app import master as M  # noqa: E402
+from app import resolve as RS  # noqa: E402
 from app.extract import render_page  # noqa: E402
 from app.pipeline import STAGES, run_invoice  # noqa: E402
 from app.rules import consumption, received  # noqa: E402
@@ -35,33 +37,42 @@ def health():
     return {"ok": True, "llm": bool(os.environ.get("GEMINI_API_KEY")), "db": "postgres" if db.IS_PG else "sqlite"}
 
 
+HOLDOUT = SAMPLES / "holdout"
+
+
 @app.get("/api/samples")
 def samples():
-    cases = json.loads((SAMPLES / "cases.json").read_text())
-    return [{"id": c["id"], "kind": c["kind"], "title": c["title"], "scanned": c["scanned"], "expected": c["expected"]["decision"]} for c in cases]
+    out = []
+    for d in (SAMPLES, HOLDOUT):
+        f = d / "cases.json"
+        if f.exists():
+            out += [{"id": c["id"], "kind": c["kind"], "title": c["title"], "scanned": c["scanned"], "expected": c["expected"]["decision"]}
+                    for c in json.loads(f.read_text())]
+    return out
+
+
+def _sample(sid):
+    """Resolve a sample id to a file in samples/ or samples/holdout/ (no path traversal)."""
+    for d in (SAMPLES, HOLDOUT):
+        p = d / f"{sid}.pdf"
+        if p.resolve().parent == d.resolve() and p.exists():
+            return p
+    raise HTTPException(404)
 
 
 @app.get("/api/samples/{sid}.pdf")
 def sample_pdf(sid: str):
-    p = SAMPLES / f"{sid}.pdf"
-    if not p.resolve().parent == SAMPLES.resolve() or not p.exists():
-        raise HTTPException(404)
-    return FileResponse(p, media_type="application/pdf")
+    return FileResponse(_sample(sid), media_type="application/pdf")
 
 
 @app.get("/api/samples/{sid}.jpg")
 def sample_png(sid: str):
-    p = SAMPLES / f"{sid}.pdf"
-    if not p.resolve().parent == SAMPLES.resolve() or not p.exists():
-        raise HTTPException(404)
-    return Response(render_page(p.read_bytes()), media_type="image/jpeg", headers={"Cache-Control": "public, max-age=86400"})
+    return Response(render_page(_sample(sid).read_bytes()), media_type="image/jpeg", headers={"Cache-Control": "public, max-age=86400"})
 
 
 @app.post("/api/runs/sample/{sid}")
 def run_sample(sid: str):
-    p = SAMPLES / f"{sid}.pdf"
-    if not p.resolve().parent == SAMPLES.resolve() or not p.exists():
-        raise HTTPException(404)
+    p = _sample(sid)
     return _stream(run_invoice(p.read_bytes(), p.name, source="sample"))
 
 
@@ -85,15 +96,57 @@ def run_detail(rid: str):
     r = db.get_run(rid)
     if not r:
         raise HTTPException(404)
+    r["options"] = RS.options(r)
+    r["msme"] = RS.msme_clock(r)
     return r
+
+
+@app.post("/api/runs/{rid}/resolve")
+def resolve_run(rid: str, body: dict = Body(...)):
+    r = db.get_run(rid)
+    if not r:
+        raise HTTPException(404)
+    try:
+        summary, approved = RS.apply(r, body.get("action"), body.get("note"), body.get("by"))
+    except ValueError as e:
+        raise HTTPException(409, str(e))
+    db.update_resolution(rid, summary, approved)
+    return {"ok": True, "resolution": summary["resolution"]}
+
+
+@app.post("/api/runs/{rid}/rerun")
+def rerun(rid: str):
+    """Re-process the stored PDF of a run (e.g. after the AI reader was busy). The old run is marked as retried."""
+    r = db.get_run(rid)
+    if not r:
+        raise HTTPException(404)
+    pdf = _run_pdf(rid)
+    if r["decision"] == "ERROR":
+        s = dict(r.get("summary") or {})
+        s["resolution"] = {"action": "retry", "label": "Retried", "final_decision": "ERROR", "note": "", "by": "AP reviewer",
+                           "at": datetime.now(timezone.utc).isoformat()}
+        db.update_resolution(rid, s, 0.0)
+    return _stream(run_invoice(pdf, r["filename"] or "invoice.pdf", source=r["source"] if r["source"] != "seed" else "sample"))
+
+
+@app.get("/api/inbox")
+def inbox():
+    items = [RS.inbox_item(r) for r in db.exceptions_full() if r["status"] in ("done", "error")]
+    open_ = [i for i in items if not i["resolution"]]
+    done = [i for i in items if i["resolution"] and i["resolution"].get("action") != "retry"]
+    open_.sort(key=lambda i: ((i["msme"] or {}).get("days_left", 10**6), i["created_at"]))
+    return {"open": open_, "resolved": sorted(done, key=lambda i: i["resolution"]["at"], reverse=True)}
 
 
 def _run_pdf(rid):
     pdf = db.get_pdf(rid)
     if pdf is None:
         r = db.get_run(rid)
-        if r and r.get("filename") and (SAMPLES / r["filename"]).exists():
-            pdf = (SAMPLES / r["filename"]).read_bytes()
+        if r and r.get("filename"):
+            for d in (SAMPLES, HOLDOUT):
+                if (d / r["filename"]).exists():
+                    pdf = (d / r["filename"]).read_bytes()
+                    break
     if pdf is None:
         raise HTTPException(404)
     return pdf
@@ -124,8 +177,12 @@ def stats():
         "risk_caught": sum(r["risk_caught"] or 0 for r in rs),
         "avg_ms": int(sum(r["duration_ms"] or 0 for r in rs) / n) if n else 0,
         "exceptions": reasons.most_common(),
-        "owners": Counter((r.get("summary") or {}).get("owner") for r in rs if r["decision"] != "APPROVED" and (r.get("summary") or {}).get("owner")).most_common(),
+        "owners": Counter((r.get("summary") or {}).get("owner") for r in rs if r["decision"] != "APPROVED" and (r.get("summary") or {}).get("owner")
+                          and not (r.get("summary") or {}).get("resolution")).most_common(),
         "scanned_share": sum(1 for r in rs if r.get("doc_kind") == "scanned") / n if n else 0,
+        "open_exceptions": sum(1 for r in rs if r["decision"] != "APPROVED" and not (r.get("summary") or {}).get("resolution")),
+        "resolved_by_humans": sum(1 for r in rs if (r.get("summary") or {}).get("resolution")),
+        "released_by_humans": sum(1 for r in rs if ((r.get("summary") or {}).get("resolution") or {}).get("action") == "release"),
     }
 
 
@@ -146,7 +203,8 @@ def master():
 @app.get("/api/eval")
 def evaluation():
     out = {}
-    for k, fn in (("end_to_end", "eval_report.json"), ("oracle", "eval_report_oracle.json")):
+    for k, fn in (("end_to_end", "eval_report.json"), ("oracle", "eval_report_oracle.json"),
+                  ("holdout_end_to_end", "holdout_eval_report.json"), ("holdout_oracle", "holdout_eval_report_oracle.json")):
         p = DATA / fn
         out[k] = json.loads(p.read_text()) if p.exists() else None
     return out

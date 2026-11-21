@@ -1,16 +1,17 @@
 {
-  "generated_at": "2026-11-20T16:34:37.262798+00:00",
+  "generated_at": "2026-11-21T10:15:02.351241+00:00",
+  "set": "dev",
   "mode": "end-to-end",
   "n": 15,
-  "decision_accuracy": 0.9333333333333333,
+  "decision_accuracy": 1.0,
   "field_accuracy": {
-    "invoice_number": 0.9333333333333333,
-    "vendor_gstin": 0.9333333333333333,
-    "invoice_date": 0.9333333333333333,
-    "grand_total": 0.9333333333333333,
-    "po": 0.9333333333333333
+    "invoice_number": 1.0,
+    "vendor_gstin": 1.0,
+    "invoice_date": 1.0,
+    "grand_total": 1.0,
+    "po": 1.0
   },
-  "avg_ms": 14608,
+  "avg_ms": 3288,
   "rows": [
     {
       "id": "D1_happy_path",
@@ -28,7 +29,7 @@
         "po": true
       },
       "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
-      "ms": 5065,
+      "ms": 2873,
       "model": "gemini-3.5-flash-lite"
     },
     {
@@ -47,8 +48,8 @@
         "po": true
       },
       "reason": "Only \u20b91,14,000 of \u20b91,57,000 (taxable) is supported by goods received / open PO quantity. \u20b943,000 + GST held. Cumulative billing across split invoices exceeds the PO.",
-      "ms": 4520,
-      "model": "gemini-flash-lite-latest"
+      "ms": 2679,
+      "model": "gemini-3.5-flash-lite"
     },
     {
       "id": "D3_bank_details_changed",
@@ -66,8 +67,8 @@
         "po": true
       },
       "reason": "Bank account on the invoice differs from the verified account in the vendor master. The invoice itself announces the change.",
-      "ms": 5551,
-      "model": "gemini-3.1-flash-lite"
+      "ms": 2787,
+      "model": "gemini-3.5-flash-lite"
     },
     {
       "id": "D4_scanned_no_po",
@@ -75,18 +76,18 @@
       "kind": "demo",
       "scanned": true,
       "expected": "APPROVED",
-      "got": "ERROR",
-      "correct": false,
+      "got": "APPROVED",
+      "correct": true,
       "fields": {
-        "invoice_number": false,
-        "vendor_gstin": false,
-        "invoice_date": false,
-        "grand_total": false,
-        "po": false
+        "invoice_number": true,
+        "vendor_gstin": true,
+        "invoice_date": true,
+        "grand_total": true,
+        "po": true
       },
-      "reason": null,
-      "ms": 34810,
-      "model": null
+      "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
+      "ms": 6271,
+      "model": "gemini-flash-lite-latest"
     },
     {
       "id": "D5_disguised_duplicate",
@@ -104,8 +105,8 @@
         "po": true
       },
       "reason": "Probable duplicate of invoice SGS/26-27/0087 dated 2026-10-03 (paid) \u2014 same invoice number (after normalising separators/zeros), same amount \u20b92,26,560, 42 days apart, same PO.",
-      "ms": 14350,
-      "model": "gemini-flash-lite-latest"
+      "ms": 5365,
+      "model": "gemini-3.5-flash-lite"
     },
     {
       "id": "E01_price_within_tolerance",
@@ -123,7 +124,7 @@
         "po": true
       },
       "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
-      "ms": 38442,
+      "ms": 2128,
       "model": "gemini-flash-lite-latest"
     },
     {
@@ -142,7 +143,7 @@
         "po": true
       },
       "reason": "Unit price exceeds PO by more than 2% \u2014 Tap Set M10 (3 pc) billed at \u20b91,390 vs PO \u20b91,250 (+11.2%). Over-billing: \u20b92,800 + GST.",
-      "ms": 29699,
+      "ms": 2854,
       "model": "gemini-3.5-flash-lite"
     },
     {
@@ -161,8 +162,8 @@
         "po": true
       },
       "reason": "Only \u20b961,500 of \u20b982,000 (taxable) is supported by goods received / open PO quantity. \u20b920,500 + GST held.",
-      "ms": 33857,
-      "model": "gemini-3.1-flash-lite"
+      "ms": 2784,
+      "model": "gemini-3.5-flash-lite"
     },
     {
       "id": "E04_wrong_gst_type",
@@ -180,8 +181,8 @@
         "po": true
       },
       "reason": "Wrong GST type: supply from Tamil Nadu to Karnataka requires IGST, but invoice charges CGST+SGST. ITC on wrongly charged tax is not available to us.",
-      "ms": 3236,
-      "model": "gemini-3.1-flash-lite"
+      "ms": 2500,
+      "model": "gemini-3.5-flash-lite"
     },
     {
       "id": "E05_invalid_gstin",
@@ -199,8 +200,8 @@
         "po": true
       },
       "reason": "GSTIN on invoice (29AFZPD1185M1ZX) is invalid and does not match the registered GSTIN 29AFZPD1185M1ZO. Input tax credit would be lost.",
-      "ms": 33066,
-      "model": "gemini-flash-lite-latest"
+      "ms": 2670,
+      "model": "gemini-3.5-flash-lite"
     },
     {
       "id": "E06_unknown_vendor",
@@ -218,7 +219,7 @@
         "po": true
       },
       "reason": "SAI HYDRAULICS & PNEUMATICS is not in the vendor master. No payment can be made to an un-onboarded vendor.",
-      "ms": 9544,
+      "ms": 3048,
       "model": "gemini-flash-lite-latest"
     },
     {
@@ -237,7 +238,7 @@
         "po": true
       },
       "reason": "Coastal Logistics Pvt Ltd is blocked in the vendor master \u2014 KYC lapsed \u2014 PAN-Aadhaar link and bank re-verification pending since Aug 2026.",
-      "ms": 3856,
+      "ms": 2573,
       "model": "gemini-flash-lite-latest"
     },
     {
@@ -256,8 +257,8 @@
         "po": true
       },
       "reason": "Vendor verified, no duplicate, prices and quantities match PO and goods receipt, GST correct, arithmetic reconciles.",
-      "ms": 9545,
-      "model": "gemini-flash-lite-latest"
+      "ms": 4244,
+      "model": "gemini-3.1-flash-lite"
     },
     {
       "id": "E09_arithmetic_error",
@@ -275,7 +276,7 @@
         "po": true
       },
       "reason": "Line 1 amount does not equal quantity \u00d7 rate (invoice overstated by \u20b918,000).",
-      "ms": 4024,
+      "ms": 4466,
       "model": "gemini-3.1-flash-lite"
     },
     {
@@ -294,10 +295,10 @@
         "po": true
       },
       "reason": "Invoice has no invoice number \u2014 it is not a valid GST tax invoice and cannot be booked or de-duplicated.",
-      "ms": 9761,
+      "ms": 2087,
       "model": "gemini-3.5-flash-lite"
     }
   ],
-  "availability": 0.9333333333333333,
+  "availability": 1.0,
   "accuracy_when_answered": 1.0
 }

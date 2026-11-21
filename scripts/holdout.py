@@ -194,7 +194,7 @@ def build(rnd, scenario, idx):
     else:
         raise ValueError(s)
     case["scenario"] = s
-    case["title"] = s.replace("_", " ")
+    case["title"] = TITLES[s]
     case["expected"] = {"decision": decision, "po": exp_po}
     return case
 
@@ -325,6 +325,15 @@ def pick_template(rnd, case, v):
         ok = [o for o in ok if o in ("shop", "services") and (o != "services" or not case.get("po_hint"))] or ["ledger"]
     return rnd.choice(ok)
 
+
+TITLES = {
+    "clean": "Clean invoice, partial delivery, reworded items", "price_minor": "Unit price slightly above PO (within 2%)",
+    "price_major": "Unit price well above PO", "over_receipt": "Billed more than the warehouse received",
+    "no_po": "No PO number printed — must be inferred", "tax_inclusive": "Rates quoted inclusive of GST",
+    "bank_change": "New bank account + 'please update your records'", "arithmetic": "Line amount ≠ qty × rate",
+    "missing_inv_no": "No invoice number", "gstin_typo": "Vendor GSTIN fails checksum", "wrong_tax_type": "Inter-state supply charged CGST+SGST",
+    "duplicate": "Paid invoice re-sent with re-formatted number", "blocked": "Vendor blocked in master", "unknown_vendor": "Vendor not in master",
+}
 
 SCENARIOS = ["clean", "clean", "clean", "price_minor", "price_major", "over_receipt", "no_po", "no_po", "tax_inclusive",
              "bank_change", "bank_change", "arithmetic", "missing_inv_no", "gstin_typo", "wrong_tax_type", "duplicate",

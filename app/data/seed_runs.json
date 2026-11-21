@@ -12,7 +12,7 @@
   "total": 84606.0,
   "approved_amount": 84606.0,
   "risk_caught": 0,
-  "duration_ms": 38442,
+  "duration_ms": 2128,
   "doc_kind": "digital",
   "summary": {
    "vendor_id": "V005",
@@ -49,39 +49,39 @@
     "bank_name": "Axis Bank, Rajkot",
     "boxes": {
      "bank_account_number": [
-      448,
-      117,
-      458,
+      446,
+      120,
+      459,
       242
      ],
      "grand_total": [
-      362,
-      826,
+      359,
+      848,
       373,
       928
      ],
      "invoice_date": [
-      178,
+      162,
       855,
-      188,
-      928
+      173,
+      929
      ],
      "invoice_number": [
-      163,
-      823,
+      161,
+      832,
       174,
       928
      ],
      "po_reference": [
-      193,
-      834,
-      202,
+      177,
+      836,
+      188,
       929
      ],
      "vendor_gstin": [
-      84,
-      113,
-      93,
+      88,
+      107,
+      97,
       237
      ]
     },
@@ -94,7 +94,7 @@
     "igst": 12906.0,
     "invoice_date": "2026-11-05",
     "invoice_number": "PTW/2627/0219",
-    "notes": "This is a computer generated invoice. Thank you for your business.",
+    "notes": null,
     "order_reference_text": null,
     "place_of_supply": null,
     "po_reference": "PO-2026-0171",
@@ -231,21 +231,564 @@
    },
    "meta": {
     "model": "gemini-flash-lite-latest",
-    "latency_ms": 38431,
+    "latency_ms": 2118,
     "raced": 3,
     "fallbacks": [
-     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
-     "gemini-flash-lite-latest: HTTP 503 UNAVAILABLE",
-     "gemini-3.5-flash-lite: HTTP 503 UNAVAILABLE",
-     "gemini-3.1-flash-lite: HTTP 503 UNAVAILABLE",
-     "gemini-3.8-flash: ReadTimeout",
-     "gemini-flash-latest: ReadTimeout",
      "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
     ]
    },
    "doc_kind": "digital"
   },
-  "events": []
+  "events": [
+   {
+    "type": "run",
+    "id": "156a3d35dfb64ae49d61fb6d6595a3bc",
+    "filename": "E01_price_within_tolerance.pdf",
+    "stages": [
+     {
+      "id": "intake",
+      "label": "Intake & fingerprint"
+     },
+     {
+      "id": "extract",
+      "label": "AI extraction"
+     },
+     {
+      "id": "verify",
+      "label": "Verify extraction"
+     },
+     {
+      "id": "vendor",
+      "label": "Vendor & bank check"
+     },
+     {
+      "id": "duplicate",
+      "label": "Duplicate detection"
+     },
+     {
+      "id": "match",
+      "label": "PO \u00b7 GRN \u00b7 invoice match"
+     },
+     {
+      "id": "tax",
+      "label": "GST compliance"
+     },
+     {
+      "id": "decide",
+      "label": "Decision & actions"
+     }
+    ],
+    "t": 0.0
+   },
+   {
+    "type": "stage",
+    "stage": "intake",
+    "label": "Intake & fingerprint",
+    "state": "running",
+    "t": 0.0
+   },
+   {
+    "type": "stage",
+    "stage": "intake",
+    "label": "Intake & fingerprint",
+    "state": "done",
+    "status": "pass",
+    "summary": "Digital PDF \u00b7 SHA-256 ca608374a6a6\u2026",
+    "checks": [
+     {
+      "id": "format",
+      "label": "Readable PDF",
+      "status": "pass",
+      "detail": "1 page(s), 3 KB"
+     },
+     {
+      "id": "text_layer",
+      "label": "Document type",
+      "status": "info",
+      "detail": "Digital PDF \u2014 text layer present; values will be grounded against it"
+     }
+    ],
+    "data": {
+     "kind": "digital",
+     "sha256": "ca608374a6a6ad5d254c37ef18810278c42efae6434865a2d65ae8961d68795d"
+    },
+    "ms": 7,
+    "t": 0.008
+   },
+   {
+    "type": "stage",
+    "stage": "extract",
+    "label": "AI extraction",
+    "state": "running",
+    "t": 0.008
+   },
+   {
+    "type": "stage",
+    "stage": "extract",
+    "label": "AI extraction",
+    "state": "done",
+    "status": "pass",
+    "summary": "Precision Tooling Works \u00b7 PTW/2627/0219 \u00b7 \u20b984,606",
+    "checks": [
+     {
+      "id": "model",
+      "label": "Model",
+      "status": "info",
+      "detail": "gemini-flash-lite-latest \u00b7 2118 ms \u00b7 raced 3 models in parallel, first valid answer wins \u00b7 1 busy/failed: gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
+     },
+     {
+      "id": "fields",
+      "label": "Fields extracted",
+      "status": "pass",
+      "detail": "1 line items \u00b7 vendor 'Precision Tooling Works' \u00b7 invoice PTW/2627/0219 \u00b7 total \u20b984,606"
+     }
+    ],
+    "data": {
+     "fields": {
+      "line_items": [
+       {
+        "description": "Carbide End Mill 10mm 4-Flute (HSN 8207)",
+        "hsn_sac": "8207",
+        "quantity": 30.0,
+        "unit": "nos",
+        "unit_price": 2390.0,
+        "amount": 71700.0
+       }
+      ],
+      "amount_in_words": null,
+      "bank_account_name": "Precision Tooling Works",
+      "bank_account_number": "917020045678123",
+      "bank_ifsc": "UTIB0000123",
+      "bank_name": "Axis Bank, Rajkot",
+      "boxes": {
+       "bank_account_number": [
+        446,
+        120,
+        459,
+        242
+       ],
+       "grand_total": [
+        359,
+        848,
+        373,
+        928
+       ],
+       "invoice_date": [
+        162,
+        855,
+        173,
+        929
+       ],
+       "invoice_number": [
+        161,
+        832,
+        174,
+        928
+       ],
+       "po_reference": [
+        177,
+        836,
+        188,
+        929
+       ],
+       "vendor_gstin": [
+        88,
+        107,
+        97,
+        237
+       ]
+      },
+      "buyer_gstin": "29AAKCK4821L1Z2",
+      "buyer_name": "Kaveri Precision Components Pvt Ltd",
+      "cgst": null,
+      "currency": "INR",
+      "grand_total": 84606.0,
+      "gst_rate_percent": 18.0,
+      "igst": 12906.0,
+      "invoice_date": "2026-11-05",
+      "invoice_number": "PTW/2627/0219",
+      "notes": null,
+      "order_reference_text": null,
+      "place_of_supply": null,
+      "po_reference": "PO-2026-0171",
+      "rates_include_tax": null,
+      "sgst": null,
+      "subtotal": 71700.0,
+      "vendor_address": "Plot 221, GIDC Lodhika, Metoda, Rajkot 360021, Gujarat",
+      "vendor_gstin": "24AAHFP2207C1ZV",
+      "vendor_name": "Precision Tooling Works",
+      "_repairs": []
+     },
+     "meta": {
+      "model": "gemini-flash-lite-latest",
+      "latency_ms": 2118,
+      "raced": 3,
+      "fallbacks": [
+       "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
+      ]
+     }
+    },
+    "ms": 2119,
+    "t": 2.127
+   },
+   {
+    "type": "stage",
+    "stage": "verify",
+    "label": "Verify extraction",
+    "state": "running",
+    "t": 2.127
+   },
+   {
+    "type": "stage",
+    "stage": "verify",
+    "label": "Verify extraction",
+    "state": "done",
+    "status": "pass",
+    "summary": "All values verified & arithmetic reconciles",
+    "checks": [
+     {
+      "id": "grounding",
+      "label": "Values exist on the page (anti-hallucination)",
+      "status": "pass",
+      "detail": "8 values found verbatim in the PDF text layer"
+     },
+     {
+      "id": "inv_no",
+      "label": "Invoice number present",
+      "status": "pass",
+      "detail": "PTW/2627/0219"
+     },
+     {
+      "id": "inv_date",
+      "label": "Invoice date",
+      "status": "pass",
+      "detail": "05 Nov 2026 \u00b7 15 days old"
+     },
+     {
+      "id": "line_math",
+      "label": "Line maths (qty \u00d7 rate = amount)",
+      "status": "pass",
+      "detail": "All 1 lines reconcile"
+     },
+     {
+      "id": "subtotal",
+      "label": "Lines add up to subtotal",
+      "status": "pass",
+      "detail": "\u03a3 lines \u20b971,700 vs subtotal \u20b971,700"
+     },
+     {
+      "id": "total",
+      "label": "Subtotal + GST = total",
+      "status": "pass",
+      "detail": "\u20b971,700 + \u20b912,906 = \u20b984,606 vs total \u20b984,606"
+     }
+    ],
+    "data": {
+     "provenance": {
+      "invoice_number": {
+       "status": "grounded",
+       "bbox": [
+        0.8253906620479146,
+        0.16086364671764036,
+        0.9285715823703385,
+        0.17473601013577242
+       ]
+      },
+      "vendor_gstin": {
+       "status": "grounded",
+       "bbox": [
+        0.11623471815580752,
+        0.07732692382699646,
+        0.24022431058356947,
+        0.09038326106994284
+       ]
+      },
+      "buyer_gstin": {
+       "status": "grounded",
+       "bbox": [
+        0.11903510152522379,
+        0.2063181724000585,
+        0.24761839824587217,
+        0.2201905358181906
+       ]
+      },
+      "po_reference": {
+       "status": "grounded",
+       "bbox": [
+        0.8349148133470795,
+        0.19116671217111916,
+        0.9285715823703385,
+        0.20503907558925125
+       ]
+      },
+      "bank_account_number": {
+       "status": "grounded",
+       "bbox": [
+        0.12221934134078814,
+        0.443691901169259,
+        0.24130700364349617,
+        0.45756428271184113
+       ]
+      },
+      "bank_ifsc": {
+       "status": "grounded",
+       "bbox": [
+        0.11189555105893113,
+        0.4588433976470984,
+        0.1999975776671679,
+        0.4727157791896805
+       ]
+      },
+      "grand_total": {
+       "status": "grounded",
+       "bbox": [
+        0.8538497661487574,
+        0.35597732036821345,
+        0.9285715823703385,
+        0.3723334040428543
+       ]
+      },
+      "subtotal": {
+       "status": "grounded",
+       "bbox": [
+        0.8650579642458547,
+        0.319112769023024,
+        0.9285714798377319,
+        0.33298515056560607
+       ]
+      }
+     }
+    },
+    "ms": 0,
+    "t": 2.128
+   },
+   {
+    "type": "stage",
+    "stage": "vendor",
+    "label": "Vendor & bank check",
+    "state": "running",
+    "t": 2.128
+   },
+   {
+    "type": "stage",
+    "stage": "vendor",
+    "label": "Vendor & bank check",
+    "state": "done",
+    "status": "pass",
+    "summary": "Precision Tooling Works (V005)",
+    "checks": [
+     {
+      "id": "gstin_valid",
+      "label": "Vendor GSTIN valid (checksum)",
+      "status": "pass",
+      "detail": "Valid GSTIN \u00b7 Gujarat \u00b7 PAN AAHFP2207C"
+     },
+     {
+      "id": "vendor_master",
+      "label": "Vendor in vendor master",
+      "status": "pass",
+      "detail": "Precision Tooling Works (V005) \u00b7 GSTIN exact match"
+     },
+     {
+      "id": "gstin_match",
+      "label": "GSTIN matches vendor master",
+      "status": "pass",
+      "detail": "24AAHFP2207C1ZV"
+     },
+     {
+      "id": "vendor_status",
+      "label": "Vendor status",
+      "status": "pass",
+      "detail": "Active \u00b7 Cutting tools"
+     },
+     {
+      "id": "bank",
+      "label": "Remit-to bank matches master",
+      "status": "pass",
+      "detail": "A/c \u2022\u2022\u2022\u20228123 \u00b7 UTIB0000123 (verified)"
+     }
+    ],
+    "data": {
+     "vendor_id": "V005",
+     "how": "GSTIN exact match"
+    },
+    "ms": 0,
+    "t": 2.128
+   },
+   {
+    "type": "stage",
+    "stage": "duplicate",
+    "label": "Duplicate detection",
+    "state": "running",
+    "t": 2.128
+   },
+   {
+    "type": "stage",
+    "stage": "duplicate",
+    "label": "Duplicate detection",
+    "state": "done",
+    "status": "pass",
+    "summary": "No duplicate found",
+    "checks": [
+     {
+      "id": "dup_file",
+      "label": "Same file seen before",
+      "status": "pass",
+      "detail": "File fingerprint (SHA-256) is new"
+     },
+     {
+      "id": "dup_inv",
+      "label": "Duplicate of a booked invoice",
+      "status": "pass",
+      "detail": "Compared against 0 prior invoices from this vendor (exact, normalised & fuzzy)"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 2.128
+   },
+   {
+    "type": "stage",
+    "stage": "match",
+    "label": "PO \u00b7 GRN \u00b7 invoice match",
+    "state": "running",
+    "t": 2.128
+   },
+   {
+    "type": "stage",
+    "stage": "match",
+    "label": "PO \u00b7 GRN \u00b7 invoice match",
+    "state": "done",
+    "status": "warn",
+    "summary": "PO-2026-0171 \u00b7 billable \u20b971,700 of \u20b971,700",
+    "checks": [
+     {
+      "id": "po_found",
+      "label": "Purchase order",
+      "status": "pass",
+      "detail": "PO-2026-0171 (explicit on invoice) \u00b7 open \u00b7 \u20b91,52,500"
+     },
+     {
+      "id": "line_match",
+      "label": "Invoice lines \u2194 PO lines",
+      "status": "pass",
+      "detail": "1/1 lines matched to PO lines"
+     },
+     {
+      "id": "price",
+      "label": "Unit price vs PO",
+      "status": "warn",
+      "detail": "Within tolerance: L1 Carbide End Mill 10mm 4-Flute +1.7%"
+     },
+     {
+      "id": "grn",
+      "label": "3-way match (PO \u00b7 GRN \u00b7 invoice)",
+      "status": "pass",
+      "detail": "Billed quantities \u2264 received and not previously invoiced"
+     },
+     {
+      "id": "po_value",
+      "label": "Cumulative billing vs PO value",
+      "status": "pass",
+      "detail": "Previously billed \u20b90 + this \u20b971,700 = \u20b971,700 vs PO \u20b91,52,500"
+     }
+    ],
+    "data": {
+     "po_number": "PO-2026-0171",
+     "inferred": false,
+     "candidates": [],
+     "lines": [
+      {
+       "invoice_line": "Carbide End Mill 10mm 4-Flute (HSN 8207)",
+       "po_line": "L1 Carbide End Mill 10mm 4-Flute",
+       "score": 0.997,
+       "inv_qty": 30.0,
+       "po_qty": 30,
+       "prev_billed": 0,
+       "received": 30,
+       "billable_qty": 30.0,
+       "inv_price": 2390.0,
+       "po_price": 2350.0,
+       "price_var_pct": 1.7,
+       "status": "warn",
+       "note": "price +1.7% (within 2%)"
+      }
+     ]
+    },
+    "ms": 0,
+    "t": 2.128
+   },
+   {
+    "type": "stage",
+    "stage": "tax",
+    "label": "GST compliance",
+    "state": "running",
+    "t": 2.128
+   },
+   {
+    "type": "stage",
+    "stage": "tax",
+    "label": "GST compliance",
+    "state": "done",
+    "status": "pass",
+    "summary": "GST compliant",
+    "checks": [
+     {
+      "id": "buyer_gstin",
+      "label": "Billed to our GSTIN",
+      "status": "pass",
+      "detail": "29AAKCK4821L1Z2"
+     },
+     {
+      "id": "tax_type",
+      "label": "Correct GST type for place of supply",
+      "status": "pass",
+      "detail": "Gujarat \u2192 Karnataka = inter-state \u2192 IGST \u2713"
+     },
+     {
+      "id": "tax_calc",
+      "label": "GST amount = taxable \u00d7 rate",
+      "status": "pass",
+      "detail": "\u20b971,700 \u00d7 18% = \u20b912,906 vs charged \u20b912,906"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 2.128
+   },
+   {
+    "type": "stage",
+    "stage": "decide",
+    "label": "Decision & actions",
+    "state": "running",
+    "t": 2.128
+   },
+   {
+    "type": "stage",
+    "stage": "decide",
+    "label": "Decision & actions",
+    "state": "done",
+    "status": "pass",
+    "summary": "Approved for payment",
+    "checks": [
+     {
+      "id": "decision",
+      "label": "Decision",
+      "status": "pass",
+      "detail": "Approved for payment"
+     },
+     {
+      "id": "payment",
+      "label": "Payment proposal",
+      "status": "info",
+      "detail": "Net \u20b984,534.30 after TDS \u20b971.70 u/s 194Q \u00b7 due 2027-01-04"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 2.128
+   }
+  ]
  },
  {
   "id": "seed-E02_price_over_tolerance",
@@ -260,7 +803,7 @@
   "total": 54634.0,
   "approved_amount": 0.0,
   "risk_caught": 3304.0,
-  "duration_ms": 29699,
+  "duration_ms": 2854,
   "doc_kind": "digital",
   "summary": {
    "vendor_id": "V005",
@@ -303,36 +846,36 @@
       468,
       112,
       477,
-      244
+      241
      ],
      "grand_total": [
-      380,
+      386,
       826,
-      389,
+      397,
       928
      ],
      "invoice_date": [
-      173,
-      850,
-      181,
+      175,
+      848,
+      183,
       928
      ],
      "invoice_number": [
-      158,
-      823,
-      167,
-      928
+      160,
+      822,
+      169,
+      927
      ],
      "po_reference": [
-      187,
+      190,
       834,
-      196,
-      928
+      198,
+      927
      ],
      "vendor_gstin": [
       88,
-      126,
-      96,
+      118,
+      95,
       239
      ]
     },
@@ -345,7 +888,7 @@
     "igst": 8334.0,
     "invoice_date": "2026-11-11",
     "invoice_number": "PTW/2627/0236",
-    "notes": "This is a computer generated invoice. Thank you for your business.",
+    "notes": null,
     "order_reference_text": null,
     "place_of_supply": null,
     "po_reference": "PO-2026-0175",
@@ -467,21 +1010,587 @@
    },
    "meta": {
     "model": "gemini-3.5-flash-lite",
-    "latency_ms": 29687,
+    "latency_ms": 2845,
     "raced": 3,
     "fallbacks": [
-     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
-     "gemini-flash-lite-latest: HTTP 503 UNAVAILABLE",
-     "gemini-3.8-flash: HTTP 429 RESOURCE_EXHAUSTED",
-     "gemini-flash-latest: HTTP 429 RESOURCE_EXHAUSTED",
-     "gemini-3.5-flash-lite: HTTP 503 UNAVAILABLE",
-     "gemini-3.1-flash-lite: ReadTimeout",
      "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
     ]
    },
    "doc_kind": "digital"
   },
-  "events": []
+  "events": [
+   {
+    "type": "run",
+    "id": "922296d17d9c4917bcc56847acc74e97",
+    "filename": "E02_price_over_tolerance.pdf",
+    "stages": [
+     {
+      "id": "intake",
+      "label": "Intake & fingerprint"
+     },
+     {
+      "id": "extract",
+      "label": "AI extraction"
+     },
+     {
+      "id": "verify",
+      "label": "Verify extraction"
+     },
+     {
+      "id": "vendor",
+      "label": "Vendor & bank check"
+     },
+     {
+      "id": "duplicate",
+      "label": "Duplicate detection"
+     },
+     {
+      "id": "match",
+      "label": "PO \u00b7 GRN \u00b7 invoice match"
+     },
+     {
+      "id": "tax",
+      "label": "GST compliance"
+     },
+     {
+      "id": "decide",
+      "label": "Decision & actions"
+     }
+    ],
+    "t": 0.0
+   },
+   {
+    "type": "stage",
+    "stage": "intake",
+    "label": "Intake & fingerprint",
+    "state": "running",
+    "t": 0.0
+   },
+   {
+    "type": "stage",
+    "stage": "intake",
+    "label": "Intake & fingerprint",
+    "state": "done",
+    "status": "pass",
+    "summary": "Digital PDF \u00b7 SHA-256 275ab36ddd20\u2026",
+    "checks": [
+     {
+      "id": "format",
+      "label": "Readable PDF",
+      "status": "pass",
+      "detail": "1 page(s), 3 KB"
+     },
+     {
+      "id": "text_layer",
+      "label": "Document type",
+      "status": "info",
+      "detail": "Digital PDF \u2014 text layer present; values will be grounded against it"
+     }
+    ],
+    "data": {
+     "kind": "digital",
+     "sha256": "275ab36ddd20f519c574fcf950c0e8052d2966ed92310e60d7daec1f4c61b6c4"
+    },
+    "ms": 8,
+    "t": 0.009
+   },
+   {
+    "type": "stage",
+    "stage": "extract",
+    "label": "AI extraction",
+    "state": "running",
+    "t": 0.009
+   },
+   {
+    "type": "stage",
+    "stage": "extract",
+    "label": "AI extraction",
+    "state": "done",
+    "status": "pass",
+    "summary": "Precision Tooling Works \u00b7 PTW/2627/0236 \u00b7 \u20b954,634",
+    "checks": [
+     {
+      "id": "model",
+      "label": "Model",
+      "status": "info",
+      "detail": "gemini-3.5-flash-lite \u00b7 2845 ms \u00b7 raced 3 models in parallel, first valid answer wins \u00b7 1 busy/failed: gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
+     },
+     {
+      "id": "fields",
+      "label": "Fields extracted",
+      "status": "pass",
+      "detail": "2 line items \u00b7 vendor 'Precision Tooling Works' \u00b7 invoice PTW/2627/0236 \u00b7 total \u20b954,634"
+     }
+    ],
+    "data": {
+     "fields": {
+      "line_items": [
+       {
+        "description": "HSS Drill Bit 8mm (HSN 8207)",
+        "hsn_sac": "8207",
+        "quantity": 100.0,
+        "unit": "nos",
+        "unit_price": 185.0,
+        "amount": 18500.0
+       },
+       {
+        "description": "Tap Set M10 (3 pc) (HSN 8207)",
+        "hsn_sac": "8207",
+        "quantity": 20.0,
+        "unit": "set",
+        "unit_price": 1390.0,
+        "amount": 27800.0
+       }
+      ],
+      "amount_in_words": null,
+      "bank_account_name": "Precision Tooling Works",
+      "bank_account_number": "917020045678123",
+      "bank_ifsc": "UTIB0000123",
+      "bank_name": "Axis Bank, Rajkot",
+      "boxes": {
+       "bank_account_number": [
+        468,
+        112,
+        477,
+        241
+       ],
+       "grand_total": [
+        386,
+        826,
+        397,
+        928
+       ],
+       "invoice_date": [
+        175,
+        848,
+        183,
+        928
+       ],
+       "invoice_number": [
+        160,
+        822,
+        169,
+        927
+       ],
+       "po_reference": [
+        190,
+        834,
+        198,
+        927
+       ],
+       "vendor_gstin": [
+        88,
+        118,
+        95,
+        239
+       ]
+      },
+      "buyer_gstin": "29AAKCK4821L1Z2",
+      "buyer_name": "Kaveri Precision Components Pvt Ltd",
+      "cgst": null,
+      "currency": "INR",
+      "grand_total": 54634.0,
+      "gst_rate_percent": 18.0,
+      "igst": 8334.0,
+      "invoice_date": "2026-11-11",
+      "invoice_number": "PTW/2627/0236",
+      "notes": null,
+      "order_reference_text": null,
+      "place_of_supply": null,
+      "po_reference": "PO-2026-0175",
+      "rates_include_tax": null,
+      "sgst": null,
+      "subtotal": 46300.0,
+      "vendor_address": "Plot 221, GIDC Lodhika, Metoda, Rajkot 360021, Gujarat",
+      "vendor_gstin": "24AAHFP2207C1ZV",
+      "vendor_name": "Precision Tooling Works",
+      "_repairs": []
+     },
+     "meta": {
+      "model": "gemini-3.5-flash-lite",
+      "latency_ms": 2845,
+      "raced": 3,
+      "fallbacks": [
+       "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
+      ]
+     }
+    },
+    "ms": 2845,
+    "t": 2.854
+   },
+   {
+    "type": "stage",
+    "stage": "verify",
+    "label": "Verify extraction",
+    "state": "running",
+    "t": 2.854
+   },
+   {
+    "type": "stage",
+    "stage": "verify",
+    "label": "Verify extraction",
+    "state": "done",
+    "status": "pass",
+    "summary": "All values verified & arithmetic reconciles",
+    "checks": [
+     {
+      "id": "grounding",
+      "label": "Values exist on the page (anti-hallucination)",
+      "status": "pass",
+      "detail": "8 values found verbatim in the PDF text layer"
+     },
+     {
+      "id": "inv_no",
+      "label": "Invoice number present",
+      "status": "pass",
+      "detail": "PTW/2627/0236"
+     },
+     {
+      "id": "inv_date",
+      "label": "Invoice date",
+      "status": "pass",
+      "detail": "11 Nov 2026 \u00b7 9 days old"
+     },
+     {
+      "id": "line_math",
+      "label": "Line maths (qty \u00d7 rate = amount)",
+      "status": "pass",
+      "detail": "All 2 lines reconcile"
+     },
+     {
+      "id": "subtotal",
+      "label": "Lines add up to subtotal",
+      "status": "pass",
+      "detail": "\u03a3 lines \u20b946,300 vs subtotal \u20b946,300"
+     },
+     {
+      "id": "total",
+      "label": "Subtotal + GST = total",
+      "status": "pass",
+      "detail": "\u20b946,300 + \u20b98,334 = \u20b954,634 vs total \u20b954,634"
+     }
+    ],
+    "data": {
+     "provenance": {
+      "invoice_number": {
+       "status": "grounded",
+       "bbox": [
+        0.8253906620479146,
+        0.16086364671764036,
+        0.9285715823703385,
+        0.17473601013577242
+       ]
+      },
+      "vendor_gstin": {
+       "status": "grounded",
+       "bbox": [
+        0.11623471815580752,
+        0.07732692382699646,
+        0.24022431058356947,
+        0.09038326106994284
+       ]
+      },
+      "buyer_gstin": {
+       "status": "grounded",
+       "bbox": [
+        0.11903510152522379,
+        0.2063181724000585,
+        0.24761839824587217,
+        0.2201905358181906
+       ]
+      },
+      "po_reference": {
+       "status": "grounded",
+       "bbox": [
+        0.8349148133470795,
+        0.19116671217111916,
+        0.9285715823703385,
+        0.20503907558925125
+       ]
+      },
+      "bank_account_number": {
+       "status": "grounded",
+       "bbox": [
+        0.12221934134078814,
+        0.46557739205403814,
+        0.24130700364349617,
+        0.4794497735966202
+       ]
+      },
+      "bank_ifsc": {
+       "status": "grounded",
+       "bbox": [
+        0.11189555105893113,
+        0.4807289247807775,
+        0.1999975776671679,
+        0.49460130632335964
+       ]
+      },
+      "grand_total": {
+       "status": "grounded",
+       "bbox": [
+        0.8538497661487574,
+        0.37786281125299254,
+        0.9285715823703385,
+        0.3942188949276334
+       ]
+      },
+      "subtotal": {
+       "status": "grounded",
+       "bbox": [
+        0.8650579642458547,
+        0.3409982599078031,
+        0.9285714798377319,
+        0.3548706414503852
+       ]
+      }
+     }
+    },
+    "ms": 0,
+    "t": 2.854
+   },
+   {
+    "type": "stage",
+    "stage": "vendor",
+    "label": "Vendor & bank check",
+    "state": "running",
+    "t": 2.854
+   },
+   {
+    "type": "stage",
+    "stage": "vendor",
+    "label": "Vendor & bank check",
+    "state": "done",
+    "status": "pass",
+    "summary": "Precision Tooling Works (V005)",
+    "checks": [
+     {
+      "id": "gstin_valid",
+      "label": "Vendor GSTIN valid (checksum)",
+      "status": "pass",
+      "detail": "Valid GSTIN \u00b7 Gujarat \u00b7 PAN AAHFP2207C"
+     },
+     {
+      "id": "vendor_master",
+      "label": "Vendor in vendor master",
+      "status": "pass",
+      "detail": "Precision Tooling Works (V005) \u00b7 GSTIN exact match"
+     },
+     {
+      "id": "gstin_match",
+      "label": "GSTIN matches vendor master",
+      "status": "pass",
+      "detail": "24AAHFP2207C1ZV"
+     },
+     {
+      "id": "vendor_status",
+      "label": "Vendor status",
+      "status": "pass",
+      "detail": "Active \u00b7 Cutting tools"
+     },
+     {
+      "id": "bank",
+      "label": "Remit-to bank matches master",
+      "status": "pass",
+      "detail": "A/c \u2022\u2022\u2022\u20228123 \u00b7 UTIB0000123 (verified)"
+     }
+    ],
+    "data": {
+     "vendor_id": "V005",
+     "how": "GSTIN exact match"
+    },
+    "ms": 0,
+    "t": 2.854
+   },
+   {
+    "type": "stage",
+    "stage": "duplicate",
+    "label": "Duplicate detection",
+    "state": "running",
+    "t": 2.854
+   },
+   {
+    "type": "stage",
+    "stage": "duplicate",
+    "label": "Duplicate detection",
+    "state": "done",
+    "status": "pass",
+    "summary": "No duplicate found",
+    "checks": [
+     {
+      "id": "dup_file",
+      "label": "Same file seen before",
+      "status": "pass",
+      "detail": "File fingerprint (SHA-256) is new"
+     },
+     {
+      "id": "dup_inv",
+      "label": "Duplicate of a booked invoice",
+      "status": "pass",
+      "detail": "Compared against 0 prior invoices from this vendor (exact, normalised & fuzzy)"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 2.854
+   },
+   {
+    "type": "stage",
+    "stage": "match",
+    "label": "PO \u00b7 GRN \u00b7 invoice match",
+    "state": "running",
+    "t": 2.854
+   },
+   {
+    "type": "stage",
+    "stage": "match",
+    "label": "PO \u00b7 GRN \u00b7 invoice match",
+    "state": "done",
+    "status": "fail",
+    "summary": "PO-2026-0175 \u00b7 billable \u20b944,000 of \u20b946,300",
+    "checks": [
+     {
+      "id": "po_found",
+      "label": "Purchase order",
+      "status": "pass",
+      "detail": "PO-2026-0175 (explicit on invoice) \u00b7 open \u00b7 \u20b943,500"
+     },
+     {
+      "id": "line_match",
+      "label": "Invoice lines \u2194 PO lines",
+      "status": "pass",
+      "detail": "2/2 lines matched to PO lines"
+     },
+     {
+      "id": "price",
+      "label": "Unit price vs PO",
+      "status": "fail",
+      "detail": "Tap Set M10 (3 pc): \u20b91,390 vs PO \u20b91,250 (+11.2%)"
+     },
+     {
+      "id": "grn",
+      "label": "3-way match (PO \u00b7 GRN \u00b7 invoice)",
+      "status": "pass",
+      "detail": "Billed quantities \u2264 received and not previously invoiced"
+     },
+     {
+      "id": "po_value",
+      "label": "Cumulative billing vs PO value",
+      "status": "fail",
+      "detail": "Previously billed \u20b90 + this \u20b946,300 = \u20b946,300 vs PO \u20b943,500 \u2192 over by \u20b92,800 (6.4%)"
+     }
+    ],
+    "data": {
+     "po_number": "PO-2026-0175",
+     "inferred": false,
+     "candidates": [],
+     "lines": [
+      {
+       "invoice_line": "HSS Drill Bit 8mm (HSN 8207)",
+       "po_line": "L1 HSS Drill Bit 8mm",
+       "score": 1.0,
+       "inv_qty": 100.0,
+       "po_qty": 100,
+       "prev_billed": 0,
+       "received": 100,
+       "billable_qty": 100.0,
+       "inv_price": 185.0,
+       "po_price": 185.0,
+       "price_var_pct": 0.0,
+       "status": "pass",
+       "note": "matches PO & GRN"
+      },
+      {
+       "invoice_line": "Tap Set M10 (3 pc) (HSN 8207)",
+       "po_line": "L2 Tap Set M10 (3 pc)",
+       "score": 0.983,
+       "inv_qty": 20.0,
+       "po_qty": 20,
+       "prev_billed": 0,
+       "received": 20,
+       "billable_qty": 20.0,
+       "inv_price": 1390.0,
+       "po_price": 1250.0,
+       "price_var_pct": 11.2,
+       "status": "fail",
+       "note": "price +11.2%"
+      }
+     ]
+    },
+    "ms": 0,
+    "t": 2.854
+   },
+   {
+    "type": "stage",
+    "stage": "tax",
+    "label": "GST compliance",
+    "state": "running",
+    "t": 2.854
+   },
+   {
+    "type": "stage",
+    "stage": "tax",
+    "label": "GST compliance",
+    "state": "done",
+    "status": "pass",
+    "summary": "GST compliant",
+    "checks": [
+     {
+      "id": "buyer_gstin",
+      "label": "Billed to our GSTIN",
+      "status": "pass",
+      "detail": "29AAKCK4821L1Z2"
+     },
+     {
+      "id": "tax_type",
+      "label": "Correct GST type for place of supply",
+      "status": "pass",
+      "detail": "Gujarat \u2192 Karnataka = inter-state \u2192 IGST \u2713"
+     },
+     {
+      "id": "tax_calc",
+      "label": "GST amount = taxable \u00d7 rate",
+      "status": "pass",
+      "detail": "\u20b946,300 \u00d7 18% = \u20b98,334 vs charged \u20b98,334"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 2.854
+   },
+   {
+    "type": "stage",
+    "stage": "decide",
+    "label": "Decision & actions",
+    "state": "running",
+    "t": 2.854
+   },
+   {
+    "type": "stage",
+    "stage": "decide",
+    "label": "Decision & actions",
+    "state": "done",
+    "status": "warn",
+    "summary": "On hold \u2014 Procurement (buyer)",
+    "checks": [
+     {
+      "id": "decision",
+      "label": "Decision",
+      "status": "warn",
+      "detail": "On hold \u2014 Procurement (buyer)"
+     },
+     {
+      "id": "task",
+      "label": "Task \u2192 Procurement (buyer)",
+      "status": "info",
+      "detail": "Was a price revision agreed with the vendor? If yes, amend PO-2026-0175; if not, we'll request a credit note for \u20b92,800 + GST."
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 2.855
+   }
+  ]
  },
  {
   "id": "seed-E03_grn_short_receipt",
@@ -496,7 +1605,7 @@
   "total": 96760.0,
   "approved_amount": 72570.0,
   "risk_caught": 24190.0,
-  "duration_ms": 33857,
+  "duration_ms": 2784,
   "doc_kind": "digital",
   "summary": {
    "vendor_id": "V005",
@@ -518,7 +1627,7 @@
    "fields": {
     "line_items": [
      {
-      "description": "Turning Insert CNMG 120408",
+      "description": "Turning Insert CNMG 120408 (HSN 8209)",
       "hsn_sac": "8209",
       "quantity": 200.0,
       "unit": "nos",
@@ -526,64 +1635,68 @@
       "amount": 82000.0
      }
     ],
+    "amount_in_words": null,
     "bank_account_name": "Precision Tooling Works",
     "bank_account_number": "917020045678123",
     "bank_ifsc": "UTIB0000123",
     "bank_name": "Axis Bank, Rajkot",
     "boxes": {
      "bank_account_number": [
-      447,
-      235,
-      456,
-      355
+      446,
+      119,
+      459,
+      242
      ],
      "grand_total": [
-      357,
-      845,
-      367,
-      929
+      360,
+      859,
+      374,
+      928
      ],
      "invoice_date": [
-      177,
-      845,
-      187,
-      929
+      188,
+      848,
+      198,
+      928
      ],
      "invoice_number": [
-      163,
-      845,
-      173,
-      929
+      172,
+      822,
+      183,
+      928
      ],
      "po_reference": [
-      191,
-      845,
-      201,
-      929
+      205,
+      833,
+      215,
+      928
      ],
      "vendor_gstin": [
-      79,
-      135,
-      89,
-      265
+      91,
+      113,
+      100,
+      236
      ]
     },
     "buyer_gstin": "29AAKCK4821L1Z2",
     "buyer_name": "Kaveri Precision Components Pvt Ltd",
+    "cgst": null,
     "currency": "INR",
     "grand_total": 96760.0,
     "gst_rate_percent": 18.0,
     "igst": 14760.0,
     "invoice_date": "2026-11-14",
     "invoice_number": "PTW/2627/0241",
-    "notes": "This is a computer generated invoice. Thank you for your business.",
+    "notes": null,
+    "order_reference_text": null,
+    "place_of_supply": null,
     "po_reference": "PO-2026-0171",
+    "rates_include_tax": null,
+    "sgst": null,
     "subtotal": 82000.0,
     "vendor_address": "Plot 221, GIDC Lodhika, Metoda, Rajkot 360021, Gujarat",
     "vendor_gstin": "24AAHFP2207C1ZV",
     "vendor_name": "Precision Tooling Works",
-    "cgst": null,
-    "sgst": null,
     "_repairs": []
    },
    "decision": {
@@ -689,7 +1802,7 @@
     "candidates": [],
     "lines": [
      {
-      "invoice_line": "Turning Insert CNMG 120408",
+      "invoice_line": "Turning Insert CNMG 120408 (HSN 8209)",
       "po_line": "L2 Turning Insert CNMG 120408",
       "score": 1.0,
       "inv_qty": 200.0,
@@ -713,26 +1826,571 @@
     ]
    },
    "meta": {
-    "model": "gemini-3.1-flash-lite",
-    "latency_ms": 33846,
+    "model": "gemini-3.5-flash-lite",
+    "latency_ms": 2775,
     "raced": 3,
     "fallbacks": [
-     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
-     "gemini-3.5-flash-lite: HTTP 503 UNAVAILABLE",
-     "gemini-3.1-flash-lite: HTTP 503 UNAVAILABLE",
-     "gemini-flash-latest: HTTP 429 RESOURCE_EXHAUSTED",
-     "gemini-flash-lite-latest: HTTP 503 UNAVAILABLE",
-     "gemini-3.8-flash: HTTP 503 UNAVAILABLE",
-     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
-     "gemini-3.5-flash-lite: HTTP 503 UNAVAILABLE",
-     "gemini-3.8-flash: HTTP 429 RESOURCE_EXHAUSTED",
-     "gemini-flash-lite-latest: HTTP 503 UNAVAILABLE",
-     "gemini-flash-latest: HTTP 503 UNAVAILABLE"
+     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
     ]
    },
    "doc_kind": "digital"
   },
-  "events": []
+  "events": [
+   {
+    "type": "run",
+    "id": "59cb7f13be294d029af4d276da180e02",
+    "filename": "E03_grn_short_receipt.pdf",
+    "stages": [
+     {
+      "id": "intake",
+      "label": "Intake & fingerprint"
+     },
+     {
+      "id": "extract",
+      "label": "AI extraction"
+     },
+     {
+      "id": "verify",
+      "label": "Verify extraction"
+     },
+     {
+      "id": "vendor",
+      "label": "Vendor & bank check"
+     },
+     {
+      "id": "duplicate",
+      "label": "Duplicate detection"
+     },
+     {
+      "id": "match",
+      "label": "PO \u00b7 GRN \u00b7 invoice match"
+     },
+     {
+      "id": "tax",
+      "label": "GST compliance"
+     },
+     {
+      "id": "decide",
+      "label": "Decision & actions"
+     }
+    ],
+    "t": 0.0
+   },
+   {
+    "type": "stage",
+    "stage": "intake",
+    "label": "Intake & fingerprint",
+    "state": "running",
+    "t": 0.0
+   },
+   {
+    "type": "stage",
+    "stage": "intake",
+    "label": "Intake & fingerprint",
+    "state": "done",
+    "status": "pass",
+    "summary": "Digital PDF \u00b7 SHA-256 3815aac0c86d\u2026",
+    "checks": [
+     {
+      "id": "format",
+      "label": "Readable PDF",
+      "status": "pass",
+      "detail": "1 page(s), 3 KB"
+     },
+     {
+      "id": "text_layer",
+      "label": "Document type",
+      "status": "info",
+      "detail": "Digital PDF \u2014 text layer present; values will be grounded against it"
+     }
+    ],
+    "data": {
+     "kind": "digital",
+     "sha256": "3815aac0c86d49f6d99ee65020e8d504ce0148a2ae86da3601013d64ea242833"
+    },
+    "ms": 7,
+    "t": 0.008
+   },
+   {
+    "type": "stage",
+    "stage": "extract",
+    "label": "AI extraction",
+    "state": "running",
+    "t": 0.008
+   },
+   {
+    "type": "stage",
+    "stage": "extract",
+    "label": "AI extraction",
+    "state": "done",
+    "status": "pass",
+    "summary": "Precision Tooling Works \u00b7 PTW/2627/0241 \u00b7 \u20b996,760",
+    "checks": [
+     {
+      "id": "model",
+      "label": "Model",
+      "status": "info",
+      "detail": "gemini-3.5-flash-lite \u00b7 2775 ms \u00b7 raced 3 models in parallel, first valid answer wins \u00b7 1 busy/failed: gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
+     },
+     {
+      "id": "fields",
+      "label": "Fields extracted",
+      "status": "pass",
+      "detail": "1 line items \u00b7 vendor 'Precision Tooling Works' \u00b7 invoice PTW/2627/0241 \u00b7 total \u20b996,760"
+     }
+    ],
+    "data": {
+     "fields": {
+      "line_items": [
+       {
+        "description": "Turning Insert CNMG 120408 (HSN 8209)",
+        "hsn_sac": "8209",
+        "quantity": 200.0,
+        "unit": "nos",
+        "unit_price": 410.0,
+        "amount": 82000.0
+       }
+      ],
+      "amount_in_words": null,
+      "bank_account_name": "Precision Tooling Works",
+      "bank_account_number": "917020045678123",
+      "bank_ifsc": "UTIB0000123",
+      "bank_name": "Axis Bank, Rajkot",
+      "boxes": {
+       "bank_account_number": [
+        446,
+        119,
+        459,
+        242
+       ],
+       "grand_total": [
+        360,
+        859,
+        374,
+        928
+       ],
+       "invoice_date": [
+        188,
+        848,
+        198,
+        928
+       ],
+       "invoice_number": [
+        172,
+        822,
+        183,
+        928
+       ],
+       "po_reference": [
+        205,
+        833,
+        215,
+        928
+       ],
+       "vendor_gstin": [
+        91,
+        113,
+        100,
+        236
+       ]
+      },
+      "buyer_gstin": "29AAKCK4821L1Z2",
+      "buyer_name": "Kaveri Precision Components Pvt Ltd",
+      "cgst": null,
+      "currency": "INR",
+      "grand_total": 96760.0,
+      "gst_rate_percent": 18.0,
+      "igst": 14760.0,
+      "invoice_date": "2026-11-14",
+      "invoice_number": "PTW/2627/0241",
+      "notes": null,
+      "order_reference_text": null,
+      "place_of_supply": null,
+      "po_reference": "PO-2026-0171",
+      "rates_include_tax": null,
+      "sgst": null,
+      "subtotal": 82000.0,
+      "vendor_address": "Plot 221, GIDC Lodhika, Metoda, Rajkot 360021, Gujarat",
+      "vendor_gstin": "24AAHFP2207C1ZV",
+      "vendor_name": "Precision Tooling Works",
+      "_repairs": []
+     },
+     "meta": {
+      "model": "gemini-3.5-flash-lite",
+      "latency_ms": 2775,
+      "raced": 3,
+      "fallbacks": [
+       "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
+      ]
+     }
+    },
+    "ms": 2775,
+    "t": 2.783
+   },
+   {
+    "type": "stage",
+    "stage": "verify",
+    "label": "Verify extraction",
+    "state": "running",
+    "t": 2.783
+   },
+   {
+    "type": "stage",
+    "stage": "verify",
+    "label": "Verify extraction",
+    "state": "done",
+    "status": "pass",
+    "summary": "All values verified & arithmetic reconciles",
+    "checks": [
+     {
+      "id": "grounding",
+      "label": "Values exist on the page (anti-hallucination)",
+      "status": "pass",
+      "detail": "8 values found verbatim in the PDF text layer"
+     },
+     {
+      "id": "inv_no",
+      "label": "Invoice number present",
+      "status": "pass",
+      "detail": "PTW/2627/0241"
+     },
+     {
+      "id": "inv_date",
+      "label": "Invoice date",
+      "status": "pass",
+      "detail": "14 Nov 2026 \u00b7 6 days old"
+     },
+     {
+      "id": "line_math",
+      "label": "Line maths (qty \u00d7 rate = amount)",
+      "status": "pass",
+      "detail": "All 1 lines reconcile"
+     },
+     {
+      "id": "subtotal",
+      "label": "Lines add up to subtotal",
+      "status": "pass",
+      "detail": "\u03a3 lines \u20b982,000 vs subtotal \u20b982,000"
+     },
+     {
+      "id": "total",
+      "label": "Subtotal + GST = total",
+      "status": "pass",
+      "detail": "\u20b982,000 + \u20b914,760 = \u20b996,760 vs total \u20b996,760"
+     }
+    ],
+    "data": {
+     "provenance": {
+      "invoice_number": {
+       "status": "grounded",
+       "bbox": [
+        0.8253906620479146,
+        0.16086364671764036,
+        0.9285715823703385,
+        0.17473601013577242
+       ]
+      },
+      "vendor_gstin": {
+       "status": "grounded",
+       "bbox": [
+        0.11623471815580752,
+        0.07732692382699646,
+        0.24022431058356947,
+        0.09038326106994284
+       ]
+      },
+      "buyer_gstin": {
+       "status": "grounded",
+       "bbox": [
+        0.11903510152522379,
+        0.2063181724000585,
+        0.24761839824587217,
+        0.2201905358181906
+       ]
+      },
+      "po_reference": {
+       "status": "grounded",
+       "bbox": [
+        0.8349148133470795,
+        0.19116671217111916,
+        0.9285715823703385,
+        0.20503907558925125
+       ]
+      },
+      "bank_account_number": {
+       "status": "grounded",
+       "bbox": [
+        0.12221934134078814,
+        0.443691901169259,
+        0.24130700364349617,
+        0.45756428271184113
+       ]
+      },
+      "bank_ifsc": {
+       "status": "grounded",
+       "bbox": [
+        0.11189555105893113,
+        0.4588433976470984,
+        0.1999975776671679,
+        0.4727157791896805
+       ]
+      },
+      "grand_total": {
+       "status": "grounded",
+       "bbox": [
+        0.8538497661487574,
+        0.35597732036821345,
+        0.9285715823703385,
+        0.3723334040428543
+       ]
+      },
+      "subtotal": {
+       "status": "grounded",
+       "bbox": [
+        0.8650579642458547,
+        0.319112769023024,
+        0.9285714798377319,
+        0.33298515056560607
+       ]
+      }
+     }
+    },
+    "ms": 0,
+    "t": 2.784
+   },
+   {
+    "type": "stage",
+    "stage": "vendor",
+    "label": "Vendor & bank check",
+    "state": "running",
+    "t": 2.784
+   },
+   {
+    "type": "stage",
+    "stage": "vendor",
+    "label": "Vendor & bank check",
+    "state": "done",
+    "status": "pass",
+    "summary": "Precision Tooling Works (V005)",
+    "checks": [
+     {
+      "id": "gstin_valid",
+      "label": "Vendor GSTIN valid (checksum)",
+      "status": "pass",
+      "detail": "Valid GSTIN \u00b7 Gujarat \u00b7 PAN AAHFP2207C"
+     },
+     {
+      "id": "vendor_master",
+      "label": "Vendor in vendor master",
+      "status": "pass",
+      "detail": "Precision Tooling Works (V005) \u00b7 GSTIN exact match"
+     },
+     {
+      "id": "gstin_match",
+      "label": "GSTIN matches vendor master",
+      "status": "pass",
+      "detail": "24AAHFP2207C1ZV"
+     },
+     {
+      "id": "vendor_status",
+      "label": "Vendor status",
+      "status": "pass",
+      "detail": "Active \u00b7 Cutting tools"
+     },
+     {
+      "id": "bank",
+      "label": "Remit-to bank matches master",
+      "status": "pass",
+      "detail": "A/c \u2022\u2022\u2022\u20228123 \u00b7 UTIB0000123 (verified)"
+     }
+    ],
+    "data": {
+     "vendor_id": "V005",
+     "how": "GSTIN exact match"
+    },
+    "ms": 0,
+    "t": 2.784
+   },
+   {
+    "type": "stage",
+    "stage": "duplicate",
+    "label": "Duplicate detection",
+    "state": "running",
+    "t": 2.784
+   },
+   {
+    "type": "stage",
+    "stage": "duplicate",
+    "label": "Duplicate detection",
+    "state": "done",
+    "status": "pass",
+    "summary": "No duplicate found",
+    "checks": [
+     {
+      "id": "dup_file",
+      "label": "Same file seen before",
+      "status": "pass",
+      "detail": "File fingerprint (SHA-256) is new"
+     },
+     {
+      "id": "dup_inv",
+      "label": "Duplicate of a booked invoice",
+      "status": "pass",
+      "detail": "Compared against 0 prior invoices from this vendor (exact, normalised & fuzzy)"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 2.784
+   },
+   {
+    "type": "stage",
+    "stage": "match",
+    "label": "PO \u00b7 GRN \u00b7 invoice match",
+    "state": "running",
+    "t": 2.784
+   },
+   {
+    "type": "stage",
+    "stage": "match",
+    "label": "PO \u00b7 GRN \u00b7 invoice match",
+    "state": "done",
+    "status": "fail",
+    "summary": "PO-2026-0171 \u00b7 billable \u20b961,500 of \u20b982,000",
+    "checks": [
+     {
+      "id": "po_found",
+      "label": "Purchase order",
+      "status": "pass",
+      "detail": "PO-2026-0171 (explicit on invoice) \u00b7 open \u00b7 \u20b91,52,500"
+     },
+     {
+      "id": "line_match",
+      "label": "Invoice lines \u2194 PO lines",
+      "status": "pass",
+      "detail": "1/1 lines matched to PO lines"
+     },
+     {
+      "id": "price",
+      "label": "Unit price vs PO",
+      "status": "pass",
+      "detail": "All unit prices match PO"
+     },
+     {
+      "id": "grn",
+      "label": "3-way match (PO \u00b7 GRN \u00b7 invoice)",
+      "status": "fail",
+      "detail": "Turning Insert CNMG 120408: billed 200, GRN shows 150 received (0 already invoiced) \u2192 150 billable"
+     },
+     {
+      "id": "po_value",
+      "label": "Cumulative billing vs PO value",
+      "status": "pass",
+      "detail": "Previously billed \u20b90 + this \u20b982,000 = \u20b982,000 vs PO \u20b91,52,500"
+     }
+    ],
+    "data": {
+     "po_number": "PO-2026-0171",
+     "inferred": false,
+     "candidates": [],
+     "lines": [
+      {
+       "invoice_line": "Turning Insert CNMG 120408 (HSN 8209)",
+       "po_line": "L2 Turning Insert CNMG 120408",
+       "score": 1.0,
+       "inv_qty": 200.0,
+       "po_qty": 200,
+       "prev_billed": 0,
+       "received": 150,
+       "billable_qty": 150,
+       "inv_price": 410.0,
+       "po_price": 410.0,
+       "price_var_pct": 0.0,
+       "status": "fail",
+       "note": "billable 150 of 200"
+      }
+     ]
+    },
+    "ms": 0,
+    "t": 2.784
+   },
+   {
+    "type": "stage",
+    "stage": "tax",
+    "label": "GST compliance",
+    "state": "running",
+    "t": 2.784
+   },
+   {
+    "type": "stage",
+    "stage": "tax",
+    "label": "GST compliance",
+    "state": "done",
+    "status": "pass",
+    "summary": "GST compliant",
+    "checks": [
+     {
+      "id": "buyer_gstin",
+      "label": "Billed to our GSTIN",
+      "status": "pass",
+      "detail": "29AAKCK4821L1Z2"
+     },
+     {
+      "id": "tax_type",
+      "label": "Correct GST type for place of supply",
+      "status": "pass",
+      "detail": "Gujarat \u2192 Karnataka = inter-state \u2192 IGST \u2713"
+     },
+     {
+      "id": "tax_calc",
+      "label": "GST amount = taxable \u00d7 rate",
+      "status": "pass",
+      "detail": "\u20b982,000 \u00d7 18% = \u20b914,760 vs charged \u20b914,760"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 2.784
+   },
+   {
+    "type": "stage",
+    "stage": "decide",
+    "label": "Decision & actions",
+    "state": "running",
+    "t": 2.784
+   },
+   {
+    "type": "stage",
+    "stage": "decide",
+    "label": "Decision & actions",
+    "state": "done",
+    "status": "warn",
+    "summary": "Partially approved \u2014 balance held",
+    "checks": [
+     {
+      "id": "decision",
+      "label": "Decision",
+      "status": "warn",
+      "detail": "Partially approved \u2014 balance held"
+     },
+     {
+      "id": "payment",
+      "label": "Payment proposal",
+      "status": "info",
+      "detail": "Net \u20b972,508.50 after TDS \u20b961.50 u/s 194Q \u00b7 due 2027-01-13"
+     },
+     {
+      "id": "email",
+      "label": "Vendor email drafted",
+      "status": "info",
+      "detail": "Invoice PTW/2627/0241 \u2014 partially processed"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 2.785
+   }
+  ]
  },
  {
   "id": "seed-E04_wrong_gst_type",
@@ -747,7 +2405,7 @@
   "total": 8260.0,
   "approved_amount": 0.0,
   "risk_caught": 0,
-  "duration_ms": 3236,
+  "duration_ms": 2500,
   "doc_kind": "digital",
   "summary": {
    "vendor_id": "V002",
@@ -772,46 +2430,47 @@
       "amount": 7000.0
      }
     ],
+    "amount_in_words": null,
     "bank_account_name": "Vertex Packaging Solutions Pvt Ltd",
     "bank_account_number": "1234567890123",
     "bank_ifsc": "IOBA0000321",
     "bank_name": "Indian Overseas Bank, Hosur",
     "boxes": {
      "bank_account_number": [
-      463,
-      233,
-      473,
-      333
+      468,
+      131,
+      477,
+      230
      ],
      "grand_total": [
-      375,
-      865,
-      385,
-      915
+      374,
+      855,
+      386,
+      928
      ],
      "invoice_date": [
-      177,
-      855,
-      187,
-      915
+      165,
+      864,
+      175,
+      928
      ],
      "invoice_number": [
-      163,
-      855,
-      173,
-      915
+      151,
+      852,
+      161,
+      928
      ],
      "po_reference": [
-      191,
-      855,
-      201,
-      915
+      180,
+      848,
+      189,
+      928
      ],
      "vendor_gstin": [
-      78,
-      57,
-      88,
-      237
+      84,
+      112,
+      92,
+      234
      ]
     },
     "buyer_gstin": "29AAKCK4821L1Z2",
@@ -823,10 +2482,11 @@
     "igst": null,
     "invoice_date": "2026-11-15",
     "invoice_number": "VPS/2026/415",
-    "notes": "This is a computer generated invoice. Thank you for your business.",
+    "notes": null,
+    "order_reference_text": null,
     "place_of_supply": null,
     "po_reference": "PO-2026-0142",
-    "rates_include_tax": false,
+    "rates_include_tax": null,
     "sgst": 630.0,
     "subtotal": 7000.0,
     "vendor_address": "SIPCOT Industrial Complex, Phase II, Hosur 635109, Tamil Nadu",
@@ -923,8 +2583,8 @@
     ]
    },
    "meta": {
-    "model": "gemini-3.1-flash-lite",
-    "latency_ms": 3225,
+    "model": "gemini-3.5-flash-lite",
+    "latency_ms": 2489,
     "raced": 3,
     "fallbacks": [
      "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
@@ -932,7 +2592,556 @@
    },
    "doc_kind": "digital"
   },
-  "events": []
+  "events": [
+   {
+    "type": "run",
+    "id": "58a6f01073a0411d905c59c9c40a16af",
+    "filename": "E04_wrong_gst_type.pdf",
+    "stages": [
+     {
+      "id": "intake",
+      "label": "Intake & fingerprint"
+     },
+     {
+      "id": "extract",
+      "label": "AI extraction"
+     },
+     {
+      "id": "verify",
+      "label": "Verify extraction"
+     },
+     {
+      "id": "vendor",
+      "label": "Vendor & bank check"
+     },
+     {
+      "id": "duplicate",
+      "label": "Duplicate detection"
+     },
+     {
+      "id": "match",
+      "label": "PO \u00b7 GRN \u00b7 invoice match"
+     },
+     {
+      "id": "tax",
+      "label": "GST compliance"
+     },
+     {
+      "id": "decide",
+      "label": "Decision & actions"
+     }
+    ],
+    "t": 0.0
+   },
+   {
+    "type": "stage",
+    "stage": "intake",
+    "label": "Intake & fingerprint",
+    "state": "running",
+    "t": 0.0
+   },
+   {
+    "type": "stage",
+    "stage": "intake",
+    "label": "Intake & fingerprint",
+    "state": "done",
+    "status": "pass",
+    "summary": "Digital PDF \u00b7 SHA-256 bfa7412b1415\u2026",
+    "checks": [
+     {
+      "id": "format",
+      "label": "Readable PDF",
+      "status": "pass",
+      "detail": "1 page(s), 3 KB"
+     },
+     {
+      "id": "text_layer",
+      "label": "Document type",
+      "status": "info",
+      "detail": "Digital PDF \u2014 text layer present; values will be grounded against it"
+     }
+    ],
+    "data": {
+     "kind": "digital",
+     "sha256": "bfa7412b141519d37c52d7abbd9747573132ab09bf2286e096b43a1c64cb2196"
+    },
+    "ms": 8,
+    "t": 0.009
+   },
+   {
+    "type": "stage",
+    "stage": "extract",
+    "label": "AI extraction",
+    "state": "running",
+    "t": 0.009
+   },
+   {
+    "type": "stage",
+    "stage": "extract",
+    "label": "AI extraction",
+    "state": "done",
+    "status": "pass",
+    "summary": "Vertex Packaging Solutions Pvt Ltd \u00b7 VPS/2026/415 \u00b7 \u20b98,260",
+    "checks": [
+     {
+      "id": "model",
+      "label": "Model",
+      "status": "info",
+      "detail": "gemini-3.5-flash-lite \u00b7 2489 ms \u00b7 raced 3 models in parallel, first valid answer wins \u00b7 1 busy/failed: gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
+     },
+     {
+      "id": "fields",
+      "label": "Fields extracted",
+      "status": "pass",
+      "detail": "1 line items \u00b7 vendor 'Vertex Packaging Solutions Pvt Ltd' \u00b7 invoice VPS/2026/415 \u00b7 total \u20b98,260"
+     }
+    ],
+    "data": {
+     "fields": {
+      "line_items": [
+       {
+        "description": "EPE Foam Insert 380x280 (HSN 3921)",
+        "hsn_sac": "3921",
+        "quantity": 1000.0,
+        "unit": "nos",
+        "unit_price": 7.0,
+        "amount": 7000.0
+       }
+      ],
+      "amount_in_words": null,
+      "bank_account_name": "Vertex Packaging Solutions Pvt Ltd",
+      "bank_account_number": "1234567890123",
+      "bank_ifsc": "IOBA0000321",
+      "bank_name": "Indian Overseas Bank, Hosur",
+      "boxes": {
+       "bank_account_number": [
+        468,
+        131,
+        477,
+        230
+       ],
+       "grand_total": [
+        374,
+        855,
+        386,
+        928
+       ],
+       "invoice_date": [
+        165,
+        864,
+        175,
+        928
+       ],
+       "invoice_number": [
+        151,
+        852,
+        161,
+        928
+       ],
+       "po_reference": [
+        180,
+        848,
+        189,
+        928
+       ],
+       "vendor_gstin": [
+        84,
+        112,
+        92,
+        234
+       ]
+      },
+      "buyer_gstin": "29AAKCK4821L1Z2",
+      "buyer_name": "Kaveri Precision Components Pvt Ltd",
+      "cgst": 630.0,
+      "currency": "INR",
+      "grand_total": 8260.0,
+      "gst_rate_percent": 18.0,
+      "igst": null,
+      "invoice_date": "2026-11-15",
+      "invoice_number": "VPS/2026/415",
+      "notes": null,
+      "order_reference_text": null,
+      "place_of_supply": null,
+      "po_reference": "PO-2026-0142",
+      "rates_include_tax": null,
+      "sgst": 630.0,
+      "subtotal": 7000.0,
+      "vendor_address": "SIPCOT Industrial Complex, Phase II, Hosur 635109, Tamil Nadu",
+      "vendor_gstin": "33AAECV3391P1ZT",
+      "vendor_name": "Vertex Packaging Solutions Pvt Ltd",
+      "_repairs": []
+     },
+     "meta": {
+      "model": "gemini-3.5-flash-lite",
+      "latency_ms": 2489,
+      "raced": 3,
+      "fallbacks": [
+       "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
+      ]
+     }
+    },
+    "ms": 2489,
+    "t": 2.498
+   },
+   {
+    "type": "stage",
+    "stage": "verify",
+    "label": "Verify extraction",
+    "state": "running",
+    "t": 2.498
+   },
+   {
+    "type": "stage",
+    "stage": "verify",
+    "label": "Verify extraction",
+    "state": "done",
+    "status": "pass",
+    "summary": "All values verified & arithmetic reconciles",
+    "checks": [
+     {
+      "id": "grounding",
+      "label": "Values exist on the page (anti-hallucination)",
+      "status": "pass",
+      "detail": "8 values found verbatim in the PDF text layer"
+     },
+     {
+      "id": "inv_no",
+      "label": "Invoice number present",
+      "status": "pass",
+      "detail": "VPS/2026/415"
+     },
+     {
+      "id": "inv_date",
+      "label": "Invoice date",
+      "status": "pass",
+      "detail": "15 Nov 2026 \u00b7 5 days old"
+     },
+     {
+      "id": "line_math",
+      "label": "Line maths (qty \u00d7 rate = amount)",
+      "status": "pass",
+      "detail": "All 1 lines reconcile"
+     },
+     {
+      "id": "subtotal",
+      "label": "Lines add up to subtotal",
+      "status": "pass",
+      "detail": "\u03a3 lines \u20b97,000 vs subtotal \u20b97,000"
+     },
+     {
+      "id": "total",
+      "label": "Subtotal + GST = total",
+      "status": "pass",
+      "detail": "\u20b97,000 + \u20b91,260 = \u20b98,260 vs total \u20b98,260"
+     }
+    ],
+    "data": {
+     "provenance": {
+      "invoice_number": {
+       "status": "grounded",
+       "bbox": [
+        0.8364855103483596,
+        0.16086364671764036,
+        0.9285714798377319,
+        0.17473601013577242
+       ]
+      },
+      "vendor_gstin": {
+       "status": "grounded",
+       "bbox": [
+        0.11623471815580752,
+        0.07732692382699646,
+        0.23948517865537713,
+        0.09038326106994284
+       ]
+      },
+      "buyer_gstin": {
+       "status": "grounded",
+       "bbox": [
+        0.11903510152522379,
+        0.2063181724000585,
+        0.24761839824587217,
+        0.2201905358181906
+       ]
+      },
+      "po_reference": {
+       "status": "grounded",
+       "bbox": [
+        0.8349148133470795,
+        0.19116671217111916,
+        0.9285715823703385,
+        0.20503907558925125
+       ]
+      },
+      "bank_account_number": {
+       "status": "grounded",
+       "bbox": [
+        0.12221934134078814,
+        0.4605268690621583,
+        0.22542865037867854,
+        0.4743992506047404
+       ]
+      },
+      "bank_ifsc": {
+       "status": "grounded",
+       "bbox": [
+        0.11189555105893113,
+        0.4756783655399977,
+        0.201596842815976,
+        0.4895507470825798
+       ]
+      },
+      "grand_total": {
+       "status": "grounded",
+       "bbox": [
+        0.8631900252178946,
+        0.3728123970078128,
+        0.9285715823703385,
+        0.3891684806824537
+       ]
+      },
+      "subtotal": {
+       "status": "grounded",
+       "bbox": [
+        0.8729971665114152,
+        0.319112769023024,
+        0.9285714798377319,
+        0.33298515056560607
+       ]
+      }
+     }
+    },
+    "ms": 1,
+    "t": 2.5
+   },
+   {
+    "type": "stage",
+    "stage": "vendor",
+    "label": "Vendor & bank check",
+    "state": "running",
+    "t": 2.5
+   },
+   {
+    "type": "stage",
+    "stage": "vendor",
+    "label": "Vendor & bank check",
+    "state": "done",
+    "status": "pass",
+    "summary": "Vertex Packaging Solutions Pvt Ltd (V002)",
+    "checks": [
+     {
+      "id": "gstin_valid",
+      "label": "Vendor GSTIN valid (checksum)",
+      "status": "pass",
+      "detail": "Valid GSTIN \u00b7 Tamil Nadu \u00b7 PAN AAECV3391P"
+     },
+     {
+      "id": "vendor_master",
+      "label": "Vendor in vendor master",
+      "status": "pass",
+      "detail": "Vertex Packaging Solutions Pvt Ltd (V002) \u00b7 GSTIN exact match"
+     },
+     {
+      "id": "gstin_match",
+      "label": "GSTIN matches vendor master",
+      "status": "pass",
+      "detail": "33AAECV3391P1ZT"
+     },
+     {
+      "id": "vendor_status",
+      "label": "Vendor status",
+      "status": "pass",
+      "detail": "Active \u00b7 Packaging \u00b7 MSME (Small)"
+     },
+     {
+      "id": "bank",
+      "label": "Remit-to bank matches master",
+      "status": "pass",
+      "detail": "A/c \u2022\u2022\u2022\u20220123 \u00b7 IOBA0000321 (verified)"
+     }
+    ],
+    "data": {
+     "vendor_id": "V002",
+     "how": "GSTIN exact match"
+    },
+    "ms": 0,
+    "t": 2.5
+   },
+   {
+    "type": "stage",
+    "stage": "duplicate",
+    "label": "Duplicate detection",
+    "state": "running",
+    "t": 2.5
+   },
+   {
+    "type": "stage",
+    "stage": "duplicate",
+    "label": "Duplicate detection",
+    "state": "done",
+    "status": "pass",
+    "summary": "No duplicate found",
+    "checks": [
+     {
+      "id": "dup_file",
+      "label": "Same file seen before",
+      "status": "pass",
+      "detail": "File fingerprint (SHA-256) is new"
+     },
+     {
+      "id": "dup_inv",
+      "label": "Duplicate of a booked invoice",
+      "status": "pass",
+      "detail": "Compared against 2 prior invoices from this vendor (exact, normalised & fuzzy)"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 2.5
+   },
+   {
+    "type": "stage",
+    "stage": "match",
+    "label": "PO \u00b7 GRN \u00b7 invoice match",
+    "state": "running",
+    "t": 2.5
+   },
+   {
+    "type": "stage",
+    "stage": "match",
+    "label": "PO \u00b7 GRN \u00b7 invoice match",
+    "state": "done",
+    "status": "pass",
+    "summary": "PO-2026-0142 \u00b7 billable \u20b97,000 of \u20b97,000",
+    "checks": [
+     {
+      "id": "po_found",
+      "label": "Purchase order",
+      "status": "pass",
+      "detail": "PO-2026-0142 (explicit on invoice) \u00b7 open \u00b7 \u20b95,00,000"
+     },
+     {
+      "id": "line_match",
+      "label": "Invoice lines \u2194 PO lines",
+      "status": "pass",
+      "detail": "1/1 lines matched to PO lines"
+     },
+     {
+      "id": "price",
+      "label": "Unit price vs PO",
+      "status": "pass",
+      "detail": "All unit prices match PO"
+     },
+     {
+      "id": "grn",
+      "label": "3-way match (PO \u00b7 GRN \u00b7 invoice)",
+      "status": "pass",
+      "detail": "Billed quantities \u2264 received and not previously invoiced"
+     },
+     {
+      "id": "po_value",
+      "label": "Cumulative billing vs PO value",
+      "status": "pass",
+      "detail": "Previously billed \u20b93,79,000 + this \u20b97,000 = \u20b93,86,000 vs PO \u20b95,00,000"
+     }
+    ],
+    "data": {
+     "po_number": "PO-2026-0142",
+     "inferred": false,
+     "candidates": [],
+     "lines": [
+      {
+       "invoice_line": "EPE Foam Insert 380x280 (HSN 3921)",
+       "po_line": "L2 EPE Foam Insert 380x280",
+       "score": 1.0,
+       "inv_qty": 1000.0,
+       "po_qty": 10000,
+       "prev_billed": 5000,
+       "received": 10000,
+       "billable_qty": 1000.0,
+       "inv_price": 7.0,
+       "po_price": 7.0,
+       "price_var_pct": 0.0,
+       "status": "pass",
+       "note": "matches PO & GRN"
+      }
+     ]
+    },
+    "ms": 0,
+    "t": 2.5
+   },
+   {
+    "type": "stage",
+    "stage": "tax",
+    "label": "GST compliance",
+    "state": "running",
+    "t": 2.5
+   },
+   {
+    "type": "stage",
+    "stage": "tax",
+    "label": "GST compliance",
+    "state": "done",
+    "status": "fail",
+    "summary": "GST problem",
+    "checks": [
+     {
+      "id": "buyer_gstin",
+      "label": "Billed to our GSTIN",
+      "status": "pass",
+      "detail": "29AAKCK4821L1Z2"
+     },
+     {
+      "id": "tax_type",
+      "label": "Correct GST type for place of supply",
+      "status": "fail",
+      "detail": "Tamil Nadu \u2192 Karnataka is inter-state, so IGST applies \u2014 invoice charges CGST+SGST"
+     },
+     {
+      "id": "tax_calc",
+      "label": "GST amount = taxable \u00d7 rate",
+      "status": "pass",
+      "detail": "\u20b97,000 \u00d7 18% = \u20b91,260 vs charged \u20b91,260"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 2.5
+   },
+   {
+    "type": "stage",
+    "stage": "decide",
+    "label": "Decision & actions",
+    "state": "running",
+    "t": 2.501
+   },
+   {
+    "type": "stage",
+    "stage": "decide",
+    "label": "Decision & actions",
+    "state": "done",
+    "status": "fail",
+    "summary": "Rejected \u2014 returned to vendor",
+    "checks": [
+     {
+      "id": "decision",
+      "label": "Decision",
+      "status": "fail",
+      "detail": "Rejected \u2014 returned to vendor"
+     },
+     {
+      "id": "email",
+      "label": "Vendor email drafted",
+      "status": "info",
+      "detail": "Invoice VPS/2026/415 \u2014 action needed"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 2.501
+   }
+  ]
  },
  {
   "id": "seed-E05_invalid_gstin",
@@ -947,7 +3156,7 @@
   "total": 69384.0,
   "approved_amount": 0.0,
   "risk_caught": 0,
-  "duration_ms": 33066,
+  "duration_ms": 2670,
   "doc_kind": "digital",
   "summary": {
    "vendor_id": "V004",
@@ -980,37 +3189,37 @@
     "boxes": {
      "bank_account_number": [
       372,
-      352,
+      351,
       381,
       484
      ],
      "grand_total": [
-      317,
+      318,
       833,
-      328,
+      329,
       928
      ],
      "invoice_date": [
-      149,
-      579,
-      159,
-      682
+      148,
+      578,
+      158,
+      680
      ],
      "invoice_number": [
-      148,
-      161,
-      160,
+      147,
+      165,
+      157,
       237
      ],
      "po_reference": [
       198,
-      209,
+      174,
       208,
-      304
+      287
      ],
      "vendor_gstin": [
       98,
-      138,
+      142,
       107,
       277
      ]
@@ -1135,30 +3344,565 @@
     ]
    },
    "meta": {
-    "model": "gemini-flash-lite-latest",
-    "latency_ms": 33054,
+    "model": "gemini-3.5-flash-lite",
+    "latency_ms": 2659,
     "raced": 3,
     "fallbacks": [
-     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
-     "gemini-3.5-flash-lite: HTTP 503 UNAVAILABLE",
-     "gemini-flash-lite-latest: HTTP 503 UNAVAILABLE",
-     "gemini-3.8-flash: HTTP 429 RESOURCE_EXHAUSTED",
-     "gemini-flash-latest: HTTP 429 RESOURCE_EXHAUSTED",
-     "gemini-3.1-flash-lite: HTTP 503 UNAVAILABLE",
-     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
-     "gemini-3.1-flash-lite: HTTP 503 UNAVAILABLE",
-     "gemini-3.8-flash: HTTP 429 RESOURCE_EXHAUSTED",
-     "gemini-flash-lite-latest: HTTP 503 UNAVAILABLE",
-     "gemini-flash-latest: HTTP 429 RESOURCE_EXHAUSTED",
-     "gemini-3.5-flash-lite: HTTP 503 UNAVAILABLE",
-     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
-     "gemini-3.5-flash-lite: HTTP 503 UNAVAILABLE",
-     "gemini-3.8-flash: HTTP 429 RESOURCE_EXHAUSTED"
+     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
     ]
    },
    "doc_kind": "digital"
   },
-  "events": []
+  "events": [
+   {
+    "type": "run",
+    "id": "ec2731bdb96e4824a21807799b4407fd",
+    "filename": "E05_invalid_gstin.pdf",
+    "stages": [
+     {
+      "id": "intake",
+      "label": "Intake & fingerprint"
+     },
+     {
+      "id": "extract",
+      "label": "AI extraction"
+     },
+     {
+      "id": "verify",
+      "label": "Verify extraction"
+     },
+     {
+      "id": "vendor",
+      "label": "Vendor & bank check"
+     },
+     {
+      "id": "duplicate",
+      "label": "Duplicate detection"
+     },
+     {
+      "id": "match",
+      "label": "PO \u00b7 GRN \u00b7 invoice match"
+     },
+     {
+      "id": "tax",
+      "label": "GST compliance"
+     },
+     {
+      "id": "decide",
+      "label": "Decision & actions"
+     }
+    ],
+    "t": 0.0
+   },
+   {
+    "type": "stage",
+    "stage": "intake",
+    "label": "Intake & fingerprint",
+    "state": "running",
+    "t": 0.0
+   },
+   {
+    "type": "stage",
+    "stage": "intake",
+    "label": "Intake & fingerprint",
+    "state": "done",
+    "status": "pass",
+    "summary": "Digital PDF \u00b7 SHA-256 f10b92617e16\u2026",
+    "checks": [
+     {
+      "id": "format",
+      "label": "Readable PDF",
+      "status": "pass",
+      "detail": "1 page(s), 3 KB"
+     },
+     {
+      "id": "text_layer",
+      "label": "Document type",
+      "status": "info",
+      "detail": "Digital PDF \u2014 text layer present; values will be grounded against it"
+     }
+    ],
+    "data": {
+     "kind": "digital",
+     "sha256": "f10b92617e1682744ffb8a2c7d981317c4a4b789e98add40074fb3b6923f5389"
+    },
+    "ms": 9,
+    "t": 0.01
+   },
+   {
+    "type": "stage",
+    "stage": "extract",
+    "label": "AI extraction",
+    "state": "running",
+    "t": 0.01
+   },
+   {
+    "type": "stage",
+    "stage": "extract",
+    "label": "AI extraction",
+    "state": "done",
+    "status": "pass",
+    "summary": "DECCAN ELECTRICALS \u00b7 DE/1152 \u00b7 \u20b969,384",
+    "checks": [
+     {
+      "id": "model",
+      "label": "Model",
+      "status": "info",
+      "detail": "gemini-3.5-flash-lite \u00b7 2659 ms \u00b7 raced 3 models in parallel, first valid answer wins \u00b7 1 busy/failed: gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
+     },
+     {
+      "id": "fields",
+      "label": "Fields extracted",
+      "status": "pass",
+      "detail": "1 line items \u00b7 vendor 'DECCAN ELECTRICALS' \u00b7 invoice DE/1152 \u00b7 total \u20b969,384"
+     }
+    ],
+    "data": {
+     "fields": {
+      "line_items": [
+       {
+        "description": "LED panel 40W 2x2",
+        "hsn_sac": "9405",
+        "quantity": 60.0,
+        "unit": null,
+        "unit_price": 980.0,
+        "amount": 58800.0
+       }
+      ],
+      "amount_in_words": "Rupees Sixty Nine Thousand Three Hundred Eighty Four Only",
+      "bank_account_name": null,
+      "bank_account_number": "33410100009876",
+      "bank_ifsc": "BARB0PEENYA",
+      "bank_name": "Bank of Baroda",
+      "boxes": {
+       "bank_account_number": [
+        372,
+        351,
+        381,
+        484
+       ],
+       "grand_total": [
+        318,
+        833,
+        329,
+        928
+       ],
+       "invoice_date": [
+        148,
+        578,
+        158,
+        680
+       ],
+       "invoice_number": [
+        147,
+        165,
+        157,
+        237
+       ],
+       "po_reference": [
+        198,
+        174,
+        208,
+        287
+       ],
+       "vendor_gstin": [
+        98,
+        142,
+        107,
+        277
+       ]
+      },
+      "buyer_gstin": "29AAKCK4821L1Z2",
+      "buyer_name": "M/s Kaveri Precision Components Pvt Ltd",
+      "cgst": 5292.0,
+      "currency": "INR",
+      "grand_total": 69384.0,
+      "gst_rate_percent": 18.0,
+      "igst": null,
+      "invoice_date": "2026-11-17",
+      "invoice_number": "DE/1152",
+      "notes": null,
+      "order_reference_text": "PO-2026-0163",
+      "place_of_supply": null,
+      "po_reference": "PO-2026-0163",
+      "rates_include_tax": null,
+      "sgst": 5292.0,
+      "subtotal": 58800.0,
+      "vendor_address": "Shop 14, Peenya Industrial Area 1st Stage, Bengaluru 560058",
+      "vendor_gstin": "29AFZPD1185M1ZX",
+      "vendor_name": "DECCAN ELECTRICALS",
+      "_repairs": []
+     },
+     "meta": {
+      "model": "gemini-3.5-flash-lite",
+      "latency_ms": 2659,
+      "raced": 3,
+      "fallbacks": [
+       "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
+      ]
+     }
+    },
+    "ms": 2659,
+    "t": 2.669
+   },
+   {
+    "type": "stage",
+    "stage": "verify",
+    "label": "Verify extraction",
+    "state": "running",
+    "t": 2.669
+   },
+   {
+    "type": "stage",
+    "stage": "verify",
+    "label": "Verify extraction",
+    "state": "done",
+    "status": "pass",
+    "summary": "All values verified & arithmetic reconciles",
+    "checks": [
+     {
+      "id": "grounding",
+      "label": "Values exist on the page (anti-hallucination)",
+      "status": "pass",
+      "detail": "8 values found verbatim in the PDF text layer"
+     },
+     {
+      "id": "inv_no",
+      "label": "Invoice number present",
+      "status": "pass",
+      "detail": "DE/1152"
+     },
+     {
+      "id": "inv_date",
+      "label": "Invoice date",
+      "status": "pass",
+      "detail": "17 Nov 2026 \u00b7 3 days old"
+     },
+     {
+      "id": "line_math",
+      "label": "Line maths (qty \u00d7 rate = amount)",
+      "status": "pass",
+      "detail": "All 1 lines reconcile"
+     },
+     {
+      "id": "subtotal",
+      "label": "Lines add up to subtotal",
+      "status": "pass",
+      "detail": "\u03a3 lines \u20b958,800 vs subtotal \u20b958,800"
+     },
+     {
+      "id": "total",
+      "label": "Subtotal + GST = total",
+      "status": "pass",
+      "detail": "\u20b958,800 + \u20b910,584 = \u20b969,384 vs total \u20b969,384"
+     }
+    ],
+    "data": {
+     "provenance": {
+      "invoice_number": {
+       "status": "grounded",
+       "bbox": [
+        0.1621428981558998,
+        0.14155188210813743,
+        0.22564289226027492,
+        0.15490398318863013
+       ]
+      },
+      "vendor_gstin": {
+       "status": "grounded",
+       "bbox": [
+        0.13996824821503548,
+        0.0814993444023941,
+        0.2684801950580309,
+        0.09410966611718168
+       ]
+      },
+      "buyer_gstin": {
+       "status": "grounded",
+       "bbox": [
+        0.19842862372020081,
+        0.175221817893936,
+        0.334499915154268,
+        0.1885739189744287
+       ]
+      },
+      "po_reference": {
+       "status": "grounded",
+       "bbox": [
+        0.18028576093805032,
+        0.19205696703133543,
+        0.2891428222817709,
+        0.20540906811182816
+       ]
+      },
+      "bank_account_number": {
+       "status": "grounded",
+       "bbox": [
+        0.36272237399896134,
+        0.3912636671040217,
+        0.4826669653783274,
+        0.40387397069435926
+       ]
+      },
+      "bank_ifsc": {
+       "status": "grounded",
+       "bbox": [
+        0.5426392610680104,
+        0.3912636671040217,
+        0.6368814400089409,
+        0.40387397069435926
+       ]
+      },
+      "grand_total": {
+       "status": "grounded",
+       "bbox": [
+        0.8333214566397297,
+        0.3308751020950269,
+        0.9285712747725186,
+        0.3483357985001945
+       ]
+      },
+      "subtotal": {
+       "status": "grounded",
+       "bbox": [
+        0.8469286101346304,
+        0.2795990030682519,
+        0.9285717874355518,
+        0.2929511041487446
+       ]
+      }
+     }
+    },
+    "ms": 1,
+    "t": 2.67
+   },
+   {
+    "type": "stage",
+    "stage": "vendor",
+    "label": "Vendor & bank check",
+    "state": "running",
+    "t": 2.67
+   },
+   {
+    "type": "stage",
+    "stage": "vendor",
+    "label": "Vendor & bank check",
+    "state": "done",
+    "status": "fail",
+    "summary": "Deccan Electricals (V004)",
+    "checks": [
+     {
+      "id": "gstin_valid",
+      "label": "Vendor GSTIN valid (checksum)",
+      "status": "fail",
+      "detail": "GSTIN checksum fails (last char X, expected O) \u2014 likely typo or fabricated"
+     },
+     {
+      "id": "vendor_master",
+      "label": "Vendor in vendor master",
+      "status": "pass",
+      "detail": "Deccan Electricals (V004) \u00b7 name match (100%) \u2014 GSTIN did not match"
+     },
+     {
+      "id": "gstin_match",
+      "label": "GSTIN matches vendor master",
+      "status": "fail",
+      "detail": "Invoice 29AFZPD1185M1ZX vs master 29AFZPD1185M1ZO"
+     },
+     {
+      "id": "vendor_status",
+      "label": "Vendor status",
+      "status": "pass",
+      "detail": "Active \u00b7 Electrical & MRO \u00b7 MSME (Micro)"
+     },
+     {
+      "id": "bank",
+      "label": "Remit-to bank matches master",
+      "status": "pass",
+      "detail": "A/c \u2022\u2022\u2022\u20229876 \u00b7 BARB0PEENYA (verified)"
+     }
+    ],
+    "data": {
+     "vendor_id": "V004",
+     "how": "name match (100%) \u2014 GSTIN did not match"
+    },
+    "ms": 0,
+    "t": 2.671
+   },
+   {
+    "type": "stage",
+    "stage": "duplicate",
+    "label": "Duplicate detection",
+    "state": "running",
+    "t": 2.671
+   },
+   {
+    "type": "stage",
+    "stage": "duplicate",
+    "label": "Duplicate detection",
+    "state": "done",
+    "status": "pass",
+    "summary": "No duplicate found",
+    "checks": [
+     {
+      "id": "dup_file",
+      "label": "Same file seen before",
+      "status": "pass",
+      "detail": "File fingerprint (SHA-256) is new"
+     },
+     {
+      "id": "dup_inv",
+      "label": "Duplicate of a booked invoice",
+      "status": "pass",
+      "detail": "Compared against 1 prior invoices from this vendor (exact, normalised & fuzzy)"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 2.671
+   },
+   {
+    "type": "stage",
+    "stage": "match",
+    "label": "PO \u00b7 GRN \u00b7 invoice match",
+    "state": "running",
+    "t": 2.671
+   },
+   {
+    "type": "stage",
+    "stage": "match",
+    "label": "PO \u00b7 GRN \u00b7 invoice match",
+    "state": "done",
+    "status": "pass",
+    "summary": "PO-2026-0163 \u00b7 billable \u20b958,800 of \u20b958,800",
+    "checks": [
+     {
+      "id": "po_found",
+      "label": "Purchase order",
+      "status": "pass",
+      "detail": "PO-2026-0163 (explicit on invoice) \u00b7 open \u00b7 \u20b91,55,800"
+     },
+     {
+      "id": "line_match",
+      "label": "Invoice lines \u2194 PO lines",
+      "status": "pass",
+      "detail": "1/1 lines matched to PO lines"
+     },
+     {
+      "id": "price",
+      "label": "Unit price vs PO",
+      "status": "pass",
+      "detail": "All unit prices match PO"
+     },
+     {
+      "id": "grn",
+      "label": "3-way match (PO \u00b7 GRN \u00b7 invoice)",
+      "status": "pass",
+      "detail": "Billed quantities \u2264 received and not previously invoiced"
+     },
+     {
+      "id": "po_value",
+      "label": "Cumulative billing vs PO value",
+      "status": "pass",
+      "detail": "Previously billed \u20b90 + this \u20b958,800 = \u20b958,800 vs PO \u20b91,55,800"
+     }
+    ],
+    "data": {
+     "po_number": "PO-2026-0163",
+     "inferred": false,
+     "candidates": [],
+     "lines": [
+      {
+       "invoice_line": "LED panel 40W 2x2",
+       "po_line": "L3 LED Panel Light 40W 2x2",
+       "score": 1.0,
+       "inv_qty": 60.0,
+       "po_qty": 60,
+       "prev_billed": 0,
+       "received": 60,
+       "billable_qty": 60.0,
+       "inv_price": 980.0,
+       "po_price": 980.0,
+       "price_var_pct": 0.0,
+       "status": "pass",
+       "note": "matches PO & GRN"
+      }
+     ]
+    },
+    "ms": 0,
+    "t": 2.671
+   },
+   {
+    "type": "stage",
+    "stage": "tax",
+    "label": "GST compliance",
+    "state": "running",
+    "t": 2.671
+   },
+   {
+    "type": "stage",
+    "stage": "tax",
+    "label": "GST compliance",
+    "state": "done",
+    "status": "pass",
+    "summary": "GST compliant",
+    "checks": [
+     {
+      "id": "buyer_gstin",
+      "label": "Billed to our GSTIN",
+      "status": "pass",
+      "detail": "29AAKCK4821L1Z2"
+     },
+     {
+      "id": "tax_type",
+      "label": "Correct GST type for place of supply",
+      "status": "pass",
+      "detail": "Karnataka \u2192 Karnataka = intra-state \u2192 CGST+SGST \u2713"
+     },
+     {
+      "id": "tax_calc",
+      "label": "GST amount = taxable \u00d7 rate",
+      "status": "pass",
+      "detail": "\u20b958,800 \u00d7 18% = \u20b910,584 vs charged \u20b910,584"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 2.671
+   },
+   {
+    "type": "stage",
+    "stage": "decide",
+    "label": "Decision & actions",
+    "state": "running",
+    "t": 2.671
+   },
+   {
+    "type": "stage",
+    "stage": "decide",
+    "label": "Decision & actions",
+    "state": "done",
+    "status": "fail",
+    "summary": "Rejected \u2014 returned to vendor",
+    "checks": [
+     {
+      "id": "decision",
+      "label": "Decision",
+      "status": "fail",
+      "detail": "Rejected \u2014 returned to vendor"
+     },
+     {
+      "id": "email",
+      "label": "Vendor email drafted",
+      "status": "info",
+      "detail": "Invoice DE/1152 \u2014 action needed"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 2.671
+   }
+  ]
  },
  {
   "id": "seed-E06_unknown_vendor",
@@ -1173,7 +3917,7 @@
   "total": 37996.0,
   "approved_amount": 0.0,
   "risk_caught": 37996.0,
-  "duration_ms": 9544,
+  "duration_ms": 3048,
   "doc_kind": "digital",
   "summary": {
    "vendor_id": null,
@@ -1216,29 +3960,29 @@
       465,
       121,
       477,
-      206
+      209
      ],
      "grand_total": [
       382,
-      852,
-      396,
+      853,
+      395,
       928
      ],
      "invoice_date": [
-      188,
-      165,
-      198,
+      161,
+      160,
+      171,
       237
      ],
      "invoice_number": [
-      169,
+      161,
+      121,
       171,
-      180,
-      259
+      257
      ],
      "po_reference": null,
      "vendor_gstin": [
-      107,
+      105,
       266,
       117,
       386
@@ -1253,7 +3997,7 @@
     "igst": null,
     "invoice_date": "2026-11-09",
     "invoice_number": "SHP/112/26-27",
-    "notes": "Goods once sold will not be taken back. Interest @18% p.a. on overdue bills. Subject to Bengaluru jurisdiction.",
+    "notes": "Terms: Goods once sold will not be taken back. Interest @18% p.a. on overdue bills. Subject to Bengaluru jurisdiction.",
     "order_reference_text": null,
     "place_of_supply": "Karnataka (29)",
     "po_reference": null,
@@ -1319,18 +4063,509 @@
    },
    "meta": {
     "model": "gemini-flash-lite-latest",
-    "latency_ms": 9531,
+    "latency_ms": 3034,
     "raced": 3,
     "fallbacks": [
-     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
-     "gemini-3.1-flash-lite: HTTP 503 UNAVAILABLE",
-     "gemini-3.8-flash: HTTP 429 RESOURCE_EXHAUSTED",
-     "gemini-flash-latest: HTTP 429 RESOURCE_EXHAUSTED"
+     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
     ]
    },
    "doc_kind": "digital"
   },
-  "events": []
+  "events": [
+   {
+    "type": "run",
+    "id": "15f090b227be453a846155832200813d",
+    "filename": "E06_unknown_vendor.pdf",
+    "stages": [
+     {
+      "id": "intake",
+      "label": "Intake & fingerprint"
+     },
+     {
+      "id": "extract",
+      "label": "AI extraction"
+     },
+     {
+      "id": "verify",
+      "label": "Verify extraction"
+     },
+     {
+      "id": "vendor",
+      "label": "Vendor & bank check"
+     },
+     {
+      "id": "duplicate",
+      "label": "Duplicate detection"
+     },
+     {
+      "id": "match",
+      "label": "PO \u00b7 GRN \u00b7 invoice match"
+     },
+     {
+      "id": "tax",
+      "label": "GST compliance"
+     },
+     {
+      "id": "decide",
+      "label": "Decision & actions"
+     }
+    ],
+    "t": 0.0
+   },
+   {
+    "type": "stage",
+    "stage": "intake",
+    "label": "Intake & fingerprint",
+    "state": "running",
+    "t": 0.0
+   },
+   {
+    "type": "stage",
+    "stage": "intake",
+    "label": "Intake & fingerprint",
+    "state": "done",
+    "status": "pass",
+    "summary": "Digital PDF \u00b7 SHA-256 5e4ed57cbd4c\u2026",
+    "checks": [
+     {
+      "id": "format",
+      "label": "Readable PDF",
+      "status": "pass",
+      "detail": "1 page(s), 3 KB"
+     },
+     {
+      "id": "text_layer",
+      "label": "Document type",
+      "status": "info",
+      "detail": "Digital PDF \u2014 text layer present; values will be grounded against it"
+     }
+    ],
+    "data": {
+     "kind": "digital",
+     "sha256": "5e4ed57cbd4c355e63505c8280e364c2b391c5458b1a8888b9ee3684df4d4316"
+    },
+    "ms": 11,
+    "t": 0.012
+   },
+   {
+    "type": "stage",
+    "stage": "extract",
+    "label": "AI extraction",
+    "state": "running",
+    "t": 0.012
+   },
+   {
+    "type": "stage",
+    "stage": "extract",
+    "label": "AI extraction",
+    "state": "done",
+    "status": "pass",
+    "summary": "SAI HYDRAULICS & PNEUMATICS \u00b7 SHP/112/26-27 \u00b7 \u20b937,996",
+    "checks": [
+     {
+      "id": "model",
+      "label": "Model",
+      "status": "info",
+      "detail": "gemini-flash-lite-latest \u00b7 3034 ms \u00b7 raced 3 models in parallel, first valid answer wins \u00b7 1 busy/failed: gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
+     },
+     {
+      "id": "fields",
+      "label": "Fields extracted",
+      "status": "pass",
+      "detail": "2 line items \u00b7 vendor 'SAI HYDRAULICS & PNEUMATICS' \u00b7 invoice SHP/112/26-27 \u00b7 total \u20b937,996"
+     }
+    ],
+    "data": {
+     "fields": {
+      "line_items": [
+       {
+        "description": "Hydraulic Hose Assembly 1/2in x 1m",
+        "hsn_sac": "4009",
+        "quantity": 12.0,
+        "unit": "nos",
+        "unit_price": 1650.0,
+        "amount": 19800.0
+       },
+       {
+        "description": "Pneumatic Cylinder 50x100",
+        "hsn_sac": "8412",
+        "quantity": 2.0,
+        "unit": "nos",
+        "unit_price": 6200.0,
+        "amount": 12400.0
+       }
+      ],
+      "amount_in_words": "Rupees Thirty Seven Thousand Nine Hundred Ninety Six Only",
+      "bank_account_name": "Sai Hydraulics & Pneumatics",
+      "bank_account_number": "1023456789",
+      "bank_ifsc": "CNRB0001023",
+      "bank_name": "Canara Bank, Yeshwanthpur",
+      "boxes": {
+       "bank_account_number": [
+        465,
+        121,
+        477,
+        209
+       ],
+       "grand_total": [
+        382,
+        853,
+        395,
+        928
+       ],
+       "invoice_date": [
+        161,
+        160,
+        171,
+        237
+       ],
+       "invoice_number": [
+        161,
+        121,
+        171,
+        257
+       ],
+       "po_reference": null,
+       "vendor_gstin": [
+        105,
+        266,
+        117,
+        386
+       ]
+      },
+      "buyer_gstin": "29AAKCK4821L1Z2",
+      "buyer_name": "Kaveri Precision Components Pvt Ltd",
+      "cgst": 2898.0,
+      "currency": "Rs.",
+      "grand_total": 37996.0,
+      "gst_rate_percent": 18.0,
+      "igst": null,
+      "invoice_date": "2026-11-09",
+      "invoice_number": "SHP/112/26-27",
+      "notes": "Terms: Goods once sold will not be taken back. Interest @18% p.a. on overdue bills. Subject to Bengaluru jurisdiction.",
+      "order_reference_text": null,
+      "place_of_supply": "Karnataka (29)",
+      "po_reference": null,
+      "rates_include_tax": null,
+      "sgst": 2898.0,
+      "subtotal": 32200.0,
+      "vendor_address": "No. 18, 3rd Cross, Yeshwanthpur Industrial Suburb, Bengaluru 560022",
+      "vendor_gstin": "29BQRPS4471J1ZW",
+      "vendor_name": "SAI HYDRAULICS & PNEUMATICS",
+      "_repairs": []
+     },
+     "meta": {
+      "model": "gemini-flash-lite-latest",
+      "latency_ms": 3034,
+      "raced": 3,
+      "fallbacks": [
+       "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
+      ]
+     }
+    },
+    "ms": 3034,
+    "t": 3.047
+   },
+   {
+    "type": "stage",
+    "stage": "verify",
+    "label": "Verify extraction",
+    "state": "running",
+    "t": 3.047
+   },
+   {
+    "type": "stage",
+    "stage": "verify",
+    "label": "Verify extraction",
+    "state": "done",
+    "status": "pass",
+    "summary": "All values verified & arithmetic reconciles",
+    "checks": [
+     {
+      "id": "grounding",
+      "label": "Values exist on the page (anti-hallucination)",
+      "status": "pass",
+      "detail": "7 values found verbatim in the PDF text layer"
+     },
+     {
+      "id": "inv_no",
+      "label": "Invoice number present",
+      "status": "pass",
+      "detail": "SHP/112/26-27"
+     },
+     {
+      "id": "inv_date",
+      "label": "Invoice date",
+      "status": "pass",
+      "detail": "09 Nov 2026 \u00b7 11 days old"
+     },
+     {
+      "id": "line_math",
+      "label": "Line maths (qty \u00d7 rate = amount)",
+      "status": "pass",
+      "detail": "All 2 lines reconcile"
+     },
+     {
+      "id": "subtotal",
+      "label": "Lines add up to subtotal",
+      "status": "pass",
+      "detail": "\u03a3 lines \u20b932,200 vs subtotal \u20b932,200"
+     },
+     {
+      "id": "total",
+      "label": "Subtotal + GST = total",
+      "status": "pass",
+      "detail": "\u20b932,200 + \u20b95,796 = \u20b937,996 vs total \u20b937,996"
+     }
+    ],
+    "data": {
+     "provenance": {
+      "invoice_number": {
+       "status": "grounded",
+       "bbox": [
+        0.15546024580141793,
+        0.14339011820186318,
+        0.25882913402498414,
+        0.15807849873295596
+       ]
+      },
+      "vendor_gstin": {
+       "status": "grounded",
+       "bbox": [
+        0.26939255582515936,
+        0.08678959949460334,
+        0.4043014479142048,
+        0.10066195385051041
+       ]
+      },
+      "buyer_gstin": {
+       "status": "grounded",
+       "bbox": [
+        0.5753856635833403,
+        0.2063181724000585,
+        0.7039691397360504,
+        0.2201905358181906
+       ]
+      },
+      "po_reference": {
+       "status": "absent"
+      },
+      "bank_account_number": {
+       "status": "grounded",
+       "bbox": [
+        0.12221934134078814,
+        0.47231142270987786,
+        0.20161110766487628,
+        0.48618380425245994
+       ]
+      },
+      "bank_ifsc": {
+       "status": "grounded",
+       "bbox": [
+        0.11189555105893113,
+        0.4874629191877172,
+        0.20792248945067643,
+        0.5013353007302993
+       ]
+      },
+      "grand_total": {
+       "status": "grounded",
+       "bbox": [
+        0.8538497661487574,
+        0.36944538167989294,
+        0.9285715823703385,
+        0.3858014653545338
+       ]
+      },
+      "subtotal": {
+       "status": "grounded",
+       "bbox": [
+        0.8650579642458547,
+        0.31742929760796407,
+        0.9285714798377319,
+        0.3313016791505462
+       ]
+      }
+     }
+    },
+    "ms": 1,
+    "t": 3.048
+   },
+   {
+    "type": "stage",
+    "stage": "vendor",
+    "label": "Vendor & bank check",
+    "state": "running",
+    "t": 3.048
+   },
+   {
+    "type": "stage",
+    "stage": "vendor",
+    "label": "Vendor & bank check",
+    "state": "done",
+    "status": "fail",
+    "summary": "Vendor not in master",
+    "checks": [
+     {
+      "id": "gstin_valid",
+      "label": "Vendor GSTIN valid (checksum)",
+      "status": "pass",
+      "detail": "Valid GSTIN \u00b7 Karnataka \u00b7 PAN BQRPS4471J"
+     },
+     {
+      "id": "vendor_master",
+      "label": "Vendor in vendor master",
+      "status": "fail",
+      "detail": "'SAI HYDRAULICS & PNEUMATICS' (29BQRPS4471J1ZW) is not an onboarded vendor"
+     }
+    ],
+    "data": {
+     "vendor_id": null,
+     "how": "no match in vendor master"
+    },
+    "ms": 0,
+    "t": 3.048
+   },
+   {
+    "type": "stage",
+    "stage": "duplicate",
+    "label": "Duplicate detection",
+    "state": "running",
+    "t": 3.048
+   },
+   {
+    "type": "stage",
+    "stage": "duplicate",
+    "label": "Duplicate detection",
+    "state": "done",
+    "status": "pass",
+    "summary": "No duplicate found",
+    "checks": [
+     {
+      "id": "dup_file",
+      "label": "Same file seen before",
+      "status": "pass",
+      "detail": "File fingerprint (SHA-256) is new"
+     },
+     {
+      "id": "dup_inv",
+      "label": "Duplicate of a booked invoice",
+      "status": "info",
+      "detail": "Skipped \u2014 vendor unknown"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 3.048
+   },
+   {
+    "type": "stage",
+    "stage": "match",
+    "label": "PO \u00b7 GRN \u00b7 invoice match",
+    "state": "running",
+    "t": 3.048
+   },
+   {
+    "type": "stage",
+    "stage": "match",
+    "label": "PO \u00b7 GRN \u00b7 invoice match",
+    "state": "done",
+    "status": "pass",
+    "summary": "No PO matched",
+    "checks": [
+     {
+      "id": "po_found",
+      "label": "Purchase order",
+      "status": "info",
+      "detail": "Skipped \u2014 vendor unknown"
+     }
+    ],
+    "data": {
+     "po_number": null,
+     "inferred": false,
+     "candidates": [],
+     "lines": []
+    },
+    "ms": 0,
+    "t": 3.048
+   },
+   {
+    "type": "stage",
+    "stage": "tax",
+    "label": "GST compliance",
+    "state": "running",
+    "t": 3.048
+   },
+   {
+    "type": "stage",
+    "stage": "tax",
+    "label": "GST compliance",
+    "state": "done",
+    "status": "pass",
+    "summary": "GST compliant",
+    "checks": [
+     {
+      "id": "buyer_gstin",
+      "label": "Billed to our GSTIN",
+      "status": "pass",
+      "detail": "29AAKCK4821L1Z2"
+     },
+     {
+      "id": "tax_type",
+      "label": "Correct GST type for place of supply",
+      "status": "pass",
+      "detail": "Karnataka \u2192 Karnataka = intra-state \u2192 CGST+SGST \u2713"
+     },
+     {
+      "id": "tax_calc",
+      "label": "GST amount = taxable \u00d7 rate",
+      "status": "pass",
+      "detail": "\u20b932,200 \u00d7 18% = \u20b95,796 vs charged \u20b95,796"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 3.048
+   },
+   {
+    "type": "stage",
+    "stage": "decide",
+    "label": "Decision & actions",
+    "state": "running",
+    "t": 3.048
+   },
+   {
+    "type": "stage",
+    "stage": "decide",
+    "label": "Decision & actions",
+    "state": "done",
+    "status": "warn",
+    "summary": "On hold \u2014 Procurement",
+    "checks": [
+     {
+      "id": "decision",
+      "label": "Decision",
+      "status": "warn",
+      "detail": "On hold \u2014 Procurement"
+     },
+     {
+      "id": "task",
+      "label": "Task \u2192 Procurement",
+      "status": "info",
+      "detail": "Was this purchase authorised? If yes, onboard the vendor (KYC, bank verification) and raise a PO; if not, escalate as maverick spend."
+     },
+     {
+      "id": "task",
+      "label": "Task \u2192 Procurement",
+      "status": "info",
+      "detail": "Identify the requester and raise a retrospective PO if the purchase is legitimate."
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 3.048
+   }
+  ]
  },
  {
   "id": "seed-E07_blocked_vendor",
@@ -1345,7 +4580,7 @@
   "total": 89680.0,
   "approved_amount": 0.0,
   "risk_caught": 0,
-  "duration_ms": 3856,
+  "duration_ms": 2573,
   "doc_kind": "digital",
   "summary": {
    "vendor_id": "V006",
@@ -1384,33 +4619,33 @@
      ],
      "grand_total": [
       323,
-      852,
+      853,
       334,
       928
      ],
      "invoice_date": [
-      162,
-      861,
-      172,
+      157,
+      841,
+      167,
       930
      ],
      "invoice_number": [
-      141,
-      851,
-      151,
-      928
+      138,
+      839,
+      149,
+      929
      ],
      "po_reference": [
-      183,
-      857,
-      194,
+      176,
+      856,
+      187,
       930
      ],
      "vendor_gstin": [
-      98,
+      100,
       133,
-      109,
-      278
+      111,
+      274
      ]
     },
     "buyer_gstin": "29AAKCK4821L1Z2",
@@ -1515,16 +4750,564 @@
    },
    "meta": {
     "model": "gemini-flash-lite-latest",
-    "latency_ms": 3842,
+    "latency_ms": 2562,
     "raced": 3,
     "fallbacks": [
-     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
-     "gemini-3.1-flash-lite: HTTP 503 UNAVAILABLE"
+     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
     ]
    },
    "doc_kind": "digital"
   },
-  "events": []
+  "events": [
+   {
+    "type": "run",
+    "id": "b67208495ba34e9795f1eeb30f2e05a1",
+    "filename": "E07_blocked_vendor.pdf",
+    "stages": [
+     {
+      "id": "intake",
+      "label": "Intake & fingerprint"
+     },
+     {
+      "id": "extract",
+      "label": "AI extraction"
+     },
+     {
+      "id": "verify",
+      "label": "Verify extraction"
+     },
+     {
+      "id": "vendor",
+      "label": "Vendor & bank check"
+     },
+     {
+      "id": "duplicate",
+      "label": "Duplicate detection"
+     },
+     {
+      "id": "match",
+      "label": "PO \u00b7 GRN \u00b7 invoice match"
+     },
+     {
+      "id": "tax",
+      "label": "GST compliance"
+     },
+     {
+      "id": "decide",
+      "label": "Decision & actions"
+     }
+    ],
+    "t": 0.0
+   },
+   {
+    "type": "stage",
+    "stage": "intake",
+    "label": "Intake & fingerprint",
+    "state": "running",
+    "t": 0.0
+   },
+   {
+    "type": "stage",
+    "stage": "intake",
+    "label": "Intake & fingerprint",
+    "state": "done",
+    "status": "pass",
+    "summary": "Digital PDF \u00b7 SHA-256 3b063a0ba025\u2026",
+    "checks": [
+     {
+      "id": "format",
+      "label": "Readable PDF",
+      "status": "pass",
+      "detail": "1 page(s), 3 KB"
+     },
+     {
+      "id": "text_layer",
+      "label": "Document type",
+      "status": "info",
+      "detail": "Digital PDF \u2014 text layer present; values will be grounded against it"
+     }
+    ],
+    "data": {
+     "kind": "digital",
+     "sha256": "3b063a0ba02512ec381046f67ca43ced09a43438f6856df50e70ec4ee172b4ca"
+    },
+    "ms": 9,
+    "t": 0.01
+   },
+   {
+    "type": "stage",
+    "stage": "extract",
+    "label": "AI extraction",
+    "state": "running",
+    "t": 0.01
+   },
+   {
+    "type": "stage",
+    "stage": "extract",
+    "label": "AI extraction",
+    "state": "done",
+    "status": "pass",
+    "summary": "Coastal Logistics Pvt Ltd \u00b7 CLPL/26/0712 \u00b7 \u20b989,680",
+    "checks": [
+     {
+      "id": "model",
+      "label": "Model",
+      "status": "info",
+      "detail": "gemini-flash-lite-latest \u00b7 2562 ms \u00b7 raced 3 models in parallel, first valid answer wins \u00b7 1 busy/failed: gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
+     },
+     {
+      "id": "fields",
+      "label": "Fields extracted",
+      "status": "pass",
+      "detail": "1 line items \u00b7 vendor 'Coastal Logistics Pvt Ltd' \u00b7 invoice CLPL/26/0712 \u00b7 total \u20b989,680"
+     }
+    ],
+    "data": {
+     "fields": {
+      "line_items": [
+       {
+        "description": "Full Truck Load Freight Kochi-Bengaluru",
+        "hsn_sac": "996511",
+        "quantity": 2.0,
+        "unit": "trip",
+        "unit_price": 38000.0,
+        "amount": 76000.0
+       }
+      ],
+      "amount_in_words": "Rupees Eighty Nine Thousand Six Hundred Eighty Only",
+      "bank_account_name": "Coastal Logistics Pvt Ltd",
+      "bank_account_number": "67543210987",
+      "bank_ifsc": "SBIN0070123",
+      "bank_name": "SBI, Kochi",
+      "boxes": {
+       "bank_account_number": [
+        415,
+        107,
+        426,
+        192
+       ],
+       "grand_total": [
+        323,
+        853,
+        334,
+        928
+       ],
+       "invoice_date": [
+        157,
+        841,
+        167,
+        930
+       ],
+       "invoice_number": [
+        138,
+        839,
+        149,
+        929
+       ],
+       "po_reference": [
+        176,
+        856,
+        187,
+        930
+       ],
+       "vendor_gstin": [
+        100,
+        133,
+        111,
+        274
+       ]
+      },
+      "buyer_gstin": "29AAKCK4821L1Z2",
+      "buyer_name": "Kaveri Precision Components Pvt Ltd",
+      "cgst": null,
+      "currency": "INR",
+      "grand_total": 89680.0,
+      "gst_rate_percent": 18.0,
+      "igst": 13680.0,
+      "invoice_date": "2026-11-06",
+      "invoice_number": "CLPL/26/0712",
+      "notes": "Payment due within 30 days. TDS, if any, to be deducted under the applicable section and certificate shared.",
+      "order_reference_text": null,
+      "place_of_supply": "29 - Karnataka",
+      "po_reference": "PO-2026-0180",
+      "rates_include_tax": null,
+      "sgst": null,
+      "subtotal": 76000.0,
+      "vendor_address": "Door 31/1120, Willingdon Island, Kochi 682003, Kerala",
+      "vendor_gstin": "32AAFCC5540H1ZZ",
+      "vendor_name": "Coastal Logistics Pvt Ltd",
+      "_repairs": []
+     },
+     "meta": {
+      "model": "gemini-flash-lite-latest",
+      "latency_ms": 2562,
+      "raced": 3,
+      "fallbacks": [
+       "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
+      ]
+     }
+    },
+    "ms": 2562,
+    "t": 2.573
+   },
+   {
+    "type": "stage",
+    "stage": "verify",
+    "label": "Verify extraction",
+    "state": "running",
+    "t": 2.573
+   },
+   {
+    "type": "stage",
+    "stage": "verify",
+    "label": "Verify extraction",
+    "state": "done",
+    "status": "pass",
+    "summary": "All values verified & arithmetic reconciles",
+    "checks": [
+     {
+      "id": "grounding",
+      "label": "Values exist on the page (anti-hallucination)",
+      "status": "pass",
+      "detail": "8 values found verbatim in the PDF text layer"
+     },
+     {
+      "id": "inv_no",
+      "label": "Invoice number present",
+      "status": "pass",
+      "detail": "CLPL/26/0712"
+     },
+     {
+      "id": "inv_date",
+      "label": "Invoice date",
+      "status": "pass",
+      "detail": "06 Nov 2026 \u00b7 14 days old"
+     },
+     {
+      "id": "line_math",
+      "label": "Line maths (qty \u00d7 rate = amount)",
+      "status": "pass",
+      "detail": "All 1 lines reconcile"
+     },
+     {
+      "id": "subtotal",
+      "label": "Lines add up to subtotal",
+      "status": "pass",
+      "detail": "\u03a3 lines \u20b976,000 vs subtotal \u20b976,000"
+     },
+     {
+      "id": "total",
+      "label": "Subtotal + GST = total",
+      "status": "pass",
+      "detail": "\u20b976,000 + \u20b913,680 = \u20b989,680 vs total \u20b989,680"
+     }
+    ],
+    "data": {
+     "provenance": {
+      "invoice_number": {
+       "status": "grounded",
+       "bbox": [
+        0.8328014625251012,
+        0.12953200966366676,
+        0.9285713773051253,
+        0.14458505412903244
+       ]
+      },
+      "vendor_gstin": {
+       "status": "grounded",
+       "bbox": [
+        0.15499156925641816,
+        0.08975328237414636,
+        0.28770654552780967,
+        0.10401405275606912
+       ]
+      },
+      "buyer_gstin": {
+       "status": "grounded",
+       "bbox": [
+        0.19289247815670982,
+        0.14636701380546607,
+        0.3329645662691307,
+        0.16142004920860675
+       ]
+      },
+      "po_reference": {
+       "status": "grounded",
+       "bbox": [
+        0.8337112343439118,
+        0.16320195451169034,
+        0.9285715823703385,
+        0.17825498085260602
+       ]
+      },
+      "bank_account_number": {
+       "status": "grounded",
+       "bbox": [
+        0.12060581134307974,
+        0.39340894950542726,
+        0.19914086647229903,
+        0.40687744580390706
+       ]
+      },
+      "bank_ifsc": {
+       "status": "grounded",
+       "bbox": [
+        0.10912541480847678,
+        0.40856044598326663,
+        0.19163005825390048,
+        0.4220289422817465
+       ]
+      },
+      "grand_total": {
+       "status": "grounded",
+       "bbox": [
+        0.8546560825674575,
+        0.2994906050825888,
+        0.9285713773051253,
+        0.31758679907858195
+       ]
+      },
+      "subtotal": {
+       "status": "grounded",
+       "bbox": [
+        0.8647354991979387,
+        0.26421212435808633,
+        0.9285714798377319,
+        0.27926515069900204
+       ]
+      }
+     }
+    },
+    "ms": 0,
+    "t": 2.573
+   },
+   {
+    "type": "stage",
+    "stage": "vendor",
+    "label": "Vendor & bank check",
+    "state": "running",
+    "t": 2.573
+   },
+   {
+    "type": "stage",
+    "stage": "vendor",
+    "label": "Vendor & bank check",
+    "state": "done",
+    "status": "fail",
+    "summary": "Coastal Logistics Pvt Ltd (V006)",
+    "checks": [
+     {
+      "id": "gstin_valid",
+      "label": "Vendor GSTIN valid (checksum)",
+      "status": "pass",
+      "detail": "Valid GSTIN \u00b7 Kerala \u00b7 PAN AAFCC5540H"
+     },
+     {
+      "id": "vendor_master",
+      "label": "Vendor in vendor master",
+      "status": "pass",
+      "detail": "Coastal Logistics Pvt Ltd (V006) \u00b7 GSTIN exact match"
+     },
+     {
+      "id": "gstin_match",
+      "label": "GSTIN matches vendor master",
+      "status": "pass",
+      "detail": "32AAFCC5540H1ZZ"
+     },
+     {
+      "id": "vendor_status",
+      "label": "Vendor status",
+      "status": "fail",
+      "detail": "BLOCKED: KYC lapsed \u2014 PAN-Aadhaar link and bank re-verification pending since Aug 2026"
+     },
+     {
+      "id": "bank",
+      "label": "Remit-to bank matches master",
+      "status": "pass",
+      "detail": "A/c \u2022\u2022\u2022\u20220987 \u00b7 SBIN0070123 (verified)"
+     }
+    ],
+    "data": {
+     "vendor_id": "V006",
+     "how": "GSTIN exact match"
+    },
+    "ms": 0,
+    "t": 2.573
+   },
+   {
+    "type": "stage",
+    "stage": "duplicate",
+    "label": "Duplicate detection",
+    "state": "running",
+    "t": 2.573
+   },
+   {
+    "type": "stage",
+    "stage": "duplicate",
+    "label": "Duplicate detection",
+    "state": "done",
+    "status": "pass",
+    "summary": "No duplicate found",
+    "checks": [
+     {
+      "id": "dup_file",
+      "label": "Same file seen before",
+      "status": "pass",
+      "detail": "File fingerprint (SHA-256) is new"
+     },
+     {
+      "id": "dup_inv",
+      "label": "Duplicate of a booked invoice",
+      "status": "pass",
+      "detail": "Compared against 0 prior invoices from this vendor (exact, normalised & fuzzy)"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 2.573
+   },
+   {
+    "type": "stage",
+    "stage": "match",
+    "label": "PO \u00b7 GRN \u00b7 invoice match",
+    "state": "running",
+    "t": 2.573
+   },
+   {
+    "type": "stage",
+    "stage": "match",
+    "label": "PO \u00b7 GRN \u00b7 invoice match",
+    "state": "done",
+    "status": "pass",
+    "summary": "PO-2026-0180 \u00b7 billable \u20b976,000 of \u20b976,000",
+    "checks": [
+     {
+      "id": "po_found",
+      "label": "Purchase order",
+      "status": "pass",
+      "detail": "PO-2026-0180 (explicit on invoice) \u00b7 open \u00b7 \u20b976,000"
+     },
+     {
+      "id": "line_match",
+      "label": "Invoice lines \u2194 PO lines",
+      "status": "pass",
+      "detail": "1/1 lines matched to PO lines"
+     },
+     {
+      "id": "price",
+      "label": "Unit price vs PO",
+      "status": "pass",
+      "detail": "All unit prices match PO"
+     },
+     {
+      "id": "grn",
+      "label": "3-way match (PO \u00b7 GRN \u00b7 invoice)",
+      "status": "pass",
+      "detail": "Billed quantities \u2264 received and not previously invoiced"
+     },
+     {
+      "id": "po_value",
+      "label": "Cumulative billing vs PO value",
+      "status": "pass",
+      "detail": "Previously billed \u20b90 + this \u20b976,000 = \u20b976,000 vs PO \u20b976,000"
+     }
+    ],
+    "data": {
+     "po_number": "PO-2026-0180",
+     "inferred": false,
+     "candidates": [],
+     "lines": [
+      {
+       "invoice_line": "Full Truck Load Freight Kochi-Bengaluru",
+       "po_line": "L1 Full Truck Load Freight Kochi-Bengaluru",
+       "score": 1.0,
+       "inv_qty": 2.0,
+       "po_qty": 2,
+       "prev_billed": 0,
+       "received": 2,
+       "billable_qty": 2.0,
+       "inv_price": 38000.0,
+       "po_price": 38000.0,
+       "price_var_pct": 0.0,
+       "status": "pass",
+       "note": "matches PO & GRN"
+      }
+     ]
+    },
+    "ms": 0,
+    "t": 2.574
+   },
+   {
+    "type": "stage",
+    "stage": "tax",
+    "label": "GST compliance",
+    "state": "running",
+    "t": 2.574
+   },
+   {
+    "type": "stage",
+    "stage": "tax",
+    "label": "GST compliance",
+    "state": "done",
+    "status": "pass",
+    "summary": "GST compliant",
+    "checks": [
+     {
+      "id": "buyer_gstin",
+      "label": "Billed to our GSTIN",
+      "status": "pass",
+      "detail": "29AAKCK4821L1Z2"
+     },
+     {
+      "id": "tax_type",
+      "label": "Correct GST type for place of supply",
+      "status": "pass",
+      "detail": "Kerala \u2192 Karnataka = inter-state \u2192 IGST \u2713"
+     },
+     {
+      "id": "tax_calc",
+      "label": "GST amount = taxable \u00d7 rate",
+      "status": "pass",
+      "detail": "\u20b976,000 \u00d7 18% = \u20b913,680 vs charged \u20b913,680"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 2.574
+   },
+   {
+    "type": "stage",
+    "stage": "decide",
+    "label": "Decision & actions",
+    "state": "running",
+    "t": 2.574
+   },
+   {
+    "type": "stage",
+    "stage": "decide",
+    "label": "Decision & actions",
+    "state": "done",
+    "status": "warn",
+    "summary": "On hold \u2014 Vendor management",
+    "checks": [
+     {
+      "id": "decision",
+      "label": "Decision",
+      "status": "warn",
+      "detail": "On hold \u2014 Vendor management"
+     },
+     {
+      "id": "task",
+      "label": "Task \u2192 Vendor management",
+      "status": "info",
+      "detail": "Complete the pending KYC re-verification before this invoice can be released. Liability is recorded; payment is blocked."
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 2.574
+   }
+  ]
  },
  {
   "id": "seed-E08_tax_inclusive_rates",
@@ -1539,7 +5322,7 @@
   "total": 34220.0,
   "approved_amount": 34220.0,
   "risk_caught": 0,
-  "duration_ms": 9545,
+  "duration_ms": 4244,
   "doc_kind": "digital",
   "summary": {
    "vendor_id": "V004",
@@ -1570,60 +5353,58 @@
      }
     ],
     "amount_in_words": "Rupees Thirty Four Thousand Two Hundred Twenty Only",
-    "bank_account_name": null,
+    "bank_account_name": "Bank of Baroda, Peenya",
     "bank_account_number": "33410100009876",
     "bank_ifsc": "BARB0PEENYA",
-    "bank_name": "Bank of Baroda, Peenya",
+    "bank_name": "Bank of Baroda",
     "boxes": {
      "bank_account_number": [
-      400,
-      360,
-      412,
-      484
+      413,
+      363,
+      421,
+      485
      ],
      "grand_total": [
-      355,
-      834,
-      367,
+      354,
+      833,
+      364,
       928
      ],
      "invoice_date": [
-      145,
-      586,
-      158,
-      680
+      143,
+      587,
+      151,
+      681
      ],
      "invoice_number": [
-      145,
-      167,
-      157,
-      236
+      143,
+      153,
+      151,
+      213
      ],
      "po_reference": [
-      198,
-      209,
-      211,
-      314
+      196,
+      153,
+      204,
+      253
      ],
      "vendor_gstin": [
-      84,
-      138,
-      94,
-      274
+      85,
+      153,
+      93,
+      303
      ]
     },
     "buyer_gstin": "29AAKCK4821L1Z2",
     "buyer_name": "M/s Kaveri Precision Components Pvt Ltd, Peenya, Bengaluru",
     "cgst": 2610.0,
-    "currency": "Rs.",
+    "currency": "Rupees",
     "grand_total": 34220.0,
     "gst_rate_percent": 18.0,
-    "igst": null,
     "invoice_date": "2026-11-08",
     "invoice_number": "DE/1139",
     "notes": "** Rates are inclusive of GST **",
     "order_reference_text": "PO-2026-0119",
-    "place_of_supply": null,
     "po_reference": "PO-2026-0119",
     "rates_include_tax": true,
     "sgst": 2610.0,
@@ -1631,6 +5412,7 @@
     "vendor_address": "Shop 14, Peenya Industrial Area 1st Stage, Bengaluru 560058",
     "vendor_gstin": "29AFZPD1185M1ZO",
     "vendor_name": "DECCAN ELECTRICALS",
+    "igst": null,
     "_repairs": []
    },
    "decision": {
@@ -1751,20 +5533,568 @@
     ]
    },
    "meta": {
-    "model": "gemini-flash-lite-latest",
-    "latency_ms": 9535,
+    "model": "gemini-3.1-flash-lite",
+    "latency_ms": 4232,
     "raced": 3,
     "fallbacks": [
      "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
-     "gemini-3.1-flash-lite: HTTP 503 UNAVAILABLE",
-     "gemini-3.5-flash-lite: HTTP 503 UNAVAILABLE",
-     "gemini-3.8-flash: HTTP 429 RESOURCE_EXHAUSTED",
-     "gemini-flash-latest: HTTP 429 RESOURCE_EXHAUSTED"
+     "gemini-3.5-flash-lite: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-flash-lite-latest: HTTP 429 RESOURCE_EXHAUSTED"
     ]
    },
    "doc_kind": "digital"
   },
-  "events": []
+  "events": [
+   {
+    "type": "run",
+    "id": "08177f8290194a0895d457c017998b86",
+    "filename": "E08_tax_inclusive_rates.pdf",
+    "stages": [
+     {
+      "id": "intake",
+      "label": "Intake & fingerprint"
+     },
+     {
+      "id": "extract",
+      "label": "AI extraction"
+     },
+     {
+      "id": "verify",
+      "label": "Verify extraction"
+     },
+     {
+      "id": "vendor",
+      "label": "Vendor & bank check"
+     },
+     {
+      "id": "duplicate",
+      "label": "Duplicate detection"
+     },
+     {
+      "id": "match",
+      "label": "PO \u00b7 GRN \u00b7 invoice match"
+     },
+     {
+      "id": "tax",
+      "label": "GST compliance"
+     },
+     {
+      "id": "decide",
+      "label": "Decision & actions"
+     }
+    ],
+    "t": 0.0
+   },
+   {
+    "type": "stage",
+    "stage": "intake",
+    "label": "Intake & fingerprint",
+    "state": "running",
+    "t": 0.0
+   },
+   {
+    "type": "stage",
+    "stage": "intake",
+    "label": "Intake & fingerprint",
+    "state": "done",
+    "status": "pass",
+    "summary": "Digital PDF \u00b7 SHA-256 c8881f3f1819\u2026",
+    "checks": [
+     {
+      "id": "format",
+      "label": "Readable PDF",
+      "status": "pass",
+      "detail": "1 page(s), 3 KB"
+     },
+     {
+      "id": "text_layer",
+      "label": "Document type",
+      "status": "info",
+      "detail": "Digital PDF \u2014 text layer present; values will be grounded against it"
+     }
+    ],
+    "data": {
+     "kind": "digital",
+     "sha256": "c8881f3f1819b9dbf4f51377a255b42b58da625bab0b83ab42c04e99e8f5119f"
+    },
+    "ms": 9,
+    "t": 0.01
+   },
+   {
+    "type": "stage",
+    "stage": "extract",
+    "label": "AI extraction",
+    "state": "running",
+    "t": 0.01
+   },
+   {
+    "type": "stage",
+    "stage": "extract",
+    "label": "AI extraction",
+    "state": "done",
+    "status": "pass",
+    "summary": "DECCAN ELECTRICALS \u00b7 DE/1139 \u00b7 \u20b934,220",
+    "checks": [
+     {
+      "id": "model",
+      "label": "Model",
+      "status": "info",
+      "detail": "gemini-3.1-flash-lite \u00b7 4232 ms \u00b7 raced 3 models in parallel, first valid answer wins \u00b7 3 busy/failed: gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED, gemini-3.5-flash-lite: HTTP 429 RESOURCE_EXHAUSTED, gemini-flash-lite-latest: HTTP 429 RESOURCE_EXHAUSTED"
+     },
+     {
+      "id": "fields",
+      "label": "Fields extracted",
+      "status": "pass",
+      "detail": "1 line items \u00b7 vendor 'DECCAN ELECTRICALS' \u00b7 invoice DE/1139 \u00b7 total \u20b934,220"
+     }
+    ],
+    "data": {
+     "fields": {
+      "line_items": [
+       {
+        "description": "Modular Switch 16A",
+        "hsn_sac": "8536",
+        "quantity": 200.0,
+        "unit": null,
+        "unit_price": 171.1,
+        "amount": 34220.0
+       }
+      ],
+      "amount_in_words": "Rupees Thirty Four Thousand Two Hundred Twenty Only",
+      "bank_account_name": "Bank of Baroda, Peenya",
+      "bank_account_number": "33410100009876",
+      "bank_ifsc": "BARB0PEENYA",
+      "bank_name": "Bank of Baroda",
+      "boxes": {
+       "bank_account_number": [
+        413,
+        363,
+        421,
+        485
+       ],
+       "grand_total": [
+        354,
+        833,
+        364,
+        928
+       ],
+       "invoice_date": [
+        143,
+        587,
+        151,
+        681
+       ],
+       "invoice_number": [
+        143,
+        153,
+        151,
+        213
+       ],
+       "po_reference": [
+        196,
+        153,
+        204,
+        253
+       ],
+       "vendor_gstin": [
+        85,
+        153,
+        93,
+        303
+       ]
+      },
+      "buyer_gstin": "29AAKCK4821L1Z2",
+      "buyer_name": "M/s Kaveri Precision Components Pvt Ltd, Peenya, Bengaluru",
+      "cgst": 2610.0,
+      "currency": "Rupees",
+      "grand_total": 34220.0,
+      "gst_rate_percent": 18.0,
+      "invoice_date": "2026-11-08",
+      "invoice_number": "DE/1139",
+      "notes": "** Rates are inclusive of GST **",
+      "order_reference_text": "PO-2026-0119",
+      "po_reference": "PO-2026-0119",
+      "rates_include_tax": true,
+      "sgst": 2610.0,
+      "subtotal": 29000.0,
+      "vendor_address": "Shop 14, Peenya Industrial Area 1st Stage, Bengaluru 560058",
+      "vendor_gstin": "29AFZPD1185M1ZO",
+      "vendor_name": "DECCAN ELECTRICALS",
+      "igst": null,
+      "_repairs": []
+     },
+     "meta": {
+      "model": "gemini-3.1-flash-lite",
+      "latency_ms": 4232,
+      "raced": 3,
+      "fallbacks": [
+       "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
+       "gemini-3.5-flash-lite: HTTP 429 RESOURCE_EXHAUSTED",
+       "gemini-flash-lite-latest: HTTP 429 RESOURCE_EXHAUSTED"
+      ]
+     }
+    },
+    "ms": 4232,
+    "t": 4.242
+   },
+   {
+    "type": "stage",
+    "stage": "verify",
+    "label": "Verify extraction",
+    "state": "running",
+    "t": 4.242
+   },
+   {
+    "type": "stage",
+    "stage": "verify",
+    "label": "Verify extraction",
+    "state": "done",
+    "status": "pass",
+    "summary": "All values verified & arithmetic reconciles",
+    "checks": [
+     {
+      "id": "grounding",
+      "label": "Values exist on the page (anti-hallucination)",
+      "status": "pass",
+      "detail": "8 values found verbatim in the PDF text layer"
+     },
+     {
+      "id": "inv_no",
+      "label": "Invoice number present",
+      "status": "pass",
+      "detail": "DE/1139"
+     },
+     {
+      "id": "inv_date",
+      "label": "Invoice date",
+      "status": "pass",
+      "detail": "08 Nov 2026 \u00b7 12 days old"
+     },
+     {
+      "id": "line_math",
+      "label": "Line maths (qty \u00d7 rate = amount)",
+      "status": "pass",
+      "detail": "All 1 lines reconcile"
+     },
+     {
+      "id": "subtotal",
+      "label": "Lines \u2192 total (GST-inclusive rates)",
+      "status": "pass",
+      "detail": "Rates include 18% GST: lines \u20b934,220 \u2192 taxable \u20b929,000 + GST \u20b95,220"
+     },
+     {
+      "id": "total",
+      "label": "Subtotal + GST = total",
+      "status": "pass",
+      "detail": "\u20b929,000 + \u20b95,220 = \u20b934,220 vs total \u20b934,220"
+     }
+    ],
+    "data": {
+     "provenance": {
+      "invoice_number": {
+       "status": "grounded",
+       "bbox": [
+        0.1621428981558998,
+        0.14155188210813743,
+        0.22564289226027492,
+        0.15490398318863013
+       ]
+      },
+      "vendor_gstin": {
+       "status": "grounded",
+       "bbox": [
+        0.13996824821503548,
+        0.0814993444023941,
+        0.2684801950580309,
+        0.09410966611718168
+       ]
+      },
+      "buyer_gstin": {
+       "status": "grounded",
+       "bbox": [
+        0.19842862372020081,
+        0.175221817893936,
+        0.334499915154268,
+        0.1885739189744287
+       ]
+      },
+      "po_reference": {
+       "status": "grounded",
+       "bbox": [
+        0.18028576093805032,
+        0.19205696703133543,
+        0.2891428222817709,
+        0.20540906811182816
+       ]
+      },
+      "bank_account_number": {
+       "status": "grounded",
+       "bbox": [
+        0.36272237399896134,
+        0.41146557782704085,
+        0.4826669653783274,
+        0.4240758814173784
+       ]
+      },
+      "bank_ifsc": {
+       "status": "grounded",
+       "bbox": [
+        0.5426392610680104,
+        0.41146557782704085,
+        0.6368814400089409,
+        0.4240758814173784
+       ]
+      },
+      "grand_total": {
+       "status": "grounded",
+       "bbox": [
+        0.8333214566397297,
+        0.35107719406254617,
+        0.9285712747725186,
+        0.36853789046771374
+       ]
+      },
+      "subtotal": {
+       "status": "grounded",
+       "bbox": [
+        0.8469286101346304,
+        0.29980095004017104,
+        0.9285717874355518,
+        0.3131530511206637
+       ]
+      }
+     }
+    },
+    "ms": 1,
+    "t": 4.244
+   },
+   {
+    "type": "stage",
+    "stage": "vendor",
+    "label": "Vendor & bank check",
+    "state": "running",
+    "t": 4.244
+   },
+   {
+    "type": "stage",
+    "stage": "vendor",
+    "label": "Vendor & bank check",
+    "state": "done",
+    "status": "pass",
+    "summary": "Deccan Electricals (V004)",
+    "checks": [
+     {
+      "id": "gstin_valid",
+      "label": "Vendor GSTIN valid (checksum)",
+      "status": "pass",
+      "detail": "Valid GSTIN \u00b7 Karnataka \u00b7 PAN AFZPD1185M"
+     },
+     {
+      "id": "vendor_master",
+      "label": "Vendor in vendor master",
+      "status": "pass",
+      "detail": "Deccan Electricals (V004) \u00b7 GSTIN exact match"
+     },
+     {
+      "id": "gstin_match",
+      "label": "GSTIN matches vendor master",
+      "status": "pass",
+      "detail": "29AFZPD1185M1ZO"
+     },
+     {
+      "id": "vendor_status",
+      "label": "Vendor status",
+      "status": "pass",
+      "detail": "Active \u00b7 Electrical & MRO \u00b7 MSME (Micro)"
+     },
+     {
+      "id": "bank",
+      "label": "Remit-to bank matches master",
+      "status": "pass",
+      "detail": "A/c \u2022\u2022\u2022\u20229876 \u00b7 BARB0PEENYA (verified)"
+     }
+    ],
+    "data": {
+     "vendor_id": "V004",
+     "how": "GSTIN exact match"
+    },
+    "ms": 0,
+    "t": 4.244
+   },
+   {
+    "type": "stage",
+    "stage": "duplicate",
+    "label": "Duplicate detection",
+    "state": "running",
+    "t": 4.244
+   },
+   {
+    "type": "stage",
+    "stage": "duplicate",
+    "label": "Duplicate detection",
+    "state": "done",
+    "status": "pass",
+    "summary": "No duplicate found",
+    "checks": [
+     {
+      "id": "dup_file",
+      "label": "Same file seen before",
+      "status": "pass",
+      "detail": "File fingerprint (SHA-256) is new"
+     },
+     {
+      "id": "dup_inv",
+      "label": "Duplicate of a booked invoice",
+      "status": "pass",
+      "detail": "Compared against 1 prior invoices from this vendor (exact, normalised & fuzzy)"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 4.244
+   },
+   {
+    "type": "stage",
+    "stage": "match",
+    "label": "PO \u00b7 GRN \u00b7 invoice match",
+    "state": "running",
+    "t": 4.244
+   },
+   {
+    "type": "stage",
+    "stage": "match",
+    "label": "PO \u00b7 GRN \u00b7 invoice match",
+    "state": "done",
+    "status": "pass",
+    "summary": "PO-2026-0119 \u00b7 billable \u20b929,000 of \u20b929,000",
+    "checks": [
+     {
+      "id": "po_found",
+      "label": "Purchase order",
+      "status": "pass",
+      "detail": "PO-2026-0119 (explicit on invoice) \u00b7 open \u00b7 \u20b948,600"
+     },
+     {
+      "id": "line_match",
+      "label": "Invoice lines \u2194 PO lines",
+      "status": "pass",
+      "detail": "1/1 lines matched to PO lines"
+     },
+     {
+      "id": "price",
+      "label": "Unit price vs PO",
+      "status": "pass",
+      "detail": "All unit prices match PO"
+     },
+     {
+      "id": "grn",
+      "label": "3-way match (PO \u00b7 GRN \u00b7 invoice)",
+      "status": "pass",
+      "detail": "Billed quantities \u2264 received and not previously invoiced"
+     },
+     {
+      "id": "po_value",
+      "label": "Cumulative billing vs PO value",
+      "status": "pass",
+      "detail": "Previously billed \u20b919,600 + this \u20b929,000 = \u20b948,600 vs PO \u20b948,600"
+     }
+    ],
+    "data": {
+     "po_number": "PO-2026-0119",
+     "inferred": false,
+     "candidates": [],
+     "lines": [
+      {
+       "invoice_line": "Modular Switch 16A",
+       "po_line": "L2 Modular Switch 16A",
+       "score": 1.0,
+       "inv_qty": 200.0,
+       "po_qty": 200,
+       "prev_billed": 0,
+       "received": 200,
+       "billable_qty": 200.0,
+       "inv_price": 145.0,
+       "po_price": 145.0,
+       "price_var_pct": 0.0,
+       "status": "pass",
+       "note": "matches PO & GRN"
+      }
+     ]
+    },
+    "ms": 0,
+    "t": 4.244
+   },
+   {
+    "type": "stage",
+    "stage": "tax",
+    "label": "GST compliance",
+    "state": "running",
+    "t": 4.244
+   },
+   {
+    "type": "stage",
+    "stage": "tax",
+    "label": "GST compliance",
+    "state": "done",
+    "status": "pass",
+    "summary": "GST compliant",
+    "checks": [
+     {
+      "id": "buyer_gstin",
+      "label": "Billed to our GSTIN",
+      "status": "pass",
+      "detail": "29AAKCK4821L1Z2"
+     },
+     {
+      "id": "tax_type",
+      "label": "Correct GST type for place of supply",
+      "status": "pass",
+      "detail": "Karnataka \u2192 Karnataka = intra-state \u2192 CGST+SGST \u2713"
+     },
+     {
+      "id": "tax_calc",
+      "label": "GST amount = taxable \u00d7 rate",
+      "status": "pass",
+      "detail": "\u20b929,000 \u00d7 18% = \u20b95,220 vs charged \u20b95,220"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 4.244
+   },
+   {
+    "type": "stage",
+    "stage": "decide",
+    "label": "Decision & actions",
+    "state": "running",
+    "t": 4.244
+   },
+   {
+    "type": "stage",
+    "stage": "decide",
+    "label": "Decision & actions",
+    "state": "done",
+    "status": "pass",
+    "summary": "Approved for payment",
+    "checks": [
+     {
+      "id": "decision",
+      "label": "Decision",
+      "status": "pass",
+      "detail": "Approved for payment"
+     },
+     {
+      "id": "payment",
+      "label": "Payment proposal",
+      "status": "info",
+      "detail": "Net \u20b934,191 after TDS \u20b929 u/s 194Q \u00b7 due 2026-12-08"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 4.244
+   }
+  ]
  },
  {
   "id": "seed-E09_arithmetic_error",
@@ -1779,7 +6109,7 @@
   "total": 167560.0,
   "approved_amount": 0.0,
   "risk_caught": 21240.0,
-  "duration_ms": 4024,
+  "duration_ms": 4466,
   "doc_kind": "digital",
   "summary": {
    "vendor_id": "V001",
@@ -1957,15 +6287,569 @@
    },
    "meta": {
     "model": "gemini-3.1-flash-lite",
-    "latency_ms": 4010,
+    "latency_ms": 4450,
     "raced": 3,
     "fallbacks": [
-     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
+     "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-flash-lite-latest: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-3.5-flash-lite: HTTP 429 RESOURCE_EXHAUSTED",
+     "gemini-flash-latest: HTTP 429 RESOURCE_EXHAUSTED"
     ]
    },
    "doc_kind": "digital"
   },
-  "events": []
+  "events": [
+   {
+    "type": "run",
+    "id": "3cd799d9cec24104b186c2ee2d922d3e",
+    "filename": "E09_arithmetic_error.pdf",
+    "stages": [
+     {
+      "id": "intake",
+      "label": "Intake & fingerprint"
+     },
+     {
+      "id": "extract",
+      "label": "AI extraction"
+     },
+     {
+      "id": "verify",
+      "label": "Verify extraction"
+     },
+     {
+      "id": "vendor",
+      "label": "Vendor & bank check"
+     },
+     {
+      "id": "duplicate",
+      "label": "Duplicate detection"
+     },
+     {
+      "id": "match",
+      "label": "PO \u00b7 GRN \u00b7 invoice match"
+     },
+     {
+      "id": "tax",
+      "label": "GST compliance"
+     },
+     {
+      "id": "decide",
+      "label": "Decision & actions"
+     }
+    ],
+    "t": 0.0
+   },
+   {
+    "type": "stage",
+    "stage": "intake",
+    "label": "Intake & fingerprint",
+    "state": "running",
+    "t": 0.0
+   },
+   {
+    "type": "stage",
+    "stage": "intake",
+    "label": "Intake & fingerprint",
+    "state": "done",
+    "status": "pass",
+    "summary": "Digital PDF \u00b7 SHA-256 d3b673d49ae5\u2026",
+    "checks": [
+     {
+      "id": "format",
+      "label": "Readable PDF",
+      "status": "pass",
+      "detail": "1 page(s), 3 KB"
+     },
+     {
+      "id": "text_layer",
+      "label": "Document type",
+      "status": "info",
+      "detail": "Digital PDF \u2014 text layer present; values will be grounded against it"
+     }
+    ],
+    "data": {
+     "kind": "digital",
+     "sha256": "d3b673d49ae52df32643f767f142240ecd022ec36766562d62fbcab9e05012cc"
+    },
+    "ms": 12,
+    "t": 0.013
+   },
+   {
+    "type": "stage",
+    "stage": "extract",
+    "label": "AI extraction",
+    "state": "running",
+    "t": 0.013
+   },
+   {
+    "type": "stage",
+    "stage": "extract",
+    "label": "AI extraction",
+    "state": "done",
+    "status": "pass",
+    "summary": "SHREE GANESH STEEL TRADERS \u00b7 SGS/26-27/0109 \u00b7 \u20b91,67,560",
+    "checks": [
+     {
+      "id": "model",
+      "label": "Model",
+      "status": "info",
+      "detail": "gemini-3.1-flash-lite \u00b7 4450 ms \u00b7 raced 3 models in parallel, first valid answer wins \u00b7 4 busy/failed: gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED, gemini-flash-lite-latest: HTTP 429 RESOURCE_EXHAUSTED, gemini-3.5-flash-lite: HTTP 429 RESOURCE_EXHAUSTED"
+     },
+     {
+      "id": "fields",
+      "label": "Fields extracted",
+      "status": "pass",
+      "detail": "1 line items \u00b7 vendor 'SHREE GANESH STEEL TRADERS' \u00b7 invoice SGS/26-27/0109 \u00b7 total \u20b91,67,560"
+     }
+    ],
+    "data": {
+     "fields": {
+      "line_items": [
+       {
+        "description": "MS Round Bar 12mm (IS 2062)",
+        "hsn_sac": "7214",
+        "quantity": 2000.0,
+        "unit": "kg",
+        "unit_price": 62.0,
+        "amount": 142000.0
+       }
+      ],
+      "amount_in_words": "Rupees One Lakh Sixty Seven Thousand Five Hundred Sixty Only",
+      "bank_account_name": "Shree Ganesh Steel Traders",
+      "bank_account_number": "50200012345678",
+      "bank_ifsc": "HDFC0001234",
+      "bank_name": "HDFC Bank, Peenya",
+      "boxes": {
+       "bank_account_number": [
+        451,
+        215,
+        461,
+        325
+       ],
+       "grand_total": [
+        348,
+        845,
+        360,
+        929
+       ],
+       "invoice_date": [
+        146,
+        165,
+        156,
+        245
+       ],
+       "invoice_number": [
+        146,
+        165,
+        156,
+        270
+       ],
+       "po_reference": [
+        163,
+        165,
+        173,
+        255
+       ],
+       "vendor_gstin": [
+        91,
+        265,
+        101,
+        395
+       ]
+      },
+      "buyer_gstin": "29AAKCK4821L1Z2",
+      "buyer_name": "Kaveri Precision Components Pvt Ltd",
+      "cgst": 12780.0,
+      "currency": "Rs.",
+      "grand_total": 167560.0,
+      "gst_rate_percent": 18.0,
+      "invoice_date": "2026-11-07",
+      "invoice_number": "SGS/26-27/0109",
+      "notes": "Terms: Goods once sold will not be taken back. Interest @18% p.a. on overdue bills. Subject to Bengaluru jurisdiction.",
+      "order_reference_text": "PO-2026-0101",
+      "place_of_supply": "Karnataka (29)",
+      "po_reference": "PO-2026-0101",
+      "sgst": 12780.0,
+      "subtotal": 142000.0,
+      "vendor_address": "No. 7, 2nd Main, Peenya 2nd Stage, Bengaluru 560058, Karnataka",
+      "vendor_gstin": "29ABCFS7712K1ZS",
+      "vendor_name": "SHREE GANESH STEEL TRADERS",
+      "igst": null,
+      "_repairs": []
+     },
+     "meta": {
+      "model": "gemini-3.1-flash-lite",
+      "latency_ms": 4450,
+      "raced": 3,
+      "fallbacks": [
+       "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED",
+       "gemini-flash-lite-latest: HTTP 429 RESOURCE_EXHAUSTED",
+       "gemini-3.5-flash-lite: HTTP 429 RESOURCE_EXHAUSTED",
+       "gemini-flash-latest: HTTP 429 RESOURCE_EXHAUSTED"
+      ]
+     }
+    },
+    "ms": 4450,
+    "t": 4.464
+   },
+   {
+    "type": "stage",
+    "stage": "verify",
+    "label": "Verify extraction",
+    "state": "running",
+    "t": 4.464
+   },
+   {
+    "type": "stage",
+    "stage": "verify",
+    "label": "Verify extraction",
+    "state": "done",
+    "status": "fail",
+    "summary": "1 problem(s) with the document",
+    "checks": [
+     {
+      "id": "grounding",
+      "label": "Values exist on the page (anti-hallucination)",
+      "status": "pass",
+      "detail": "8 values found verbatim in the PDF text layer"
+     },
+     {
+      "id": "inv_no",
+      "label": "Invoice number present",
+      "status": "pass",
+      "detail": "SGS/26-27/0109"
+     },
+     {
+      "id": "inv_date",
+      "label": "Invoice date",
+      "status": "pass",
+      "detail": "07 Nov 2026 \u00b7 13 days old"
+     },
+     {
+      "id": "line_math",
+      "label": "Line maths (qty \u00d7 rate = amount)",
+      "status": "fail",
+      "detail": "Line 1 'MS Round Bar 12mm (IS 2062)': 2000 \u00d7 \u20b962 = \u20b91,24,000, but invoice says \u20b91,42,000 (+\u20b918,000)"
+     },
+     {
+      "id": "subtotal",
+      "label": "Lines add up to subtotal",
+      "status": "pass",
+      "detail": "\u03a3 lines \u20b91,42,000 vs subtotal \u20b91,42,000"
+     },
+     {
+      "id": "total",
+      "label": "Subtotal + GST = total",
+      "status": "pass",
+      "detail": "\u20b91,42,000 + \u20b925,560 = \u20b91,67,560 vs total \u20b91,67,560"
+     }
+    ],
+    "data": {
+     "provenance": {
+      "invoice_number": {
+       "status": "grounded",
+       "bbox": [
+        0.15546024580141793,
+        0.14339011820186318,
+        0.2680820096801034,
+        0.15807849873295596
+       ]
+      },
+      "vendor_gstin": {
+       "status": "grounded",
+       "bbox": [
+        0.2645947731953108,
+        0.08678959949460334,
+        0.3955483161839004,
+        0.10066195385051041
+       ]
+      },
+      "buyer_gstin": {
+       "status": "grounded",
+       "bbox": [
+        0.5753856635833403,
+        0.2063181724000585,
+        0.7039691397360504,
+        0.2201905358181906
+       ]
+      },
+      "po_reference": {
+       "status": "grounded",
+       "bbox": [
+        0.20034870057864276,
+        0.17706019898326186,
+        0.29951448247435786,
+        0.19174857951435464
+       ]
+      },
+      "bank_account_number": {
+       "status": "grounded",
+       "bbox": [
+        0.12221934134078814,
+        0.4504258955761987,
+        0.23336782701108735,
+        0.46429827711878086
+       ]
+      },
+      "bank_ifsc": {
+       "status": "grounded",
+       "bbox": [
+        0.11189555105893113,
+        0.46557739205403814,
+        0.20712285046798445,
+        0.4794497735966202
+       ]
+      },
+      "grand_total": {
+       "status": "grounded",
+       "bbox": [
+        0.8398394544445066,
+        0.34755981829731375,
+        0.9285715823703385,
+        0.36391590197195467
+       ]
+      },
+      "subtotal": {
+       "status": "grounded",
+       "bbox": [
+        0.8531492121138173,
+        0.29554375234983493,
+        0.9285714798377319,
+        0.309416115767967
+       ]
+      }
+     }
+    },
+    "ms": 2,
+    "t": 4.466
+   },
+   {
+    "type": "stage",
+    "stage": "vendor",
+    "label": "Vendor & bank check",
+    "state": "running",
+    "t": 4.466
+   },
+   {
+    "type": "stage",
+    "stage": "vendor",
+    "label": "Vendor & bank check",
+    "state": "done",
+    "status": "pass",
+    "summary": "Shree Ganesh Steel Traders (V001)",
+    "checks": [
+     {
+      "id": "gstin_valid",
+      "label": "Vendor GSTIN valid (checksum)",
+      "status": "pass",
+      "detail": "Valid GSTIN \u00b7 Karnataka \u00b7 PAN ABCFS7712K"
+     },
+     {
+      "id": "vendor_master",
+      "label": "Vendor in vendor master",
+      "status": "pass",
+      "detail": "Shree Ganesh Steel Traders (V001) \u00b7 GSTIN exact match"
+     },
+     {
+      "id": "gstin_match",
+      "label": "GSTIN matches vendor master",
+      "status": "pass",
+      "detail": "29ABCFS7712K1ZS"
+     },
+     {
+      "id": "vendor_status",
+      "label": "Vendor status",
+      "status": "pass",
+      "detail": "Active \u00b7 Raw material - steel \u00b7 MSME (Micro)"
+     },
+     {
+      "id": "bank",
+      "label": "Remit-to bank matches master",
+      "status": "pass",
+      "detail": "A/c \u2022\u2022\u2022\u20225678 \u00b7 HDFC0001234 (verified)"
+     }
+    ],
+    "data": {
+     "vendor_id": "V001",
+     "how": "GSTIN exact match"
+    },
+    "ms": 0,
+    "t": 4.466
+   },
+   {
+    "type": "stage",
+    "stage": "duplicate",
+    "label": "Duplicate detection",
+    "state": "running",
+    "t": 4.466
+   },
+   {
+    "type": "stage",
+    "stage": "duplicate",
+    "label": "Duplicate detection",
+    "state": "done",
+    "status": "pass",
+    "summary": "No duplicate found",
+    "checks": [
+     {
+      "id": "dup_file",
+      "label": "Same file seen before",
+      "status": "pass",
+      "detail": "File fingerprint (SHA-256) is new"
+     },
+     {
+      "id": "dup_inv",
+      "label": "Duplicate of a booked invoice",
+      "status": "pass",
+      "detail": "Compared against 1 prior invoices from this vendor (exact, normalised & fuzzy)"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 4.466
+   },
+   {
+    "type": "stage",
+    "stage": "match",
+    "label": "PO \u00b7 GRN \u00b7 invoice match",
+    "state": "running",
+    "t": 4.466
+   },
+   {
+    "type": "stage",
+    "stage": "match",
+    "label": "PO \u00b7 GRN \u00b7 invoice match",
+    "state": "done",
+    "status": "pass",
+    "summary": "PO-2026-0101 \u00b7 billable \u20b91,24,000 of \u20b91,42,000",
+    "checks": [
+     {
+      "id": "po_found",
+      "label": "Purchase order",
+      "status": "pass",
+      "detail": "PO-2026-0101 (explicit on invoice) \u00b7 open \u00b7 \u20b92,66,500"
+     },
+     {
+      "id": "line_match",
+      "label": "Invoice lines \u2194 PO lines",
+      "status": "pass",
+      "detail": "1/1 lines matched to PO lines"
+     },
+     {
+      "id": "price",
+      "label": "Unit price vs PO",
+      "status": "pass",
+      "detail": "All unit prices match PO"
+     },
+     {
+      "id": "grn",
+      "label": "3-way match (PO \u00b7 GRN \u00b7 invoice)",
+      "status": "pass",
+      "detail": "Billed quantities \u2264 received and not previously invoiced"
+     },
+     {
+      "id": "po_value",
+      "label": "Cumulative billing vs PO value",
+      "status": "pass",
+      "detail": "Previously billed \u20b90 + this \u20b91,24,000 = \u20b91,24,000 vs PO \u20b92,66,500"
+     }
+    ],
+    "data": {
+     "po_number": "PO-2026-0101",
+     "inferred": false,
+     "candidates": [],
+     "lines": [
+      {
+       "invoice_line": "MS Round Bar 12mm (IS 2062)",
+       "po_line": "L1 MS Round Bar 12mm (IS 2062)",
+       "score": 1.0,
+       "inv_qty": 2000.0,
+       "po_qty": 2000,
+       "prev_billed": 0,
+       "received": 2000,
+       "billable_qty": 2000.0,
+       "inv_price": 62.0,
+       "po_price": 62.0,
+       "price_var_pct": 0.0,
+       "status": "pass",
+       "note": "matches PO & GRN"
+      }
+     ]
+    },
+    "ms": 0,
+    "t": 4.466
+   },
+   {
+    "type": "stage",
+    "stage": "tax",
+    "label": "GST compliance",
+    "state": "running",
+    "t": 4.466
+   },
+   {
+    "type": "stage",
+    "stage": "tax",
+    "label": "GST compliance",
+    "state": "done",
+    "status": "pass",
+    "summary": "GST compliant",
+    "checks": [
+     {
+      "id": "buyer_gstin",
+      "label": "Billed to our GSTIN",
+      "status": "pass",
+      "detail": "29AAKCK4821L1Z2"
+     },
+     {
+      "id": "tax_type",
+      "label": "Correct GST type for place of supply",
+      "status": "pass",
+      "detail": "Karnataka \u2192 Karnataka = intra-state \u2192 CGST+SGST \u2713"
+     },
+     {
+      "id": "tax_calc",
+      "label": "GST amount = taxable \u00d7 rate",
+      "status": "pass",
+      "detail": "\u20b91,42,000 \u00d7 18% = \u20b925,560 vs charged \u20b925,560"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 4.466
+   },
+   {
+    "type": "stage",
+    "stage": "decide",
+    "label": "Decision & actions",
+    "state": "running",
+    "t": 4.466
+   },
+   {
+    "type": "stage",
+    "stage": "decide",
+    "label": "Decision & actions",
+    "state": "done",
+    "status": "fail",
+    "summary": "Rejected \u2014 returned to vendor",
+    "checks": [
+     {
+      "id": "decision",
+      "label": "Decision",
+      "status": "fail",
+      "detail": "Rejected \u2014 returned to vendor"
+     },
+     {
+      "id": "email",
+      "label": "Vendor email drafted",
+      "status": "info",
+      "detail": "Invoice SGS/26-27/0109 \u2014 action needed"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 4.467
+   }
+  ]
  },
  {
   "id": "seed-E10_missing_invoice_number",
@@ -1980,7 +6864,7 @@
   "total": 21830.0,
   "approved_amount": 0.0,
   "risk_caught": 0,
-  "duration_ms": 9761,
+  "duration_ms": 2087,
   "doc_kind": "digital",
   "summary": {
    "vendor_id": "V005",
@@ -2012,9 +6896,9 @@
     "bank_name": "Axis Bank, Rajkot",
     "boxes": {
      "bank_account_number": [
-      448,
+      446,
       119,
-      458,
+      456,
       241
      ],
      "grand_total": [
@@ -2024,22 +6908,22 @@
       915
      ],
      "invoice_date": [
-      181,
-      848,
-      191,
+      180,
+      855,
+      189,
       928
      ],
      "invoice_number": null,
      "po_reference": [
       198,
       834,
-      208,
+      207,
       928
      ],
      "vendor_gstin": [
-      88,
-      111,
-      96,
+      84,
+      121,
+      93,
       237
      ]
     },
@@ -2154,7 +7038,7 @@
    },
    "meta": {
     "model": "gemini-3.5-flash-lite",
-    "latency_ms": 9749,
+    "latency_ms": 2075,
     "raced": 3,
     "fallbacks": [
      "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
@@ -2162,6 +7046,544 @@
    },
    "doc_kind": "digital"
   },
-  "events": []
+  "events": [
+   {
+    "type": "run",
+    "id": "365cabcd04e749d2a80b7129b88fd3fa",
+    "filename": "E10_missing_invoice_number.pdf",
+    "stages": [
+     {
+      "id": "intake",
+      "label": "Intake & fingerprint"
+     },
+     {
+      "id": "extract",
+      "label": "AI extraction"
+     },
+     {
+      "id": "verify",
+      "label": "Verify extraction"
+     },
+     {
+      "id": "vendor",
+      "label": "Vendor & bank check"
+     },
+     {
+      "id": "duplicate",
+      "label": "Duplicate detection"
+     },
+     {
+      "id": "match",
+      "label": "PO \u00b7 GRN \u00b7 invoice match"
+     },
+     {
+      "id": "tax",
+      "label": "GST compliance"
+     },
+     {
+      "id": "decide",
+      "label": "Decision & actions"
+     }
+    ],
+    "t": 0.0
+   },
+   {
+    "type": "stage",
+    "stage": "intake",
+    "label": "Intake & fingerprint",
+    "state": "running",
+    "t": 0.0
+   },
+   {
+    "type": "stage",
+    "stage": "intake",
+    "label": "Intake & fingerprint",
+    "state": "done",
+    "status": "pass",
+    "summary": "Digital PDF \u00b7 SHA-256 abdf06cd8e5e\u2026",
+    "checks": [
+     {
+      "id": "format",
+      "label": "Readable PDF",
+      "status": "pass",
+      "detail": "1 page(s), 3 KB"
+     },
+     {
+      "id": "text_layer",
+      "label": "Document type",
+      "status": "info",
+      "detail": "Digital PDF \u2014 text layer present; values will be grounded against it"
+     }
+    ],
+    "data": {
+     "kind": "digital",
+     "sha256": "abdf06cd8e5ee3be7cc87d6e0642335d3f1cfd4433e142ff98cfdb770d05c92a"
+    },
+    "ms": 8,
+    "t": 0.009
+   },
+   {
+    "type": "stage",
+    "stage": "extract",
+    "label": "AI extraction",
+    "state": "running",
+    "t": 0.009
+   },
+   {
+    "type": "stage",
+    "stage": "extract",
+    "label": "AI extraction",
+    "state": "done",
+    "status": "pass",
+    "summary": "Precision Tooling Works \u00b7 no invoice no. \u00b7 \u20b921,830",
+    "checks": [
+     {
+      "id": "model",
+      "label": "Model",
+      "status": "info",
+      "detail": "gemini-3.5-flash-lite \u00b7 2075 ms \u00b7 raced 3 models in parallel, first valid answer wins \u00b7 1 busy/failed: gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
+     },
+     {
+      "id": "fields",
+      "label": "Fields extracted",
+      "status": "pass",
+      "detail": "1 line items \u00b7 vendor 'Precision Tooling Works' \u00b7 invoice \u2014 \u00b7 total \u20b921,830"
+     }
+    ],
+    "data": {
+     "fields": {
+      "line_items": [
+       {
+        "description": "HSS Drill Bit 8mm (HSN 8207)",
+        "hsn_sac": "8207",
+        "quantity": 100.0,
+        "unit": "nos",
+        "unit_price": 185.0,
+        "amount": 18500.0
+       }
+      ],
+      "amount_in_words": null,
+      "bank_account_name": "Precision Tooling Works",
+      "bank_account_number": "917020045678123",
+      "bank_ifsc": "UTIB0000123",
+      "bank_name": "Axis Bank, Rajkot",
+      "boxes": {
+       "bank_account_number": [
+        446,
+        119,
+        456,
+        241
+       ],
+       "grand_total": [
+        361,
+        827,
+        372,
+        915
+       ],
+       "invoice_date": [
+        180,
+        855,
+        189,
+        928
+       ],
+       "invoice_number": null,
+       "po_reference": [
+        198,
+        834,
+        207,
+        928
+       ],
+       "vendor_gstin": [
+        84,
+        121,
+        93,
+        237
+       ]
+      },
+      "buyer_gstin": "29AAKCK4821L1Z2",
+      "buyer_name": "Kaveri Precision Components Pvt Ltd",
+      "cgst": null,
+      "currency": "INR",
+      "grand_total": 21830.0,
+      "gst_rate_percent": 18.0,
+      "igst": 3330.0,
+      "invoice_date": "2026-11-12",
+      "invoice_number": null,
+      "notes": null,
+      "order_reference_text": null,
+      "place_of_supply": null,
+      "po_reference": "PO-2026-0175",
+      "rates_include_tax": null,
+      "sgst": null,
+      "subtotal": 18500.0,
+      "vendor_address": "Plot 221, GIDC Lodhika, Metoda, Rajkot 360021, Gujarat",
+      "vendor_gstin": "24AAHFP2207C1ZV",
+      "vendor_name": "Precision Tooling Works",
+      "_repairs": []
+     },
+     "meta": {
+      "model": "gemini-3.5-flash-lite",
+      "latency_ms": 2075,
+      "raced": 3,
+      "fallbacks": [
+       "gemini-3-flash-preview: HTTP 429 RESOURCE_EXHAUSTED"
+      ]
+     }
+    },
+    "ms": 2076,
+    "t": 2.085
+   },
+   {
+    "type": "stage",
+    "stage": "verify",
+    "label": "Verify extraction",
+    "state": "running",
+    "t": 2.085
+   },
+   {
+    "type": "stage",
+    "stage": "verify",
+    "label": "Verify extraction",
+    "state": "done",
+    "status": "fail",
+    "summary": "1 problem(s) with the document",
+    "checks": [
+     {
+      "id": "grounding",
+      "label": "Values exist on the page (anti-hallucination)",
+      "status": "pass",
+      "detail": "7 values found verbatim in the PDF text layer"
+     },
+     {
+      "id": "inv_no",
+      "label": "Invoice number present",
+      "status": "fail",
+      "detail": "No invoice/bill number on the document. A GST tax invoice must carry a unique serial number (CGST Rule 46)."
+     },
+     {
+      "id": "inv_date",
+      "label": "Invoice date",
+      "status": "pass",
+      "detail": "12 Nov 2026 \u00b7 8 days old"
+     },
+     {
+      "id": "line_math",
+      "label": "Line maths (qty \u00d7 rate = amount)",
+      "status": "pass",
+      "detail": "All 1 lines reconcile"
+     },
+     {
+      "id": "subtotal",
+      "label": "Lines add up to subtotal",
+      "status": "pass",
+      "detail": "\u03a3 lines \u20b918,500 vs subtotal \u20b918,500"
+     },
+     {
+      "id": "total",
+      "label": "Subtotal + GST = total",
+      "status": "pass",
+      "detail": "\u20b918,500 + \u20b93,330 = \u20b921,830 vs total \u20b921,830"
+     }
+    ],
+    "data": {
+     "provenance": {
+      "invoice_number": {
+       "status": "absent"
+      },
+      "vendor_gstin": {
+       "status": "grounded",
+       "bbox": [
+        0.11623471815580752,
+        0.07732692382699646,
+        0.24022431058356947,
+        0.09038326106994284
+       ]
+      },
+      "buyer_gstin": {
+       "status": "grounded",
+       "bbox": [
+        0.11903510152522379,
+        0.2063181724000585,
+        0.24761839824587217,
+        0.2201905358181906
+       ]
+      },
+      "po_reference": {
+       "status": "grounded",
+       "bbox": [
+        0.8349148133470795,
+        0.17601517944437975,
+        0.9285715823703385,
+        0.18988754286251183
+       ]
+      },
+      "bank_account_number": {
+       "status": "grounded",
+       "bbox": [
+        0.12221934134078814,
+        0.443691901169259,
+        0.24130700364349617,
+        0.45756428271184113
+       ]
+      },
+      "bank_ifsc": {
+       "status": "grounded",
+       "bbox": [
+        0.11189555105893113,
+        0.4588433976470984,
+        0.1999975776671679,
+        0.4727157791896805
+       ]
+      },
+      "grand_total": {
+       "status": "grounded",
+       "bbox": [
+        0.8538497661487574,
+        0.35597732036821345,
+        0.9285715823703385,
+        0.3723334040428543
+       ]
+      },
+      "subtotal": {
+       "status": "grounded",
+       "bbox": [
+        0.8650579642458547,
+        0.319112769023024,
+        0.9285714798377319,
+        0.33298515056560607
+       ]
+      }
+     }
+    },
+    "ms": 1,
+    "t": 2.087
+   },
+   {
+    "type": "stage",
+    "stage": "vendor",
+    "label": "Vendor & bank check",
+    "state": "running",
+    "t": 2.087
+   },
+   {
+    "type": "stage",
+    "stage": "vendor",
+    "label": "Vendor & bank check",
+    "state": "done",
+    "status": "pass",
+    "summary": "Precision Tooling Works (V005)",
+    "checks": [
+     {
+      "id": "gstin_valid",
+      "label": "Vendor GSTIN valid (checksum)",
+      "status": "pass",
+      "detail": "Valid GSTIN \u00b7 Gujarat \u00b7 PAN AAHFP2207C"
+     },
+     {
+      "id": "vendor_master",
+      "label": "Vendor in vendor master",
+      "status": "pass",
+      "detail": "Precision Tooling Works (V005) \u00b7 GSTIN exact match"
+     },
+     {
+      "id": "gstin_match",
+      "label": "GSTIN matches vendor master",
+      "status": "pass",
+      "detail": "24AAHFP2207C1ZV"
+     },
+     {
+      "id": "vendor_status",
+      "label": "Vendor status",
+      "status": "pass",
+      "detail": "Active \u00b7 Cutting tools"
+     },
+     {
+      "id": "bank",
+      "label": "Remit-to bank matches master",
+      "status": "pass",
+      "detail": "A/c \u2022\u2022\u2022\u20228123 \u00b7 UTIB0000123 (verified)"
+     }
+    ],
+    "data": {
+     "vendor_id": "V005",
+     "how": "GSTIN exact match"
+    },
+    "ms": 0,
+    "t": 2.087
+   },
+   {
+    "type": "stage",
+    "stage": "duplicate",
+    "label": "Duplicate detection",
+    "state": "running",
+    "t": 2.087
+   },
+   {
+    "type": "stage",
+    "stage": "duplicate",
+    "label": "Duplicate detection",
+    "state": "done",
+    "status": "pass",
+    "summary": "No duplicate found",
+    "checks": [
+     {
+      "id": "dup_file",
+      "label": "Same file seen before",
+      "status": "pass",
+      "detail": "File fingerprint (SHA-256) is new"
+     },
+     {
+      "id": "dup_inv",
+      "label": "Duplicate of a booked invoice",
+      "status": "pass",
+      "detail": "Compared against 0 prior invoices from this vendor (exact, normalised & fuzzy)"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 2.087
+   },
+   {
+    "type": "stage",
+    "stage": "match",
+    "label": "PO \u00b7 GRN \u00b7 invoice match",
+    "state": "running",
+    "t": 2.087
+   },
+   {
+    "type": "stage",
+    "stage": "match",
+    "label": "PO \u00b7 GRN \u00b7 invoice match",
+    "state": "done",
+    "status": "pass",
+    "summary": "PO-2026-0175 \u00b7 billable \u20b918,500 of \u20b918,500",
+    "checks": [
+     {
+      "id": "po_found",
+      "label": "Purchase order",
+      "status": "pass",
+      "detail": "PO-2026-0175 (explicit on invoice) \u00b7 open \u00b7 \u20b943,500"
+     },
+     {
+      "id": "line_match",
+      "label": "Invoice lines \u2194 PO lines",
+      "status": "pass",
+      "detail": "1/1 lines matched to PO lines"
+     },
+     {
+      "id": "price",
+      "label": "Unit price vs PO",
+      "status": "pass",
+      "detail": "All unit prices match PO"
+     },
+     {
+      "id": "grn",
+      "label": "3-way match (PO \u00b7 GRN \u00b7 invoice)",
+      "status": "pass",
+      "detail": "Billed quantities \u2264 received and not previously invoiced"
+     },
+     {
+      "id": "po_value",
+      "label": "Cumulative billing vs PO value",
+      "status": "pass",
+      "detail": "Previously billed \u20b90 + this \u20b918,500 = \u20b918,500 vs PO \u20b943,500"
+     }
+    ],
+    "data": {
+     "po_number": "PO-2026-0175",
+     "inferred": false,
+     "candidates": [],
+     "lines": [
+      {
+       "invoice_line": "HSS Drill Bit 8mm (HSN 8207)",
+       "po_line": "L1 HSS Drill Bit 8mm",
+       "score": 1.0,
+       "inv_qty": 100.0,
+       "po_qty": 100,
+       "prev_billed": 0,
+       "received": 100,
+       "billable_qty": 100.0,
+       "inv_price": 185.0,
+       "po_price": 185.0,
+       "price_var_pct": 0.0,
+       "status": "pass",
+       "note": "matches PO & GRN"
+      }
+     ]
+    },
+    "ms": 0,
+    "t": 2.087
+   },
+   {
+    "type": "stage",
+    "stage": "tax",
+    "label": "GST compliance",
+    "state": "running",
+    "t": 2.087
+   },
+   {
+    "type": "stage",
+    "stage": "tax",
+    "label": "GST compliance",
+    "state": "done",
+    "status": "pass",
+    "summary": "GST compliant",
+    "checks": [
+     {
+      "id": "buyer_gstin",
+      "label": "Billed to our GSTIN",
+      "status": "pass",
+      "detail": "29AAKCK4821L1Z2"
+     },
+     {
+      "id": "tax_type",
+      "label": "Correct GST type for place of supply",
+      "status": "pass",
+      "detail": "Gujarat \u2192 Karnataka = inter-state \u2192 IGST \u2713"
+     },
+     {
+      "id": "tax_calc",
+      "label": "GST amount = taxable \u00d7 rate",
+      "status": "pass",
+      "detail": "\u20b918,500 \u00d7 18% = \u20b93,330 vs charged \u20b93,330"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 2.087
+   },
+   {
+    "type": "stage",
+    "stage": "decide",
+    "label": "Decision & actions",
+    "state": "running",
+    "t": 2.087
+   },
+   {
+    "type": "stage",
+    "stage": "decide",
+    "label": "Decision & actions",
+    "state": "done",
+    "status": "fail",
+    "summary": "Rejected \u2014 returned to vendor",
+    "checks": [
+     {
+      "id": "decision",
+      "label": "Decision",
+      "status": "fail",
+      "detail": "Rejected \u2014 returned to vendor"
+     },
+     {
+      "id": "email",
+      "label": "Vendor email drafted",
+      "status": "info",
+      "detail": "Invoice (no number) \u2014 action needed"
+     }
+    ],
+    "data": {},
+    "ms": 0,
+    "t": 2.087
+   }
+  ]
  }
 ]

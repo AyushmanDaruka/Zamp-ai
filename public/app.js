@@ -54,6 +54,25 @@ const CODE_LABEL = {
   BUYER_GSTIN: "Billed to wrong GSTIN", TAX_CALC: "GST miscalculated", CFO_LIMIT: "Above approval limit", MISSING_DATE: "No date", FUTURE_DATE: "Future-dated",
 };
 const CHECK_IC = { pass: "✓", warn: "!", fail: "✕", info: "i" };
+const DONE_LABEL = { release: "Released for payment", accept_partial: "Partial accepted · credit note requested", send_back: "Sent back to vendor", reject: "Rejected by reviewer", retry: "Retried" };
+let reviewer = "";
+try { reviewer = localStorage.getItem("reviewer") || ""; } catch (e) {}
+let pendingRerun = null;
+
+function setCount(ib) {
+  const el = $("#exCount");
+  if (!el || !ib) return;
+  el.textContent = ib.open.length;
+  el.hidden = !ib.open.length;
+}
+const refreshCount = () => api("/api/inbox").then(setCount).catch(() => {});
+
+function msmeChip(m) {
+  if (!m) return "";
+  const cls = m.days_left < 0 ? "late" : m.days_left <= 15 ? "soon" : "";
+  const left = m.days_left < 0 ? `${-m.days_left} days overdue` : `${m.days_left} days left`;
+  return `<span class="clock ${cls}" data-tip="MSMED Act s.15: an MSME supplier must be paid within 45 days of acceptance; unpaid amounts beyond that are also disallowed as an expense u/s 43B(h).">MSME ${esc(m.category)} · pay by ${esc(m.pay_by)} · ${left}</span>`;
+}
 
 // tooltip
 function bindTips(root) {
@@ -118,10 +137,11 @@ async function streamRun(url, opts, st, rerender) {
   if (buf.trim()) { applyEvent(st, JSON.parse(buf)); }
   st.running = false;
   rerender();
+  refreshCount();
 }
 
 // ───────────── run panel ─────────────
-function renderRunPanel(st, { live: isLive } = {}) {
+function renderRunPanel(st, { live: isLive, top = "" } = {}) {
   const total = st.stages.length || 8;
   const done = Object.values(st.byStage).filter((e) => e.state === "done").length;
   const r = st.result;
@@ -137,12 +157,14 @@ function renderRunPanel(st, { live: isLive } = {}) {
     ${r ? `<span class="faint small">${ms(r.duration_ms)} end-to-end · ${esc(r.doc_kind || "")}</span>` : ""}
     <div style="flex:1"></div>
     ${r && isLive && r.decision === "ERROR" ? `<button class="btn sm primary" data-retry>Retry run</button>` : ""}
-    ${r && isLive && r.decision !== "ERROR" ? `<a class="btn sm" href="#/runs/${esc(r.id)}">Open run record</a>` : ""}
+    ${r && isLive && r.decision === "APPROVED" ? `<a class="btn sm" href="#/runs/${esc(r.id)}">Open run record</a>` : ""}
+    ${r && isLive && r.decision !== "APPROVED" && r.decision !== "ERROR" ? `<a class="btn sm primary" href="#/runs/${esc(r.id)}">Resolve exception →</a>` : ""}
   </div>
   <div class="progress"><div style="width:${(done / total) * 100}%"></div></div>
   ${st.error ? `<div class="decision ERROR"><div class="headline">Run failed</div><p class="reason">${esc(st.error)}</p></div>` : ""}
   <div class="run-layout">
     <div>
+      ${top}
       ${d ? decisionCard(r, d) : ""}
       <div class="card">
         <div class="card-head"><h2>Pipeline</h2><span class="faint small">click a stage for its checks</span></div>
@@ -299,7 +321,8 @@ function wireRunPanel(root, st, rerender) {
 async function viewRun() {
   if (!SAMPLES) SAMPLES = await api("/api/samples").catch(() => []);
   const demo = SAMPLES.filter((s) => s.kind === "demo");
-  const other = SAMPLES.filter((s) => s.kind !== "demo");
+  const other = SAMPLES.filter((s) => s.kind === "eval");
+  const unseen = SAMPLES.filter((s) => s.kind === "holdout");
   const tagFor = (s, i) => (i === 0 ? '<span class="tag happy">Happy path</span>' : `<span class="tag edge">Edge case ${i}</span>`);
   view.innerHTML = `
   <div class="page-head"><div><h1>Process an invoice</h1>
@@ -317,6 +340,9 @@ async function viewRun() {
       <details class="more"><summary>+ ${other.length} more test invoices (accuracy set)</summary>
         ${other.map((s) => `<button class="sample" data-sample="${esc(s.id)}"><span class="tag">${esc(s.id.split("_")[0])}</span><div><div class="t">${esc(s.title)}</div><div class="s">${esc(s.id)}.pdf</div></div><a class="faint small" href="/api/samples/${esc(s.id)}.pdf" target="_blank" onclick="event.stopPropagation()">view PDF</a></button>`).join("")}
       </details>
+      ${unseen.length ? `<details class="more"><summary>+ ${unseen.length} unseen test invoices (held-out set · new layout)</summary>
+        ${unseen.map((s) => `<button class="sample" data-sample="${esc(s.id)}"><span class="tag">${esc(s.id.split("_")[0])}</span><div><div class="t">${esc(s.title)}</div><div class="s">${esc(s.id)}.pdf${s.scanned ? " · scanned" : ""}</div></div><a class="faint small" href="/api/samples/${esc(s.id)}.pdf" target="_blank" onclick="event.stopPropagation()">view PDF</a></button>`).join("")}
+      </details>` : ""}
     </div>
   </div>
   <div id="runArea" style="margin-top:22px"></div>`;
@@ -343,6 +369,14 @@ async function viewRun() {
     st.pageUrl = `/api/samples/${b.dataset.sample}.jpg`;
     start(st, `/api/runs/sample/${encodeURIComponent(b.dataset.sample)}`);
   }));
+  if (pendingRerun) {
+    const pr = pendingRerun;
+    pendingRerun = null;
+    const st = newState();
+    st.filename = pr.filename;
+    st.pageUrl = `/api/runs/${pr.id}/page.jpg`;
+    start(st, `/api/runs/${encodeURIComponent(pr.id)}/rerun`);
+  }
   const drop = $("#drop"), input = $("#file");
   const go = (file) => {
     if (!file || (live && live.running)) return;
@@ -364,18 +398,118 @@ async function viewRunDetail(id) {
   try { r = await api(`/api/runs/${encodeURIComponent(id)}`); } catch (e) { view.innerHTML = `<div class="empty">Run not found.</div>`; return; }
   const st = newState();
   (r.events || []).forEach((ev) => applyEvent(st, ev));
-  if (!st.stages.length) {
-    // seeded history has no event log — rebuild the stage list from the stored result
-    st.stages = await api("/api/stages");
-  }
+  if (!st.stages.length) st.stages = await api("/api/stages");
   st.result = r; st.running = false; st.filename = r.filename; st.pageUrl = `/api/runs/${r.id}/page.jpg`;
+  const back = (r.options && r.options.length) || (r.summary || {}).resolution ? `<a href="#/inbox" class="small">← Exceptions</a>` : `<a href="#/dashboard" class="small">← Dashboard</a>`;
   const rerender = () => {
-    view.innerHTML = `<div class="page-head"><div><a href="#/dashboard" class="small">← Dashboard</a><h1 style="margin-top:4px">Run ${esc(r.id.slice(0, 8))}</h1>
+    view.innerHTML = `<div class="page-head"><div>${back}<h1 style="margin-top:4px">Run ${esc(r.id.slice(0, 8))}</h1>
       <p>${esc(r.vendor_name || "Unknown vendor")} · ${esc(r.invoice_number || "no invoice no.")} · ${inr(r.total)} · processed ${ago(r.created_at)} (${esc(r.source)})</p></div>
-      <a class="btn sm" href="/api/runs/${esc(r.id)}/file.pdf" target="_blank">Original PDF</a></div>` + renderRunPanel(st, {});
+      <a class="btn sm" href="/api/runs/${esc(r.id)}/file.pdf" target="_blank">Original PDF</a></div>` + renderRunPanel(st, { top: resolutionCard(r) });
     wireRunPanel(view, st, rerender);
+    wireResolution(view, r);
+    bindTips(view);
   };
   rerender();
+}
+
+// ───────────── human resolution ─────────────
+function ownerQuestion(r) {
+  const d = (r.result || {}).decision || {};
+  const t = (d.internal_tasks || [])[0];
+  if (t) return { owner: t.owner, ask: t.ask };
+  const top = (d.issues || []).find((i) => i.code === d.primary_code) || {};
+  return { owner: d.owner || "AP team", ask: top.vendor_ask || d.primary_reason };
+}
+
+function resolutionCard(r) {
+  const res = (r.summary || {}).resolution;
+  if (r.decision === "ERROR") {
+    return res ? "" : `<div class="resolve"><h3>Nothing was decided</h3><p class="small muted" style="margin:6px 0 0">The AI reader didn't answer in time, so the invoice was not approved or rejected. Re-run it on the stored PDF.</p>
+      <div class="acts"><button class="btn primary sm" data-rerun>Retry this invoice</button></div></div>`;
+  }
+  if (res) {
+    const audit = (r.summary.audit || []).map((a) => `<li><b>${esc(a.what)}</b> · ${esc(a.by)} · ${ago(a.at)}${a.note ? `<br>“${esc(a.note)}”` : ""}</li>`).join("");
+    return `<div class="resolve"><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><h3>Human decision</h3>${badge(res.final_decision)}<span class="small muted">${esc(DONE_LABEL[res.action] || res.label)}</span></div>
+      <ul class="audit"><li><b>System decision:</b> ${esc((DEC[r.decision] || {}).label || r.decision)} — ${esc(((r.result || {}).decision || {}).primary_reason || "")}</li>${audit}</ul>
+      <p class="faint small" style="margin:10px 0 0">The system's decision is kept as-is; the human decision is recorded next to it, so the audit trail shows both.</p></div>
+      ${res.payment ? paymentCard(res.payment) : ""}`;
+  }
+  if (!r.options || !r.options.length) return "";
+  const q = ownerQuestion(r);
+  const btnCls = { release: "good", accept_partial: "primary", send_back: "primary", reject: "danger" };
+  const locked = r.options.filter((o) => !o.allowed);
+  return `<div class="resolve" id="resolve">
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><h3>Your decision</h3>${msmeChip(r.msme)}</div>
+    <div class="q"><b>Question for ${esc(q.owner)}</b>${esc(q.ask)}</div>
+    <div class="rv-grid" style="display:grid;grid-template-columns:minmax(0,200px) minmax(0,1fr);gap:12px">
+      <div><label for="rvBy">Your name</label><input id="rvBy" value="${esc(reviewer)}" placeholder="e.g. Priya (AP)" maxlength="60" /></div>
+      <div><label for="rvNote">Reason / evidence <span class="faint">(goes on the audit trail)</span></label><textarea id="rvNote" placeholder="e.g. Called Rakesh on the number on file — price revision agreed on 02 Nov, PO amendment raised."></textarea></div>
+    </div>
+    <div class="acts">${r.options.map((o) => `<button class="btn sm ${o.allowed ? btnCls[o.action] || "" : ""}" data-act="${esc(o.action)}" ${o.allowed ? "" : "disabled"}>${esc(o.label)}</button>`).join("")}</div>
+    ${locked.map((o) => `<div class="locked"><span>🔒</span><span><b>${esc(o.label)}</b> is locked: ${esc(o.why_not)}</span></div>`).join("")}
+    <div class="err" id="rvErr"></div>
+  </div>`;
+}
+
+function wireResolution(root, r) {
+  const rr = root.querySelector("[data-rerun]");
+  if (rr) rr.onclick = () => { pendingRerun = r; location.hash = "#/run"; };
+  root.querySelectorAll("[data-act]").forEach((b) => (b.onclick = async () => {
+    const by = $("#rvBy").value.trim(), note = $("#rvNote").value.trim();
+    try { localStorage.setItem("reviewer", by); } catch (e) {}
+    reviewer = by;
+    b.disabled = true;
+    const res = await fetch(`/api/runs/${encodeURIComponent(r.id)}/resolve`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: b.dataset.act, note, by }) });
+    if (!res.ok) {
+      let msg = res.statusText;
+      try { msg = (await res.json()).detail || msg; } catch (e) {}
+      $("#rvErr").textContent = msg;
+      b.disabled = false;
+      return;
+    }
+    refreshCount();
+    viewRunDetail(r.id);
+  }));
+}
+
+const OWNER_HINT = {
+  Vendor: "send the drafted email, then wait for a corrected invoice or credit note",
+  "Treasury / Security": "verify the bank change by calling the number on file — never the one on the invoice",
+  "Procurement (buyer)": "confirm or reject the price / quantity difference",
+  Procurement: "authorise the purchase and raise a PO, or escalate",
+  "Vendor management": "finish KYC / onboarding before anything is paid",
+  "AP team": "retry or key in manually",
+  CFO: "sign off above the auto-approval limit",
+};
+async function viewInbox() {
+  view.innerHTML = `<div class="empty">Loading…</div>`;
+  const ib = await api("/api/inbox");
+  setCount(ib);
+  const open = ib.open;
+  const atStake = open.reduce((a, i) => a + (i.held || 0), 0);
+  const msmeSoon = open.filter((i) => i.msme && i.msme.days_left <= 15).length;
+  const groups = {};
+  open.forEach((i) => (groups[i.owner] = groups[i.owner] || []).push(i));
+  const ordered = Object.entries(groups).sort((a, b) => b[1].length - a[1].length);
+  const item = (i) => `<a class="xitem" href="#/runs/${esc(i.id)}">
+      <div class="xtop">${badge(i.decision)}<b>${esc(CODE_LABEL[i.code] || i.code || "Needs review")}</b><span class="muted small">${esc(i.vendor_name || "Unknown vendor")} · <span class="mono">${esc(i.invoice_number || i.filename || "—")}</span></span><span class="amt">${inr(i.held)}</span></div>
+      <div class="ask">${esc(i.ask || "")}</div>
+      <div class="meta"><span>raised ${ago(i.created_at)}</span>${msmeChip(i.msme)}</div></a>`;
+  view.innerHTML = `
+  <div class="page-head"><div><h1>Exceptions</h1><p>Everything the system would not pay on its own. Each item goes to a named owner with the specific question they must answer. Some actions are locked by guardrails a reviewer can't override (e.g. paying a duplicate or an un-onboarded vendor).</p></div></div>
+  <div class="kpis" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+    <div class="card kpi"><div class="label">Open exceptions</div><div class="value">${open.length}</div><div class="sub">waiting on a human</div></div>
+    <div class="card kpi"><div class="label">Value not yet paid</div><div class="value">${inrShort(atStake)}</div><div class="sub">held, partial balance or rejected</div></div>
+    <div class="card kpi"><div class="label">MSME deadline ≤ 15 days</div><div class="value">${msmeSoon}</div><div class="sub">45-day statutory limit · sorted first</div></div>
+    <div class="card kpi"><div class="label">Resolved by reviewers</div><div class="value">${ib.resolved.length}</div><div class="sub">each with who, when and why</div></div>
+  </div>
+  ${open.length ? ordered.map(([owner, items]) => `<div class="owner-group"><h3>${esc(owner)} <span class="n">${items.length}</span>${OWNER_HINT[owner] ? `<span class="faint small" style="font-weight:400;text-transform:none;letter-spacing:0">· ${OWNER_HINT[owner]}</span>` : ""}</h3>${items.map(item).join("")}</div>`).join("") : `<div class="card empty">Inbox zero — nothing is waiting on anyone.</div>`}
+  ${ib.resolved.length ? `<div class="card" style="margin-top:8px"><div class="card-head"><h2>Resolved</h2><span class="faint small">audit trail</span></div><div class="table-wrap"><table>
+    <thead><tr><th>When</th><th>Invoice</th><th>Vendor</th><th>System said</th><th>Human decided</th><th>By</th><th>Reason</th></tr></thead><tbody>
+    ${ib.resolved.map((i) => `<tr class="click" data-id="${esc(i.id)}"><td class="faint" style="white-space:nowrap">${ago(i.resolution.at)}</td><td class="mono">${esc(i.invoice_number || "—")}</td><td>${esc(i.vendor_name || "—")}</td><td>${badge(i.decision)}</td><td>${badge(i.resolution.final_decision)}<div class="faint small">${esc(DONE_LABEL[i.resolution.action] || "")}</div></td><td>${esc(i.resolution.by)}</td><td class="muted small" style="max-width:320px">${esc(i.resolution.note || "—")}</td></tr>`).join("")}
+    </tbody></table></div></div>` : ""}`;
+  bindTips(view);
+  view.querySelectorAll("tr[data-id]").forEach((tr) => (tr.onclick = () => (location.hash = "#/runs/" + tr.dataset.id)));
 }
 
 let dashFilter = { decision: "ALL", q: "" };
@@ -390,16 +524,17 @@ async function viewDashboard() {
     <div style="display:flex;gap:8px"><a class="btn primary sm" href="#/run">+ Process invoice</a><button class="btn sm" id="resetBtn" title="Remove runs made during the demo; keep seeded history">Reset demo runs</button></div></div>
   <div class="kpis">
     <div class="card kpi"><div class="label">Invoices processed</div><div class="value">${n}</div><div class="sub">${inrShort(s.processed_value)} billed · ${Math.round(s.scanned_share * 100)}% scans</div></div>
-    <div class="card kpi"><div class="label">Touchless rate</div><div class="value">${Math.round(s.touchless_rate * 100)}%</div><div class="sub">approved with zero human touch</div></div>
+    <div class="card kpi"><div class="label">Touchless rate</div><div class="value">${Math.round(s.touchless_rate * 100)}%</div><div class="sub">approved with zero human touch · test history is edge-case heavy</div></div>
     <div class="card kpi"><div class="label">Exposure stopped</div><div class="value">${inrShort(s.risk_caught)}</div><div class="sub">duplicates, fraud, over-billing</div></div>
     <div class="card kpi"><div class="label">Approved for payment</div><div class="value">${inrShort(s.approved_value)}</div><div class="sub">incl. GST, before TDS</div></div>
     <div class="card kpi"><div class="label">Avg. time per invoice</div><div class="value">${(s.avg_ms / 1000).toFixed(1)}s</div><div class="sub">vs ~10–15 min by hand</div></div>
+    <a class="card kpi" href="#/inbox" style="color:inherit"><div class="label">Open exceptions →</div><div class="value">${s.open_exceptions}</div><div class="sub">${s.resolved_by_humans} resolved by reviewers</div></a>
   </div>
   <div class="charts">
     <div class="card card-pad"><h2 style="margin-bottom:12px">Decision mix</h2>
       <div class="stack">${order.filter((k) => s.by_decision[k]).map((k) => `<div style="width:${(s.by_decision[k] / n) * 100}%;background:${STATUS_COLOR[k]}" data-tip="<b>${DEC[k].label}</b><br>${s.by_decision[k]} of ${n} invoices (${Math.round((s.by_decision[k] / n) * 100)}%)"></div>`).join("")}</div>
       <div class="legend">${order.map((k) => `<span class="item"><span class="sw" style="background:${STATUS_COLOR[k]}"></span>${DEC[k].label} <b>${s.by_decision[k] || 0}</b></span>`).join("")}</div>
-      <h3 style="margin:22px 0 8px">Exceptions routed to</h3>
+      <h3 style="margin:22px 0 8px">Open exceptions, by owner</h3>
       ${s.owners && s.owners.length ? (() => { const mx = Math.max(...s.owners.map((o) => o[1])); return s.owners.map(([o, c]) => `<div class="hbar" data-tip="<b>${esc(o)}</b><br>${c} invoice${c > 1 ? "s" : ""} waiting on them"><span class="name">${esc(o)}</span><div class="track"><div class="fill" style="width:${(c / mx) * 100}%"></div></div><span class="val">${c}</span></div>`).join(""); })() : '<div class="faint small">Nothing waiting on anyone</div>'}
     </div>
     <div class="card card-pad"><h2 style="margin-bottom:10px">Why invoices weren't auto-approved</h2>
@@ -418,7 +553,7 @@ async function viewDashboard() {
     const rows = runs.filter((r) => (dashFilter.decision === "ALL" || r.decision === dashFilter.decision) && (!q || `${r.vendor_name} ${r.invoice_number} ${r.filename}`.toLowerCase().includes(q)));
     $("#rows").innerHTML = rows.length ? rows.map((r) => {
       const code = (r.summary || {}).primary_code;
-      return `<tr class="click" data-id="${esc(r.id)}"><td class="faint" style="white-space:nowrap">${ago(r.created_at)}</td><td class="mono">${esc(r.invoice_number || "—")}</td><td>${esc(r.vendor_name || "—")}</td><td class="num">${inr(r.total)}</td><td>${badge(r.decision)}</td><td class="muted">${r.decision === "APPROVED" ? ((r.summary || {}).inferred_po ? "Clean · PO inferred" : "Clean 3-way match") : esc(CODE_LABEL[code] || code || "—")}</td><td class="faint">${esc(r.doc_kind || "")}</td><td class="num faint">${ms(r.duration_ms)}</td></tr>`;
+      return `<tr class="click" data-id="${esc(r.id)}"><td class="faint" style="white-space:nowrap">${ago(r.created_at)}</td><td class="mono">${esc(r.invoice_number || "—")}</td><td>${esc(r.vendor_name || "—")}</td><td class="num">${inr(r.total)}</td><td>${badge(r.decision)}${(r.summary || {}).resolution && r.summary.resolution.action !== "retry" ? `<div class="faint small" style="margin-top:3px">→ ${esc(DONE_LABEL[r.summary.resolution.action] || "")}</div>` : ""}</td><td class="muted">${r.decision === "APPROVED" ? ((r.summary || {}).inferred_po ? "Clean · PO inferred" : "Clean 3-way match") : esc(CODE_LABEL[code] || code || "—")}</td><td class="faint">${esc(r.doc_kind || "")}</td><td class="num faint">${ms(r.duration_ms)}</td></tr>`;
     }).join("") : `<tr><td colspan="8" class="empty">No runs match</td></tr>`;
     view.querySelectorAll("tr[data-id]").forEach((tr) => (tr.onclick = () => (location.hash = "#/runs/" + tr.dataset.id)));
   };
@@ -469,25 +604,43 @@ async function viewMaster() {
   bindTips(view);
 }
 
+let evalSet = "holdout";
 async function viewEval() {
   view.innerHTML = `<div class="empty">Loading…</div>`;
   const ev = await api("/api/eval");
-  const e2e = ev.end_to_end, orc = ev.oracle;
   const pctTxt = (x) => (x == null ? "—" : Math.round(x * 100) + "%");
-  const rep = e2e || orc;
+  const sets = {
+    holdout: { name: "Held-out set", e2e: ev.holdout_end_to_end, orc: ev.holdout_oracle,
+      blurb: "Built after the rules were frozen: a new invoice layout, reworded item names, random quantities, prices, dates and scans. Labels come from the scenario, not from the rules engine." },
+    dev: { name: "Development set", e2e: ev.end_to_end, orc: ev.oracle,
+      blurb: "The demo invoices plus 10 targeted edge cases the rules were built against." },
+  };
+  const card = (k) => {
+    const S = sets[k], e = S.e2e, o = S.orc;
+    if (!e && !o) return "";
+    const ans = e ? e.rows.filter((r) => r.got !== "ERROR") : [];
+    const fieldAvg = e && ans.length ? ans.reduce((a, r) => a + Object.values(r.fields).filter(Boolean).length / Object.values(r.fields).length, 0) / ans.length : null;
+    return `<div class="card card-pad setcard"><div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline"><h2>${S.name} · ${(e || o).n} invoices</h2>${k === "holdout" ? '<span class="tag" style="font-size:11px;font-weight:650;padding:2px 7px;border-radius:5px;background:var(--accent-soft);color:var(--accent-ink)">unseen</span>' : ""}</div>
+      <div class="muted small">${S.blurb}</div>
+      <div class="nums">
+        <div><div class="v">${e ? `${ans.filter((r) => r.correct).length}/${ans.length}` : "—"}</div><div class="l">correct decisions when the AI answered</div></div>
+        <div><div class="v">${e ? pctTxt(e.availability) : "—"}</div><div class="l">AI answered in time (free tier)</div></div>
+        <div><div class="v">${o ? `${o.rows.filter((r) => r.correct).length}/${o.n}` : "—"}</div><div class="l">rules only, perfect reading</div></div>
+        <div><div class="v">${pctTxt(fieldAvg)}</div><div class="l">key fields read correctly</div></div>
+      </div></div>`;
+  };
+  const S = sets[evalSet], rep = S.e2e || S.orc;
   view.innerHTML = `
-  <div class="page-head"><div><h1>Accuracy</h1><p>Every test invoice has a ground-truth label (the decision a careful senior AP analyst would make). The harness runs each one in isolation and scores it. Two numbers, on purpose: <b>end-to-end</b> (real AI extraction from the PDF) and <b>rules-only</b> (perfect extraction fed in), so a reading error can always be told apart from a logic error.</p></div></div>
-  <div class="kpis" style="grid-template-columns:repeat(4,minmax(0,1fr))">
-    <div class="card kpi"><div class="label">Decision accuracy · end-to-end</div><div class="value">${e2e ? pctTxt(e2e.accuracy_when_answered ?? e2e.decision_accuracy) : "—"}</div><div class="sub">${e2e ? `${e2e.rows.filter((r) => r.correct).length}/${e2e.rows.filter((r) => r.got !== "ERROR").length} read by the AI · ${pctTxt(e2e.availability)} model availability (free tier)` : "not run yet"}</div></div>
-    <div class="card kpi"><div class="label">Decision accuracy · rules only</div><div class="value">${orc ? pctTxt(orc.decision_accuracy) : "—"}</div><div class="sub">${orc ? `${orc.n} invoices · ground-truth extraction` : "not run yet"}</div></div>
-    <div class="card kpi"><div class="label">Field accuracy · end-to-end</div><div class="value">${e2e ? pctTxt(Object.values(e2e.field_accuracy).reduce((a, b) => a + b, 0) / Object.values(e2e.field_accuracy).length) : "—"}</div><div class="sub">invoice #, GSTIN, date, total, PO</div></div>
-    <div class="card kpi"><div class="label">Avg. time per invoice</div><div class="value">${e2e ? (e2e.avg_ms / 1000).toFixed(1) + "s" : "—"}</div><div class="sub">incl. model calls${e2e ? " · " + new Date(e2e.generated_at).toLocaleDateString("en-IN") : ""}</div></div>
-  </div>
-  ${rep ? `<div class="card"><div class="card-head"><h2>Per-invoice results ${e2e ? "(end-to-end)" : "(rules only)"}</h2></div><div class="table-wrap"><table>
+  <div class="page-head"><div><h1>Accuracy</h1><p>Every test invoice has a ground-truth label: the decision a careful senior AP analyst would make. Each is run in isolation and scored twice — <b>end-to-end</b> (real AI reading the PDF) and <b>rules only</b> (perfect reading fed in) — so a reading error can always be told apart from a logic error. When the AI doesn't answer, nothing is decided; that's counted as availability, not as a right answer.</p></div></div>
+  <div class="sets">${card("holdout")}${card("dev")}</div>
+  ${rep ? `<div class="card"><div class="card-head" style="flex-wrap:wrap"><h2>Per-invoice results ${S.e2e ? "(end-to-end)" : "(rules only)"}</h2>
+      <div class="filters">${Object.entries(sets).filter(([, v]) => v.e2e || v.orc).map(([k, v]) => `<button class="chip ${evalSet === k ? "on" : ""}" data-set="${k}">${v.name}</button>`).join("")}</div></div><div class="table-wrap"><table>
     <thead><tr><th>Case</th><th>Doc</th><th>Expected</th><th>Got</th><th></th><th>Fields correct</th><th>Why</th></tr></thead><tbody>
-    ${rep.rows.map((r) => `<tr><td><b>${esc(r.id)}</b><div class="faint small">${esc(r.title)}</div></td><td class="faint">${r.scanned ? "scan" : "digital"}</td><td>${badge(r.expected)}</td><td>${badge(r.got)}</td><td>${r.correct ? '<span style="color:var(--good-ink);font-weight:700">✓</span>' : '<span style="color:var(--critical-ink);font-weight:700">✕</span>'}</td>
-      <td class="small">${Object.entries(r.fields).map(([k, v]) => `<span class="prov ${v ? "ok" : "bad"}" style="margin:0 3px 3px 0;display:inline-block">${esc(k.replace("_", " "))}</span>`).join("")}</td><td class="muted small" style="max-width:380px">${esc(r.reason || "")}</td></tr>`).join("")}
+    ${rep.rows.map((r) => `<tr><td><b>${esc(r.id)}</b><div class="faint small">${esc(r.title)}</div></td><td class="faint">${r.scanned ? "scan" : "digital"}</td><td>${badge(r.expected)}</td><td>${badge(r.got)}</td><td>${r.got === "ERROR" ? '<span class="faint small" data-tip="The AI reader didn\'t answer in time, so nothing was decided (counted against availability).">no answer</span>' : r.correct ? '<span style="color:var(--good-ink);font-weight:700">✓</span>' : '<span style="color:var(--critical-ink);font-weight:700">✕</span>'}</td>
+      <td class="small">${r.got === "ERROR" ? "" : Object.entries(r.fields).map(([k, v]) => `<span class="prov ${v ? "ok" : "bad"}" style="margin:0 3px 3px 0;display:inline-block">${esc(k.replace("_", " "))}</span>`).join("")}</td><td class="muted small" style="max-width:380px">${esc(r.reason || "")}</td></tr>`).join("")}
     </tbody></table></div></div>` : ""}`;
+  bindTips(view);
+  view.querySelectorAll("[data-set]").forEach((b) => (b.onclick = () => { evalSet = b.dataset.set; viewEval(); }));
 }
 
 function viewHow() {
@@ -512,7 +665,9 @@ function viewHow() {
       <li>Holds are internal and routed to a named owner with a specific question; rejections go back to the vendor with exactly what to fix.</li>
       <li>Bank-change holds never email the vendor — verification happens via the phone number already on file.</li>
       <li>Partial approval pays what's provably owed now instead of holding the whole invoice (keeps MSME vendors paid on time).</li>
-      <li>Model fallback chain + retries; if extraction fails entirely the invoice goes to a manual queue, never auto-approved.</li>
+      <li>Hedged model calls (several models in parallel, first valid answer wins); if extraction fails entirely nothing is decided and the invoice waits in the exceptions inbox with a retry.</li>
+      <li>Humans resolve, inside guardrails: a reviewer can release a price hold or a verified bank change, but can't pay a duplicate, an un-onboarded or blocked vendor, or an invoice that loses input tax credit — those need the vendor or the master data fixed first.</li>
+      <li>The system's decision is never overwritten; a human decision is stored next to it with who, when and why. MSME invoices are sorted by their 45-day statutory deadline.</li>
     </ul></div>
     <div class="card card-pad"><h3 style="margin-bottom:8px">Assumptions</h3><ul class="muted small" style="margin:0;padding-left:18px;line-height:1.7">
       <li>Buyer is a Karnataka manufacturer; all vendor/PO/GRN data is synthetic but structurally realistic.</li>
@@ -532,7 +687,9 @@ async function route() {
   document.querySelectorAll("nav.tabs a").forEach((a) => a.classList.toggle("active", a.dataset.tab === (page === "runs" ? "dashboard" : page)));
   tip.style.opacity = 0;
   try {
+    refreshCount();
     if (page === "dashboard") await viewDashboard();
+    else if (page === "inbox") await viewInbox();
     else if (page === "runs" && arg) await viewRunDetail(arg);
     else if (page === "master") await viewMaster();
     else if (page === "eval") await viewEval();

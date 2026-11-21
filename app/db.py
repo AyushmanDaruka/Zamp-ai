@@ -99,6 +99,27 @@ def get_run(rid):
     return _row(r, full=True) if r else None
 
 
+def exceptions_full():
+    """Every run that wasn't auto-approved, with its result (for the exceptions inbox)."""
+    init()
+    cols = [c for c in COLS if c != "events"]
+    with _conn() as c:
+        rows = c.execute(f"SELECT {','.join(cols)} FROM runs WHERE decision != 'APPROVED' ORDER BY created_at DESC").fetchall()
+    out = []
+    for r in rows:
+        d = dict(zip(cols, r))
+        for k in ("summary", "result"):
+            if d.get(k) and isinstance(d[k], str):
+                d[k] = json.loads(d[k])
+        out.append(d)
+    return out
+
+
+def update_resolution(rid, summary, approved_amount):
+    with _lock, _conn() as c:
+        c.execute(_q("UPDATE runs SET summary = ?, approved_amount = ? WHERE id = ?"), (json.dumps(summary, default=str), approved_amount, rid))
+
+
 def get_pdf(rid):
     with _conn() as c:
         r = c.execute(_q("SELECT pdf FROM runs WHERE id = ?"), (rid,)).fetchone()
@@ -112,7 +133,10 @@ def prior_runs():
         rows = c.execute("SELECT id, file_hash, decision, summary FROM runs WHERE status = 'done'").fetchall()
     out = []
     for rid, fh, dec, summ in rows:
-        out.append({"id": rid, "file_hash": fh, "decision": dec, "summary": json.loads(summ) if isinstance(summ, str) and summ else (summ or {})})
+        summ = json.loads(summ) if isinstance(summ, str) and summ else (summ or {})
+        # a human resolution (e.g. a released hold) changes what the run means for PO consumption
+        dec = (summ.get("resolution") or {}).get("final_decision") or dec
+        out.append({"id": rid, "file_hash": fh, "decision": dec, "summary": summ})
     return out
 
 
