@@ -9,7 +9,7 @@ A working accounts-payable desk for an Indian manufacturer (problem statement 1)
 
 Every exception lands in an inbox where a person resolves it, inside guardrails.
 
-**Live app:** _(Vercel link)_ · **Demo video:** _(Loom link)_
+**Live app:** https://zamp-ai-khaki.vercel.app · **Demo video:** _(Loom link)_
 
 > **AI reads, rules decide, humans resolve.**
 > The model only does what needs judgment about messy pixels: reading the document. Every rupee decision comes from explicit rules you can audit, so each outcome can be explained to an auditor in one sentence. Every exception goes to a person with a precise question.
