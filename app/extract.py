@@ -16,6 +16,9 @@ import httpx
 import pymupdf
 
 GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
+# Second, independent provider (free tier) used when Gemini is overloaded. Override with GROQ_MODELS.
+DEFAULT_GROQ_MODELS = "meta-llama/llama-4-scout-17b-16e-instruct,meta-llama/llama-4-maverick-17b-128e-instruct"
 
 
 DEFAULT_MODELS = "gemini-3.1-flash-lite,gemini-3-flash-preview,gemini-3.5-flash-lite,gemini-flash-lite-latest,gemini-3.8-flash,gemini-flash-latest"
@@ -23,8 +26,12 @@ _last_good = {"model": None}  # warm instances try the last model that answered 
 
 
 def _models():
+    """Gemini models first; Groq models (if a key is set) slot in as soon as the first Gemini wave fails."""
     raw = os.environ.get("GEMINI_MODELS") or DEFAULT_MODELS
-    ms = [m.strip() for m in raw.split(",") if m.strip()]
+    ms = [m.strip() for m in raw.split(",") if m.strip()] if os.environ.get("GEMINI_API_KEY") else []
+    if os.environ.get("GROQ_API_KEY"):
+        groq = ["groq:" + m.strip() for m in (os.environ.get("GROQ_MODELS") or DEFAULT_GROQ_MODELS).split(",") if m.strip()]
+        ms = ms[:3] + groq + ms[3:]
     if _last_good["model"] in ms:
         ms.remove(_last_good["model"])
         ms.insert(0, _last_good["model"])
@@ -128,7 +135,49 @@ class LLMError(Exception):
     pass
 
 
+def _schema_hint(schema):
+    """Gemini schema → a JSON skeleton for providers without the same structured-output format."""
+    t = schema.get("type")
+    if t == "OBJECT":
+        return {k: _schema_hint(v) for k, v in schema.get("properties", {}).items() if k != "boxes"}
+    if t == "ARRAY":
+        return [_schema_hint(schema["items"])]
+    return {"STRING": "string or null", "NUMBER": "number or null", "INTEGER": "integer or null", "BOOLEAN": "true/false or null"}[t] + \
+        (f" ({schema['description']})" if schema.get("description") else "")
+
+
+def _groq_body(model, pdf_bytes, prompt, schema):
+    """OpenAI-style vision request: page image + the PDF's own text layer (if any) + the schema as a JSON skeleton."""
+    jpg = render_page(pdf_bytes, dpi=150)
+    text = inspect_pdf(pdf_bytes)["text"].strip()
+    instr = (prompt + "\n\nReturn ONLY a JSON object with exactly these keys (use null when a value is not printed):\n"
+             + json.dumps(_schema_hint(schema), indent=1)
+             + ("\n\nThe PDF's embedded text layer, for exact characters (the image shows the layout):\n" + text[:6000] if text else ""))
+    return {"model": model, "temperature": 0, "response_format": {"type": "json_object"},
+            "messages": [{"role": "user", "content": [
+                {"type": "text", "text": instr},
+                {"type": "image_url", "image_url": {"url": "data:image/jpeg;base64," + base64.b64encode(jpg).decode()}}]}]}
+
+
+def _groq_call(model, body, timeout_s):
+    t0 = time.time()
+    try:
+        r = httpx.post(GROQ_URL, json=body, headers={"Authorization": "Bearer " + os.environ["GROQ_API_KEY"]},
+                       timeout=httpx.Timeout(timeout_s, connect=5.0))
+    except httpx.HTTPError as e:
+        return model, None, f"{model}: {type(e).__name__}", 0
+    if r.status_code == 200:
+        try:
+            return model, json.loads(r.json()["choices"][0]["message"]["content"]), None, int((time.time() - t0) * 1000)
+        except (KeyError, IndexError, ValueError) as e:
+            return model, None, f"{model}: unparseable ({type(e).__name__})", 0
+    return model, None, f"{model}: HTTP {r.status_code}", r.status_code
+
+
 def _one_call(model, body, key, timeout_s):
+    if model.startswith("groq:"):
+        return _groq_call(model, body["groq"][model], timeout_s)
+    body = body["gemini"]
     t0 = time.time()
     try:
         r = httpx.post(GEMINI_URL.format(model=model), json=body, headers={"x-goog-api-key": key},
@@ -161,13 +210,16 @@ def call_gemini(pdf_bytes, prompt, schema, mime="application/pdf", budget_s=32.0
     from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 
     key = os.environ.get("GEMINI_API_KEY")
-    if not key:
-        raise LLMError("GEMINI_API_KEY is not set")
-    body = {
+    if not key and not os.environ.get("GROQ_API_KEY"):
+        raise LLMError("No AI key set (GEMINI_API_KEY / GROQ_API_KEY)")
+    body = {"gemini": {
         "contents": [{"parts": [{"inline_data": {"mime_type": mime, "data": base64.b64encode(pdf_bytes).decode()}},
                                 {"text": prompt}]}],
         "generationConfig": {"responseMimeType": "application/json", "responseSchema": schema, "temperature": 0},
-    }
+    }, "groq": {}}
+    for m in _models():
+        if m.startswith("groq:"):
+            body["groq"][m] = _groq_body(m[5:], pdf_bytes, prompt, schema)
     t_start = time.time()
     deadline = t_start + budget_s
     errors, dead = [], set()
