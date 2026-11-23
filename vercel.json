@@ -1,6 +1,17 @@
 {
-  "rewrites": [{ "source": "/api/(.*)", "destination": "/api/index" }],
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index"
+    }
+  ],
   "functions": {
-    "api/index.py": { "maxDuration": 60, "includeFiles": "{app,samples}/**" }
-  }
+    "api/index.py": {
+      "maxDuration": 60,
+      "includeFiles": "{app,samples}/**"
+    }
+  },
+  "regions": [
+    "sin1"
+  ]
 }

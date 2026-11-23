@@ -3,11 +3,18 @@ import json
 import os
 import sqlite3
 import threading
+from contextlib import nullcontext
 from pathlib import Path
 
 PG_URL = os.environ.get("DATABASE_URL") or os.environ.get("POSTGRES_URL")
 IS_PG = bool(PG_URL and PG_URL.startswith("postgres"))
-_lock = threading.Lock()
+_sqlite_lock = threading.Lock()
+
+
+def _locked():
+    """SQLite needs writes serialised; Postgres handles concurrency itself (and a lock held across a slow
+    network call would stall every request on the instance)."""
+    return nullcontext() if IS_PG else _sqlite_lock
 
 COLS = ["id", "created_at", "source", "filename", "file_hash", "status", "decision", "vendor_name", "invoice_number",
         "total", "approved_amount", "risk_caught", "duration_ms", "doc_kind", "summary", "result", "events"]
@@ -23,7 +30,7 @@ CREATE TABLE IF NOT EXISTS runs (
 def _conn():
     if IS_PG:
         import psycopg
-        return psycopg.connect(PG_URL, autocommit=True)
+        return psycopg.connect(PG_URL, autocommit=True, connect_timeout=10)
     path = os.environ.get("SQLITE_PATH") or ("/tmp/runs.db" if os.environ.get("VERCEL") else str(Path(__file__).resolve().parent.parent / "data" / "runs.db"))
     Path(path).parent.mkdir(parents=True, exist_ok=True)
     c = sqlite3.connect(path)
@@ -41,7 +48,7 @@ def init():
     global _ready
     if _ready:
         return
-    with _lock, _conn() as c:
+    with _locked(), _conn() as c:
         c.execute(SCHEMA.format(blob="BYTEA" if IS_PG else "BLOB"))
     _ready = True
     if count() == 0:
@@ -63,14 +70,14 @@ def save(run, pdf=None):
     vals.append(pdf)
     ph = ",".join(["?"] * len(cols))
     upd = ",".join(f"{c}=excluded.{c}" for c in cols if c != "id")
-    with _lock, _conn() as c:
+    with _locked(), _conn() as c:
         c.execute(_q(f"INSERT INTO runs ({','.join(cols)}) VALUES ({ph}) ON CONFLICT (id) DO UPDATE SET {upd}"), vals)
 
 
 def init_noseed():
     global _ready
     if not _ready:
-        with _lock, _conn() as c:
+        with _locked(), _conn() as c:
             c.execute(SCHEMA.format(blob="BYTEA" if IS_PG else "BLOB"))
 
 
@@ -116,7 +123,7 @@ def exceptions_full():
 
 
 def update_resolution(rid, summary, approved_amount):
-    with _lock, _conn() as c:
+    with _locked(), _conn() as c:
         c.execute(_q("UPDATE runs SET summary = ?, approved_amount = ? WHERE id = ?"), (json.dumps(summary, default=str), approved_amount, rid))
 
 
@@ -143,7 +150,7 @@ def prior_runs():
 def reset():
     """Remove everything except the seeded history."""
     init()
-    with _lock, _conn() as c:
+    with _locked(), _conn() as c:
         c.execute("DELETE FROM runs WHERE source != 'seed'")
 
 
