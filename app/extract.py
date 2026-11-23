@@ -151,7 +151,7 @@ def _one_call(model, body, key, timeout_s):
     return model, None, f"{model}: HTTP {r.status_code} {status}".strip(), r.status_code
 
 
-def call_gemini(pdf_bytes, prompt, schema, mime="application/pdf", budget_s=32.0, hedge=3):
+def call_gemini(pdf_bytes, prompt, schema, mime="application/pdf", budget_s=32.0, hedge=4):
     """Structured-output call, hedged across models.
 
     The free tier is shared and frequently overloaded (503) or slow, and which model is healthy changes minute

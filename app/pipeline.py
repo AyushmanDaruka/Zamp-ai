@@ -74,8 +74,10 @@ def run_invoice(pdf_bytes, filename, source="upload", persist=True, extraction_o
         if extraction_override is not None:
             raw, meta = extraction_override, {"model": "oracle (ground truth)", "latency_ms": 0}
         else:
-            # Stay inside Vercel's 60 s limit: digital PDFs need one call; scans also need the second read.
-            budget = 46.0 if ctx["layer"]["kind"] == "digital" else 34.0
+            # Stay well inside Vercel's 60 s limit (cold start can eat 10-20 s). A healthy model answers in
+            # 2-4 s; if nothing answers in ~24 s it won't, so fail fast and clean (Retry) instead of hanging
+            # to the hard kill. Scans also need the second read, so budget both calls together.
+            budget = 24.0 if ctx["layer"]["kind"] == "digital" else 22.0
             raw, meta = X.call_gemini(pdf_bytes, X.EXTRACT_PROMPT, X.EXTRACT_SCHEMA, budget_s=budget)
         f = X.normalise(raw)
         ctx["f"], ctx["meta"] = f, meta
@@ -109,7 +111,7 @@ def run_invoice(pdf_bytes, filename, source="upload", persist=True, extraction_o
                 second = {k: f.get(k) for k in ["invoice_number", "invoice_date", "vendor_gstin", "grand_total", "bank_account_number", "bank_ifsc"]}
             else:
                 try:
-                    second, _ = X.call_gemini(pdf_bytes, X.VERIFY_PROMPT, X.VERIFY_SCHEMA, budget_s=max(6.0, 52.0 - (time.time() - t_start)))
+                    second, _ = X.call_gemini(pdf_bytes, X.VERIFY_PROMPT, X.VERIFY_SCHEMA, budget_s=max(6.0, 42.0 - (time.time() - t_start)))
                 except X.LLMError:
                     second = None
             if second is None:
